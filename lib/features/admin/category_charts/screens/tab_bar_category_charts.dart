@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:izees/resources/strings_res.dart';
 
 import 'category_all_charts.dart';
 import 'category_daily_charts.dart';
@@ -13,7 +14,7 @@ class TabBarCategoryCharts extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(length: 3, child: Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: ColorManager.primaryColor,
         bottom: const TabBar(tabs: [
           Tab(child: Text('Daily', style: TextStyle(color: Colors.black),),),
          // Tab(child: Text('Weakly', style: TextStyle(color: Colors.black),),),

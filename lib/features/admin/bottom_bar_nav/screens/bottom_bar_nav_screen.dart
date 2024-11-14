@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:izees/features/admin/admin_orders/screens/admin_order_screen.dart';
 import 'package:izees/features/user/cart/screens/cart_screen.dart';
+import 'package:izees/resources/strings_res.dart';
 
 import '../../../user/settings/screens/settings_screen.dart';
 import '../../add_product/screens/show_product_screen.dart';
@@ -19,11 +20,11 @@ class BottomBarNavScreen extends StatefulWidget {
 class _BottomBarNavScreenState extends State<BottomBarNavScreen> {
   int _page = 0;
   List<Widget> pages =[
-    ShowProductScreen(),
-    AdminOrderScreen(),
-    TabBarCategoryCharts(),
+    const ShowProductScreen(),
+    const AdminOrderScreen(),
+    const TabBarCategoryCharts(),
    const TabBarDetailedCharts(),
-    const Center(child: Text('welcome'),)
+     SettingsScreen()
   ];
 
   void updatePage(int page){
@@ -40,11 +41,11 @@ class _BottomBarNavScreenState extends State<BottomBarNavScreen> {
       bottomNavigationBar: BottomNavigationBar(
 
         currentIndex: _page,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: ColorManager.bottomButtonColor,
         unselectedItemColor: Colors.black,
         iconSize: 28,
         onTap: updatePage,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.add_box_outlined), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined,),label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: ''),

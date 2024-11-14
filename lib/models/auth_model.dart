@@ -10,9 +10,10 @@ class AuthModel {
   String? phoneNumber;
   String? token;
   String? address;
+  String? city;
   String? role;
   List<dynamic?>? cart;
-  AuthModel({this.id, this.name, this.email, this.password,this.address, this.role, this.token,  this.cart, this.phoneNumber});
+  AuthModel({this.id, this.name, this.email, this.password,this.address,this.city, this.role, this.token,  this.cart, this.phoneNumber});
 
 
   AuthModel copyWith({
@@ -21,6 +22,7 @@ class AuthModel {
     String? email,
     String? password,
     String? address,
+    String? city,
     String? phoneNumber,
     String? name,
     String? role,
@@ -32,6 +34,7 @@ class AuthModel {
       email: email ?? this.email,
       password: password ?? this.password,
       address: address ?? this.address,
+      city:city ?? this.city,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       name: name ?? this.name,
       role: role ?? this.role,
@@ -46,7 +49,8 @@ class AuthModel {
     email : json['email'],
     password : json['password'],
     address : json['address'],
-    phoneNumber: json['phoneNumber'],
+      city : json['city'],
+      phoneNumber: json['phoneNumber'],
     role : json['role'],
     token : json['token'],
     cart:  List<Map<String, dynamic>>.from(
@@ -63,6 +67,7 @@ class AuthModel {
     data['email'] = email;
     data['phoneNumber'] = phoneNumber;
     data['address'] = address;
+    data['city'] = city;
     data['password'] = password;
     data['role'] = role;
     data['token'] = token;

@@ -42,8 +42,7 @@ String? errorMessage;
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
+
         return Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -94,9 +93,10 @@ String? errorMessage;
                       name: '${_firstNameEditingController.text} ${_lastNameEditingController.text}' ,
                       email: _emailEditingController.text,
                       password: _passEditingController.text,
-                      phoneNumber: _phoneNumberEditingController.text
+                      phoneNumber: _phoneNumberEditingController.text,
+                    context: context
                   );
-                  Navigator.pushNamed(context, LoginScreen.routeName);
+
                 }else{
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(localization.notCompleteData))
@@ -121,8 +121,7 @@ String? errorMessage;
             ],
           ),
         );
-      },
-    );
+
   }
 }
 

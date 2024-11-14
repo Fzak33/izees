@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../common/app_exception.dart';
 import '../../../models/sales.dart';
 import '../categories_profit.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ part 'profit_state.dart';
 class ProfitCubit extends Cubit<ProfitState> {
   ProfitCubit(this._categoriesProfit) : super(ProfitInitial());
 
-  CategoriesProfit _categoriesProfit ;
+  final CategoriesProfit _categoriesProfit ;
 
   Future<void> getCategoryProfit({required BuildContext context})async{
     emit(ProfitLoading());
@@ -17,9 +18,16 @@ class ProfitCubit extends Cubit<ProfitState> {
       final res = await _categoriesProfit.getCategoryProfit(context: context);
       emit(ProfitSuccess(res));
     }
-    catch(e){
-      print(e.toString());
-      emit(ProfitFailed(e.toString()));
+    catch (e) {
+      if (e is AppException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message)),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An unexpected error occurred')),
+        );
+      }
     }
   }
 

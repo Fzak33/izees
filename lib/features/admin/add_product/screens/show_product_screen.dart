@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/common/widgets/custom_button.dart';
 import 'package:izees/features/admin/add_product/screens/add_product_screen.dart';
+import 'package:izees/features/admin/add_product/screens/update_product_screen.dart';
 
 import '../../../../common/widgets/category_widget.dart';
 import '../../../../resources/strings_res.dart';
@@ -14,17 +16,25 @@ class ShowProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Your Products',
+        title:  const Text('Your Products',
           style: TextStyle(
               fontSize: 24
           ),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: ColorManager.primaryColor,
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {
         Navigator.pushNamed(context, AddProductScreen.routeName);
-      },),
-      body:  BlocBuilder<AdminProductServiceCubit, AdminProductServiceState>(
+      },
+      child: const Icon(Icons.add),
+        backgroundColor: ColorManager.primaryColor,
+      ),
+      body:  BlocConsumer<AdminProductServiceCubit, AdminProductServiceState>(
+        listener: (context, state) {
+          if(state is AdminProductServiceSuccess){
+
+          }
+        },
   builder: (context, state) {
     if(state is AdminProductServiceLoding){
       return const Center(child: CircularProgressIndicator(),);
@@ -48,7 +58,7 @@ class ShowProductScreen extends StatelessWidget {
                         mainAxisSpacing: 6.0, // Spacing between rows
                         childAspectRatio: 0.55
                     ),
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     clipBehavior: Clip.hardEdge,
                     // padding: const EdgeInsets.only(bottom: 110, top: 20),
                     scrollDirection: Axis.vertical,
@@ -60,19 +70,24 @@ class ShowProductScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              //color: Colors.green,
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.45,
-                              decoration:    BoxDecoration(
-                                // shape: BoxShape.circle,
-                                border: Border.all(color: Colors.blueGrey),
-                                borderRadius: BorderRadius.circular(15),
-                                image:  DecorationImage(image:NetworkImage('${StringsRes.uri}/${prod.images[0].path}'),
-                                  fit: BoxFit.fitHeight,
-                                )  ,
-                              ),
+                            InkWell(
+                              onTap:(){
+                                Navigator.pushNamed(context, UpdateProductScreen.routeName, arguments: prod.id);
+                              },
+                              child: Container(
+                                //color: Colors.green,
+                                height: MediaQuery.of(context).size.height * 0.2,
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                decoration:    BoxDecoration(
+                                  // shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.blueGrey),
+                                  borderRadius: BorderRadius.circular(15),
+                                  image:  DecorationImage(image:NetworkImage('${StringsRes.uri}/${prod.images[0].path}'),
+                                    fit: BoxFit.fitHeight,
+                                  )  ,
+                                ),
 
+                              ),
                             ),
 
 
@@ -80,7 +95,7 @@ class ShowProductScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                               child: Text(product[index].name ?? 'name',
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black
                                 ),),
@@ -88,7 +103,7 @@ class ShowProductScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                               child: Text('your quantity ${prod.quantity}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.black
                                 ),),
@@ -97,13 +112,15 @@ class ShowProductScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 2,  horizontal: 10),
                               child: Text('the price is ${product[index].price}',
 
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.black
                                 ),),
                             ),
-                            ElevatedButton(onPressed: (){}, child: Text('Remove Product', style: TextStyle(color: Colors.black),), style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green
+                            ElevatedButton(onPressed: ()=>
+                              _showDeleteDialog(context, prod.id??'')
+                            , child: Text('Remove Product', style: TextStyle(color: Colors.black),), style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorManager.primaryColor
                             ),)
                           ],
                         ),
@@ -135,6 +152,53 @@ class ShowProductScreen extends StatelessWidget {
 }
 
 
+void _showDeleteDialog(BuildContext context,String productId) {
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('are you sure you want to delete this product ?'),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+          ElevatedButton(
+          onPressed: (){Navigator.pop(context);},
+          style: ElevatedButton.styleFrom(
+
+            minimumSize:  const Size( 50,50),
+            backgroundColor: Colors.white,
+
+          ),
+          child: const Text('Cancel', style: TextStyle(
+
+              color: Colors.black
+          ),),
+
+        )   ,
+            ElevatedButton(
+              onPressed: (){
+context.read<AdminProductServiceCubit>().deleteProduct(productId: productId, context: context);
+Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+
+                minimumSize:  const Size( 50,50),
+                backgroundColor: Colors.red,
+
+              ),
+              child: const Text('Delete', style: TextStyle(
+
+                  color: Colors.black
+              ),),
+
+            )
+          ],
+        ),
+      );
+    },
+  );
+}
 
 
 

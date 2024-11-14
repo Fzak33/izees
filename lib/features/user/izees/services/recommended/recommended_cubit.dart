@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../common/app_exception.dart';
 import '../../../../../models/product_model.dart';
 import '../show_product_services.dart';
 
@@ -17,8 +18,18 @@ class RecommendedCubit extends Cubit<RecommendedState> {
       var res =await  _showProductServices.recommendedProducts(category: category);
       emit(RecommendedSuccess(res));
     }
-    catch(e){
-      emit(RecommendedFailed(e.toString()));
+    catch (e) {
+      if (e is AppException) {
+        emit(RecommendedFailed(e.toString()));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text(e.message)),
+        // );
+      } else {
+        emit(RecommendedFailed(e.toString()));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(content: Text('An unexpected error occurred')),
+        // );
+      }
     }
   }
 

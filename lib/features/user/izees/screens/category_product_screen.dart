@@ -5,6 +5,7 @@ import 'package:izees/features/user/izees/screens/product_detailed_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../resources/strings_res.dart';
+import '../../cart/services/cart_cubit/cart_cubit.dart';
 import '../../cart/services/cart_service_cubit/cart_services_cubit.dart';
 import '../services/recommended/recommended_cubit.dart';
 import '../services/show_category_products_cubit/show_category_products_cubit.dart';
@@ -25,10 +26,12 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
 
   final ScrollController _scrollController = ScrollController();
   late ShowCategoryProductsCubit _showCategoryProductsCubit;
+  String? _user;
 
   @override
   void initState() {
     super.initState();
+    getUser();
     _showCategoryProductsCubit = ShowCategoryProductsCubit(ShowProductServices());
     _showCategoryProductsCubit.showCategoryProducts(category: widget.category);
 
@@ -40,15 +43,22 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
     });
   }
 
+  void getUser()async{
 
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.clear();
+    _user =   prefs.getString('x-auth-token')?? '';
+
+  }
 
 
   @override
   Widget build(BuildContext context) {
+
     final localization = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: ColorManager.primaryColor,
       ),
       body: BlocBuilder<ShowCategoryProductsCubit,ShowCategoryProductsState>(
         bloc: _showCategoryProductsCubit,
@@ -67,7 +77,7 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
           child: GridView.builder(
               controller: _scrollController,
               shrinkWrap: true,
-              gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
+              gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
 
                   crossAxisSpacing: 10.0, // Spacing between columns
                   mainAxisSpacing: 6.0, // Spacing between rows
@@ -137,13 +147,12 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
                             ),),
                         ),
                         ElevatedButton(onPressed: ()async{
-                          final SharedPreferences prefs = await SharedPreferences.getInstance();
-                          String user = ( prefs.getString('x-auth-token'))!;
-                          if(user == '' || user.isEmpty || user == null){
+
+                          if(_user == '' || _user!.isEmpty || _user == null){
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(localization.firstLogIn)));
                           }else{
-                            context.read<CartServicesCubit>().addToCart(id: prod.id ??'', context: context, );
+                            context.read<CartCubit>().addToCart( product: prod,id: prod.id ??'', context: context, );
 
                           }
 

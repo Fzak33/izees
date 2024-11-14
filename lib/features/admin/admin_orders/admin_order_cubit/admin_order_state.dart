@@ -7,7 +7,7 @@ final class AdminOrderInitial extends AdminOrderState {}
 final class AdminOrderLoading  extends AdminOrderState {}
 
 final class AdminOrderSuccess extends AdminOrderState {
-  List<Profit> profit;
+  List<ProductProfit> profit;
 
   AdminOrderSuccess(this.profit);
 }

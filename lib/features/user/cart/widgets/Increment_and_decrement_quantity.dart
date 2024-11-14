@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/features/user/cart/services/cart_cubit/cart_cubit.dart';
+import 'package:izees/resources/strings_res.dart';
 
 import '../../../../models/cart_model.dart';
 import '../services/cart_service_cubit/change_quantity_cubit.dart';
@@ -17,19 +19,19 @@ class IncrementAndDecrementQuantity extends StatefulWidget {
 
 class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQuantity> {
 
-  @override
-  void initState() {
-    super.initState();
-    final cubit = context.read<ChangeQuantityCubit>();
-    cubit.getQuantity(productId: widget.prod.id ?? '', context: context);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   final cubit = context.read<ChangeQuantityCubit>();
+  //   cubit.getQuantity(productId: widget.prod.id ?? '', context: context);
+  // }
 
   Widget change(){
     setState(() {
 
     });
    if(   widget.prod.quantity == 1) {
-    return  const Icon(Icons.delete_outline_rounded, color: Colors.green,);
+    return  const Icon(Icons.delete_outline_rounded, color: ColorManager.primaryColor,);
    }
     return   const Text('-',style: TextStyle(fontSize: 20),);
 
@@ -38,9 +40,7 @@ class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQua
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangeQuantityCubit, Map<String,int>>(
-  builder: (context, state) {
-    final qty = state[widget.prod.id] ?? 0;
+
     return Padding(
       padding: const EdgeInsets.only(right:10.0,),
       child: ListTile(
@@ -57,10 +57,10 @@ class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQua
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(onTap: () {
-                    qty == 1 ?
-                    context.read<ChangeQuantityCubit>().deleteProductFromCart(productId: widget.prod.id ?? '', context: context)
+                    widget.prod.quantity == 1 ?
+                    context.read<CartCubit>().deleteProductFromCart(productId: widget.prod.id ?? '', context: context)
                         :
-                    context.read<ChangeQuantityCubit>().decrementQuantity(
+                    context.read<CartCubit>().decrementQuantity(
                         id: widget.prod.product?.id ?? '',
                         context: context,
                         productId: widget.prod.id ?? ''
@@ -68,13 +68,13 @@ class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQua
 
                   }, child:
 
-                  qty == 1 ?const Icon(Icons.delete_outline_rounded, color: Colors.green,):
+                  widget.prod.quantity == 1 ?const Icon(Icons.delete_outline_rounded, color: ColorManager.primaryColor,):
                   const Icon(Icons.remove,size: 15,),),
-                  SizedBox(width: 15,),
-                  Text('$qty',style: TextStyle(fontSize: 15) ),
-                  SizedBox(width: 15,),
+                  const SizedBox(width: 15,),
+                  Text('${widget.prod.quantity}',style: const TextStyle(fontSize: 15) ),
+                  const SizedBox(width: 15,),
                   InkWell( onTap: () {
-                    context.read<ChangeQuantityCubit>().incrementQuantity(
+                    context.read<CartCubit>().incrementQuantity(
                         id: widget.prod.product?.id ?? '',
                         context: context,
                         productId: widget.prod.id ?? ''
@@ -87,7 +87,6 @@ class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQua
         ),
       ),
     );
-  },
-);
+
   }
 }

@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:izees/models/product_model.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../../../common/app_exception.dart';
+
 class ShowProductServices{
   final Dio _dio = Dio();
 
@@ -16,17 +18,19 @@ class ShowProductServices{
           'Content-Type': 'application/json; charset=UTF-8',
         }
       ));
-      print(res.data);
       for (var i in res.data) {
         products.add(Product.fromJson(i));
       }
 
       return products;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
-
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
 
   }
@@ -46,10 +50,13 @@ class ShowProductServices{
 
       return products;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
-
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
 
   }
@@ -63,17 +70,20 @@ class ShowProductServices{
             'Content-Type': 'application/json; charset=UTF-8',
           }
       ));
-      print(res.data);
+
       for (var i in res.data) {
         products.add(Product.fromJson(i));
       }
 
       return products;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
-
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
 
   }

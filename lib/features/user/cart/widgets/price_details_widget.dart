@@ -6,14 +6,15 @@ import 'package:izees/features/user/cart/services/cart_service_cubit/cart_servic
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../models/cart_model.dart';
+import '../services/cart_cubit/cart_cubit.dart';
 
 class PriceDetailsWidget extends StatelessWidget {
   static const  routeName= '/price-details-widget';
   double? totalPrice;
+  int driverPrice;
 
 
-
-   PriceDetailsWidget({super.key, required this.totalPrice});
+   PriceDetailsWidget({super.key, required this.totalPrice, required this.driverPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +23,20 @@ class PriceDetailsWidget extends StatelessWidget {
     var auth = BlocProvider.of<AuthCubit>(context);
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ListTile(
             title: Text(localization.totalOrderPrice),
             trailing: Text("$totalPrice"),
           ),
-          // ListTile(
-          //   title: Text('fee'),
-          //   trailing: Text('0.3'),
-          // ),
-          // ListTile(
-          //   title: Text('Delivery'),
-          //   trailing: Text('3'),
-          // ),
-          Divider(),
+          ListTile(
+            title: Text(localization.delivery),
+            trailing: Text('$driverPrice'),
+          ),
+          const Divider(),
           ListTile(
             title: Text(localization.totalPrice),
-            trailing: Text('$totalPrice'),
+            trailing: Text((driverPrice+ totalPrice!).toString()),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -49,24 +46,21 @@ class PriceDetailsWidget extends StatelessWidget {
                   Navigator.pushNamed(context, AddAddressScreen.routeName);
                 }else{
 
-                  List<Cart>?   cart = auth.authModel.cart?.whereType<Cart>().toList();
                   double sum = totalPrice!;
-                  String address =  auth.authModel.address ?? '';
-                 // print('your cart is -------------------- $cart and your address is ----- ${auth.authModel.address}');
-                  BlocProvider.of<CartServicesCubit>(context).order
+                  BlocProvider.of<CartCubit>(context).order
                     (
                       sum:sum,
                       context: context
                   );
                 }
               },
-              child: Text(localization.pay, style: TextStyle(
-                color: Colors.black,
-                fontSize: 15
-              ),),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blueAccent
             ),
+              child: Text(localization.pay, style: const TextStyle(
+                color: Colors.black,
+                fontSize: 15
+              ),),
           ),
       
           ),

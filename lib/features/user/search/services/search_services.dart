@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../../../common/app_exception.dart';
 import '../../../../models/product_model.dart';
 
 class SearchServices {
@@ -29,19 +30,18 @@ class SearchServices {
         for(var i in data['prod']){
           products.add(Product.fromJson(i));
         }
-         // (data['products'] as List)
-         //    .map((productJson) => Product.fromJson(productJson))
-         //    .toList();
+
         return products;
       } else {
         throw Exception('Failed to search products: ${response.statusMessage}');
       }
-    } on DioException catch (e) {
-      // Handle Dio-specific errors
-      throw Exception('Dio error: ${e.message}');
-    } catch (e) {
-      // Handle any other errors
-      throw Exception('Unexpected error: $e');
+    }  on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
   }
 

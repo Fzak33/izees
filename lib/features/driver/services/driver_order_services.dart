@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/models/order.dart';
 
+import '../../../common/app_exception.dart';
 import '../../../resources/strings_res.dart';
 import '../../auth/auth_cubit/auth_cubit.dart';
 class DriverOrderServices {
-  Dio _dio = Dio();
+  final Dio _dio = Dio();
   Future< List<Order> > getDriverOrder()async{
 
     try {
-
-
       Response res = await _dio.get('${StringsRes.uri}/get-driver-order',
           options: Options(
               headers: {
@@ -30,33 +29,54 @@ class DriverOrderServices {
 
       return order;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
   }
 
 
-  Future<void> changeOrderStatus({required String id, required num status})async {
+  Future<Response> changeOrderStatus({required String id, required num status})async {
+try {
+  var data = {
+    '_id': id,
+    'status': status
+  };
 
-
-    var data ={
-      '_id':id,
-      'status':status
-    };
-
-   await _dio.post('${StringsRes.uri}/change-order-status', data: data);
-
-
+ Response res =  await _dio.post('${StringsRes.uri}/change-order-status', data: data);
+ return res;
+}
+on DioException catch (e) {
+  if (e.response != null && e.response?.data is Map<String, dynamic>) {
+    final message = e.response?.data['message'] ?? 'Something went wrong';
+    throw AppException(message);
+  } else {
+    throw AppException('Network error. Please try again.');
+  }
+}
 
   }
 
 
   Future<int> getOrderStatus({required String id})async {
-    int status = 0;
-     Response res =  await _dio.get('${StringsRes.uri}/get-order-status/$id');
-     status  = res.data;
-  return status;
+    try {
+      int status = 0;
+      Response res = await _dio.get('${StringsRes.uri}/get-order-status/$id');
+      status = res.data;
+      return status;
+    }
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
+    }
   }
 
 

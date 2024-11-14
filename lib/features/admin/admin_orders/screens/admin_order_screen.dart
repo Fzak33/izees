@@ -4,6 +4,8 @@ import 'package:izees/features/admin/admin_orders/admin_order_cubit/admin_order_
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../resources/strings_res.dart';
+
 class AdminOrderScreen extends StatelessWidget {
   const AdminOrderScreen({super.key});
 
@@ -11,11 +13,16 @@ class AdminOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
-    return BlocBuilder<AdminOrderCubit, AdminOrderState>(
+    return BlocConsumer<AdminOrderCubit, AdminOrderState>(
+      listener: (context, state) {
+        if(state is AdminOrderSuccess){
+
+        }
+      },
       builder: (context, state) {
 
         if(state is AdminOrderLoading){
-          return Center(child: CircularProgressIndicator(),);
+          return const Center(child: CircularProgressIndicator(),);
         }else if(state is AdminOrderFailed){
           return Center(child: Text(state.err),);
         }else if(state is AdminOrderSuccess){
@@ -24,15 +31,24 @@ class AdminOrderScreen extends StatelessWidget {
             itemCount: profit.length,
             itemBuilder: (context, index) {
              final prof = profit[index];
-              return ListTile(
-                title: Text("${prof.category} - ${localization.price} ${prof.price }"),
-                subtitle: Text("${localization.orderID} ${prof.orderId}"),
-                trailing: Text("${localization.quantity} ${prof.quantity}"),
+              return Card(
+                child: ListTile(
+                  title: Text("${prof.product?.name} - ${localization.price} ${prof.totalPrice }"),
+                  subtitle: Text("${localization.quantity} ${prof.totalQuantity}"),
+                   trailing:  Container(
+                      height: 100,
+                      width:  100,
+                      decoration:    BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prof.product?.images[0].path}") ,)  ,
+                      ),
+                    )
+                ),
               );
             },);
         }
         else{
-          return Center(child: Text('something occurd'),);
+          return const Center(child: Text('something occurd'),);
         }
 
 

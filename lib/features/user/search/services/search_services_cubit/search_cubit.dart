@@ -52,7 +52,6 @@ class SearchCubit extends Cubit<SearchState> {
       final products = await searchServices.searchProducts(name: name);
       emit(SearchSuccess(products));
     } catch (e) {
-      print( e.toString());
       emit(SearchFailure(e.toString()));
     }
   }

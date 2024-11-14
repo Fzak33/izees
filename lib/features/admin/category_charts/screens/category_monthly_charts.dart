@@ -32,7 +32,7 @@ class CategoryMonthlyCharts extends StatelessWidget {
                 width: 250,
                 //  color: Colors.green,
                 child:
-                sales[6].earning == 0? PieChart(
+                sales[6].earning == 0 ? PieChart(
                     PieChartData(
 
                         sections: [

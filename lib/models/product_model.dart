@@ -56,6 +56,37 @@ class Product {
      userId: map['userId']
     );
   }
+
+
+  Product copyWith({
+    String? id,
+    String? name,
+    String? description,
+    List<File>? images,
+    num? quantity,
+    num? price,
+    String? category,
+    String? userId,
+    String? storeName,
+    String? location
+  }) {
+    return Product(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      images: images ?? this.images,
+      quantity: quantity ?? this.quantity,
+      price: price ?? this.price,
+      category: category ?? this.category,
+      userId: userId ?? this.userId,
+      storeName: storeName ?? this.storeName,
+      location: location ?? this.location,
+    );
+  }
+
+
+
+
 }
 
 

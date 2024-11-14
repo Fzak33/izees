@@ -6,14 +6,38 @@ import 'package:izees/models/product_model.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../cart/services/cart_service_cubit/cart_services_cubit.dart';
+import '../../cart/services/cart_cubit/cart_cubit.dart';
 import '../widgets/carousel_product_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ProductDetailedScreen extends StatelessWidget {
+class ProductDetailedScreen extends StatefulWidget {
   static const routeName = '/product-detailed';
   final Product product;
   const ProductDetailedScreen({super.key, required this.product});
+
+  @override
+  State<ProductDetailedScreen> createState() => _ProductDetailedScreenState();
+}
+
+class _ProductDetailedScreenState extends State<ProductDetailedScreen> {
+  String? _user;
+
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+
+  }
+
+  void getUser()async{
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.clear();
+    _user =   prefs.getString('x-auth-token')?? '';
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,50 +45,33 @@ class ProductDetailedScreen extends StatelessWidget {
 
     return  Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff56f133),
-        title: Text('${product.name}'),
+        backgroundColor:ColorManager.primaryColor,
+        title: Text('${widget.product.name}'),
       ),
       body: SingleChildScrollView(
         child: Column(
 crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 30.0,horizontal: 10 ),
-            //   child: Container(
-            //     //color: Colors.green,
-            //     height: MediaQuery.of(context).size.height * 0.3,
-            //    width: MediaQuery.of(context).size.width ,
-            //     decoration:    BoxDecoration(
-            //       // shape: BoxShape.circle,
-            //       border: Border.all(color: Colors.blueGrey),
-            //       borderRadius: BorderRadius.circular(15),
-            //       image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${product.images[0].path}") ,
-            //         fit: BoxFit.fitHeight,
-            //       ),
-            //     ),
-            //
-            //   ),
-            // ),
-            ProductCarousel(imageUrls: product.images,),
+
+            ProductCarousel(imageUrls: widget.product.images,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(text: localization.addToCart, onTap: ()async{
 
 
-                  final SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String user = ( prefs.getString('x-auth-token'))!;
-                  if(user == '' || user.isEmpty || user == null){
+
+                  if(_user == '' || _user!.isEmpty || _user == null){
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(localization.firstLogIn)));
                   }else{
-                    context.read<CartServicesCubit>().addToCart(id: product.id ??'', context: context, );
+                    context.read<CartCubit>().addToCart(product: widget.product,id: widget.product.id ??'', context: context, );
 
                   }
 
 
-                }, color: Color(0xff50C878),),
+                }, color: ColorManager.primaryColor,),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Text( style: const TextStyle(fontSize: 13), localization.productName,
@@ -73,7 +80,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text( style: const TextStyle(fontSize: 20), '${product.name} - ${product.price} ${localization.jod} '),
+              child: Text( style: const TextStyle(fontSize: 20), '${widget.product.name} - ${widget.product.price} ${localization.jod} '),
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
@@ -83,7 +90,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
             ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text( style: const TextStyle(fontSize: 20), '${product.description}'),
+                child: Text( style: const TextStyle(fontSize: 20), '${widget.product.description}'),
               ),
             const SizedBox(height: 30,),
              Padding(
@@ -128,8 +135,8 @@ crossAxisAlignment: CrossAxisAlignment.start,
                         image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.images[0].path}")  ,)  ,
                       ),
                     ),
-                    SizedBox(height: 2,),
-                    Text('${prod.name}', style: TextStyle(fontSize: 15),)
+                    const SizedBox(height: 2,),
+                    Text('${prod.name}', style: const TextStyle(fontSize: 15),)
                   ],
                 ),
               ),
@@ -139,12 +146,12 @@ crossAxisAlignment: CrossAxisAlignment.start,
       );
     }
     else{
-      return Center(child: Text("something occurd"),);
+      return const Center(child: Text("something occurd"),);
     }
   },
 ),
             )
-            
+
           ],
         ),
       ),

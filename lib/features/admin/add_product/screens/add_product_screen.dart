@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:izees/models/product_model.dart';
+import 'package:izees/resources/strings_res.dart';
 
 import '../../../../common/widgets/text_field.dart';
 import '../services/AdminProductServiceCubit/admin_product_service_cubit.dart';
@@ -80,54 +81,65 @@ List<String> productCategory = [
     final localization = AppLocalizations.of(context)!;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ColorManager.primaryColor,
+      ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             CustomTextField(controller: _nameEditingController, hintText: localization.productName,),
             CustomTextField(controller: _descriptionEditingController, hintText: localization.description, maxLines: 3,),
-            TextField(
-               inputFormatters: <TextInputFormatter>[
-                 FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-               ],
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              controller: _priceEditingController,
-              decoration:  InputDecoration(
-                hintText: localization.productPrice,
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black38
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                 inputFormatters: <TextInputFormatter>[
+                   FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                 ],
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                controller: _priceEditingController,
+                decoration:  InputDecoration(
+                  hintText: localization.productPrice,
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black38
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black38
+                    ),
                   ),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black38
-                  ),
-                ),
+
+
               ),
-
-
             ),
-            TextField(
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              keyboardType:  TextInputType.number,
-              controller: _quantityEditingController,
-              decoration:  InputDecoration(
-                hintText: localization.productQuantity,
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black38
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                keyboardType:  TextInputType.number,
+                controller: _quantityEditingController,
+                decoration:  InputDecoration(
+                  hintText: localization.productQuantity,
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black38
+                    ),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.black38
+                    ),
                   ),
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.black38
-                  ),
-                ),
+
+
               ),
-
-
             ),
           ElevatedButton(onPressed: _pickImages, child: const Icon(Icons.camera_alt_outlined)),
           DropdownButton(
@@ -144,44 +156,47 @@ List<String> productCategory = [
       },),
 
 
-            ElevatedButton(onPressed: (){
-              if(
-              _nameEditingController.text.isNotEmpty &&
-                  _descriptionEditingController.text.isNotEmpty &&
-                  _quantityEditingController.text.isNotEmpty &&
-              _priceEditingController.text.isNotEmpty &&
-              _images.isNotEmpty
-              ){
-                Product  product = Product(
-                    name: _nameEditingController.text,
-                    description: _descriptionEditingController.text,
-                    quantity: int.parse(_quantityEditingController.text),
-                    images: _images,
-                    storeName: '',
-                    location:"",
-                    category: category,
-                    price: double.parse(_priceEditingController.text)
-                );
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(onPressed: (){
+                if(
+                _nameEditingController.text.isNotEmpty &&
+                    _descriptionEditingController.text.isNotEmpty &&
+                    _quantityEditingController.text.isNotEmpty &&
+                _priceEditingController.text.isNotEmpty &&
+                _images.isNotEmpty
+                ){
+                  Product  product = Product(
+                      name: _nameEditingController.text,
+                      description: _descriptionEditingController.text,
+                      quantity: int.parse(_quantityEditingController.text),
+                      images: _images,
+                      storeName: '',
+                      location:"",
+                      category: category,
+                      price: double.parse(_priceEditingController.text)
+                  );
 
 
 
 
-                BlocProvider.of<AdminProductServiceCubit>(context).addProduct(product: product,images: _images, context: context);
-                Navigator.pop(context);
-              }
-              else{
-                ScaffoldMessenger.of(context).showSnackBar(
-                     SnackBar(content: Text(localization.notCompleteData))
-                );
-              }
+                  BlocProvider.of<AdminProductServiceCubit>(context).addProduct(product: product,images: _images, context: context);
+                  Navigator.pop(context);
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                       SnackBar(content: Text(localization.notCompleteData))
+                  );
+                }
 
-            },
+              },
 
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green
-
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorManager.primaryColor,
+                    minimumSize: const Size(double.infinity, 50),
+                ),
+                child: Text(localization.sellProduct),
               ),
-              child: Text(localization.sellProduct),
             )
 
 

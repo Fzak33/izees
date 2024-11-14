@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 
+import '../../../../common/app_exception.dart';
 import '../../../../resources/strings_res.dart';
 import '../../models/sales.dart';
 
@@ -26,9 +27,13 @@ class ProductProfitServices{
 
       return productProfit;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
   }
 
@@ -49,9 +54,13 @@ class ProductProfitServices{
 
       return productProfit;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
   }
 
@@ -72,9 +81,13 @@ class ProductProfitServices{
 
       return productProfit;
     }
-    catch(e){
-      print(e.toString());
-      throw e.toString();
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
     }
   }
 

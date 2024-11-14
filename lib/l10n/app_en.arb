@@ -1,4 +1,5 @@
 {
+  "languageLabel": "Change the language",
 "firstName": "First name",
   "lastName": "Last name",
   "email": "email",
@@ -58,6 +59,33 @@
   "profit": "Your Profit from",
   "zeroSell": "didn't sill any thing",
   "totalProfit" : "you profit is :",
-  "soldQuantity": "the Quantity you sold"
+  "soldQuantity": "the Quantity you sold",
+  "logOut": "logOut",
+  "choseYourCity": "Chose your city",
+  "neighborhood": "neighborhood",
+  "street": "street",
+  "building": "Building number or name",
+  "delivery": "Delivery",
+  "successOrder": "your order has been ordered successfully"
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

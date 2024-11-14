@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:izees/features/user/cart/screens/cart_screen.dart';
 import 'package:izees/features/user/search/screens/search_screen.dart';
+import 'package:izees/resources/strings_res.dart';
 
 import '../../izees/screens/izees_screen.dart';
 import '../../settings/screens/settings_screen.dart';
@@ -16,8 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
   List<Widget> pages =[
-    IzeesScreen(),
-    ProductSearchPage(),
+    const IzeesScreen(),
+    const ProductSearchPage(),
     CartScreen(),
     SettingsScreen()
   ];
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
 
         currentIndex: _page,
-        selectedItemColor: Colors.purple,
+        selectedItemColor: ColorManager.bottomButtonColor,
         unselectedItemColor: Colors.black,
         iconSize: 28,
         onTap: updatePage,

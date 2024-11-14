@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/common/widgets/text_field.dart';
-import 'package:izees/features/auth/screens/signin_screen.dart';
-import 'package:izees/features/user/cart/services/cart_service_cubit/cart_services_cubit.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:izees/resources/strings_res.dart';
 
 import '../../../auth/auth_cubit/auth_cubit.dart';
+import '../services/cart_cubit/cart_cubit.dart';
 
 
 
@@ -18,14 +19,19 @@ class AddAddressScreen extends StatefulWidget {
 }
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
-  TextEditingController _addressEditingController = TextEditingController();
+  final TextEditingController _street = TextEditingController();
+  final TextEditingController _building = TextEditingController();
+  final TextEditingController _neighborhood = TextEditingController();
+
+  String city = "Irbid";
 
 
   @override
   void dispose() {
+    _street.dispose();
+    _building.dispose();
+    _neighborhood.dispose();
     super.dispose();
-    _addressEditingController.dispose();
-
   }
 
   @override
@@ -37,12 +43,27 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomTextField(controller: _addressEditingController, hintText: localization.address,),
+          DropdownButton(
+            hint:  Text(localization.choseYourCity),
+            items: StringsRes.jordanCities().map((item) => DropdownMenuItem(
+              value: item,
+              child: Text(item),
+            )
+            ).toList(),
+            value: city,  onChanged: (String? newVal) {
+            setState(() {
+              city = newVal!;
+            });
+          },),
 
+          CustomTextField(controller: _neighborhood, hintText: localization.neighborhood),
+          CustomTextField(controller: _street, hintText: localization.street),
+          CustomTextField(controller: _building, hintText: localization.building),
 
           ElevatedButton(onPressed: (){
-            if(_addressEditingController.text.isNotEmpty){
-              context.read<CartServicesCubit>().addAddress(address: _addressEditingController.text, context: context);
+            if(_neighborhood.text.isNotEmpty && _street.text.isNotEmpty && _building.text.isNotEmpty){
+              context.read<CartCubit>().addAddress(city: city,
+                  address: "$city-${_neighborhood.text}-${_street.text}-${_building.text}", context: context);
               Navigator.pop(context);
 
             }else{
@@ -53,18 +74,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           },
 
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green
+                backgroundColor: ColorManager.primaryColor
 
             ),
             child:  Text(localization.addAddress),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: TextButton(onPressed: (){
-              Navigator.pushNamed(context, SignInScreen.routeName);
 
-            },child:  Text(localization.signIn),),
-          ),
         ],
       ),
     );

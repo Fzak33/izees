@@ -8,18 +8,21 @@ import 'package:izees/models/auth_model.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../common/app_exception.dart';
+
 class SellerServices{
 
 
   Dio dio = Dio();
- // final String  _uri = 'http://192.168.1.103:3000';
 
-  Future<void> seller({required String storeName,required branch,required BuildContext context})async {
+
+  Future<void> seller({required String storeName,required String address,required String cityStore ,required BuildContext context})async {
 
 try {
   var auth = BlocProvider
       .of<AuthCubit>(context)
       ;
+  Branch branch = Branch(address: address, cityStore: cityStore);
   AdminModel adminModel =  AdminModel(
       id: auth.authModel.id,
     name: auth.authModel.name,
@@ -31,7 +34,8 @@ try {
   );
   var data = {
     'storeName': storeName,
-    'branches': [branch]
+    'address': address,
+    'cityStore':cityStore
   };
  Response res = await dio.put('${StringsRes.uri}/seller',
       data: data,
@@ -50,37 +54,22 @@ try {
    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('success and your role is ${auth.adminModel.role}')));
  }
  else{
-   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('failed')));
+   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('failed')));
 
  }
 }
-catch(e){
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-print('the problem is ${e.toString()}');
+
+on DioException catch (e) {
+  if (e.response != null && e.response?.data is Map<String, dynamic>) {
+    final message = e.response?.data['message'] ?? 'Something went wrong';
+    throw AppException(message);
+  } else {
+    throw AppException('Network error. Please try again.');
+  }
 }
     
-    
   }
 
-  Future<void> login({ required String email, required String password})async {
-
-    // AuthModel authModel = AuthModel(
-    //     email: email,
-    //     password: password
-    // ) ;
-var data = {
-  'email':email,
-  'password':password
-};
-    await dio.post('${StringsRes.uri}/user/login',
-        data:  data,
-        options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-            }
-
-        ));
-  }
 
 
 

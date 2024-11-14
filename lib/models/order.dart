@@ -10,6 +10,7 @@ class Order {
     required this.orderedAt,
     required this.status,
     required this.id,
+    required this.driverPrice
   });
 
   final List<Cart> products;
@@ -18,6 +19,7 @@ class Order {
   final String? userId;
   final String? orderedAt;
   final num? status;
+  final num? driverPrice;
   final String? id;
   final String? userName;
 
@@ -28,6 +30,7 @@ class Order {
     String? userId,
     String? userName,
     String? orderedAt,
+    num? driverPrice,
     num? status,
     String? id,
   }) {
@@ -38,6 +41,7 @@ class Order {
       userId: userId ?? this.userId,
       userName:userName ?? this.userName,
       orderedAt: orderedAt ?? this.orderedAt,
+      driverPrice: driverPrice ?? this.driverPrice,
       status: status ?? this.status,
       id: id ?? this.id,
     );
@@ -50,6 +54,7 @@ class Order {
       address: json["address"],
       userId: json["userId"],
       userName: json["userName"],
+      driverPrice: json['driverPrice'],
       orderedAt: json["orderedAt"],
       status: json["status"],
       id: json["_id"],
@@ -63,6 +68,7 @@ class Order {
     "userId": userId,
     "userName":userName,
     "orderedAt": orderedAt,
+    "driverPrice":"driverPrice",
     "status": status,
     "_id": id,
   };

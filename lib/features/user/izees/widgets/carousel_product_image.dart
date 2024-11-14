@@ -22,8 +22,9 @@ class ProductCarousel extends StatelessWidget {
            // margin: EdgeInsets.symmetric(horizontal: 8.0),
             child: Image.network(
               "${StringsRes.uri}/${imageUrls[index].path}",
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.cover,
               height: MediaQuery.of(context).size.height * 0.4,
+              width: double.infinity,
             ),
           ),
         );
