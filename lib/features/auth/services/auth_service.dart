@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
-import 'package:izees/features/auth/screens/login_screen.dart';
 import 'package:izees/features/driver/screens/driver_order_list/driver_order_list_screen.dart';
 import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
@@ -18,7 +17,6 @@ class AuthService{
 
 
   Dio dio = Dio();
- // final String  _uri = 'http://192.168.1.103:3000';
 
 Future<void> signin( {required String name, required String email, required String password,required String phoneNumber})async {
 try {
