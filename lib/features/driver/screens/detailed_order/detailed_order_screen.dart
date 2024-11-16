@@ -46,19 +46,21 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
                 final ord = widget.order.products[index];
                 return Column(
                   children: [
-                    ListTile(
-
-                      title: Text(
-                          '${ord.product?.name}- ${localization.store} ${ord.product
-                              ?.storeName}'),
-                      subtitle: Text('${ord.product?.location}'),
-                      trailing: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(image: NetworkImage(
-                              "${StringsRes.uri}/${ord.product?.images[0].path}"),),
+                    Card(
+                      child: ListTile(
+                      
+                        title: Text(
+                            '${ord.product?.name}- ${localization.store} ${ord.product
+                                ?.storeName}'),
+                        subtitle: Text('${ord.product?.location}'),
+                        trailing: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            image: DecorationImage(image: NetworkImage(
+                                "${StringsRes.uri}/${ord.product?.images[0].path}"),),
+                          ),
                         ),
                       ),
                     ),

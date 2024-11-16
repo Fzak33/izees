@@ -47,13 +47,16 @@ class DriverOrderListScreen extends StatelessWidget {
                }
                     return Column(
                       children: [
-                        ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context,
-                                DetailedOrderScreen.routeName, arguments: ord);
-                          },
-                          title: Text('${localization.customerName} ${ord.userName}'),
-                          subtitle: Text('${localization.orderID} - ${ord.id} ${localization.status} - ${status()}'),
+                        Card(
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context,
+                                  DetailedOrderScreen.routeName, arguments: ord);
+                            },
+                            title: Text('${localization.customerName} ${ord.userName}'),
+                            subtitle: Text('${localization.orderID} - ${ord.id} ${localization.status} - ${status()}'),
+                            trailing: Text(ord.driverPrice.toString()),
+                          ),
                         ),
                         const Divider(thickness: 0.75, color: Colors.blue,)
                       ],
