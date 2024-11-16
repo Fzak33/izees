@@ -152,7 +152,7 @@ on DioException catch (e) {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('x-auth-token');
     if (token != null || token != '') {
-      Response userRes = await dio.get('${StringsRes.uri}/',
+      Response userRes = await dio.get('${StringsRes.uri}/get-user-data',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
