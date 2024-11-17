@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:izees/models/product_model.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../common/app_exception.dart';
 import '../admin_product_service.dart';
@@ -58,9 +56,10 @@ Future<void> getAdminProduct({required BuildContext context})async{
   }
   catch (e) {
     if (e is AppException) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message)),
-      );
+      debugPrint(e.message);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text(e.message)),
+      // );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('An unexpected error occurred')),

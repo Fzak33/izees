@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'cart_model.dart';
 
 class AuthModel {
   String? id;
@@ -12,7 +10,7 @@ class AuthModel {
   String? address;
   String? city;
   String? role;
-  List<dynamic?>? cart;
+  List<dynamic>? cart;
   AuthModel({this.id, this.name, this.email, this.password,this.address,this.city, this.role, this.token,  this.cart, this.phoneNumber});
 
 

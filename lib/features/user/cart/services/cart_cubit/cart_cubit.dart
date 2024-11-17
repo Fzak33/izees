@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../common/app_exception.dart';
 import '../../../../../models/cart_model.dart';
@@ -59,13 +57,13 @@ List<Cart> _cart=[];
     try {
       final res = await _cartServices.addToCart(id: id, context: context, product: product);
       if (res.statusCode == 200) {
-        int index = _cart.indexWhere((cart) => cart.id == id);
+        int index = _cart.indexWhere((cart) => cart.product?.id == id);
         if (index != -1) {
           int? q = _cart[index].quantity;
           int? newQuantity = q! + 1;
           _cart[index] = _cart[index].copyWith(quantity: newQuantity);
         } else {
-          Cart cart = Cart(product: product, quantity: 1, id: id);
+          Cart cart = Cart(product: product, quantity: 1, id: res.data['cartId']);
           _cart.add(cart);
         }
         emit(CartSuccess(cart: List.from(_cart)));
@@ -81,15 +79,20 @@ List<Cart> _cart=[];
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message)),
         );
+        print(e.toString());
+        print(e.message);
+
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('An unexpected error occurred')),
         );
+        print(e.toString());
       }
       // Keep the state as CartSuccess
       emit(CartSuccess(cart: List.from(_cart)));
     }
   }
+
 
 
 

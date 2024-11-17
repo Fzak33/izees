@@ -5,7 +5,6 @@ import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/auth/screens/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../services/auth_service.dart';
 
 class SignInScreen extends StatefulWidget {
   static const routeName = '/sign-in';

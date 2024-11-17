@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:izees/features/driver/services/driver_order_cubit/driver_order_cubit.dart';
 import 'package:izees/resources/strings_res.dart';
 
 import '../../../../common/widgets/custom_button.dart';
@@ -38,6 +37,7 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Text('the customer phone number ${widget.order.userPhoneNumber}'),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -53,6 +53,7 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
                             '${ord.product?.name}- ${localization.store} ${ord.product
                                 ?.storeName}'),
                         subtitle: Text('${ord.product?.location}'),
+
                         trailing: Container(
                           height: 100,
                           width: 100,
@@ -64,7 +65,8 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
                         ),
                       ),
                     ),
-                    const Divider(thickness: 0.75, color: Colors.blue,)
+                    const Divider(thickness: 0.75, color: Colors.blue,),
+                    Text('the store phone number ${widget.order.storePhoneNumber[index]}'),
                   ],
                 );
               },),

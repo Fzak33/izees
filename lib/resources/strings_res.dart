@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class StringsRes{
   static const uri = 'https://api.izeesjo.com';
-
+//http://192.168.1.103:4000;
+  //https://api.izeesjo.com
  static List<String> jordanCities(){
     List<String> cities = [
        "Irbid",

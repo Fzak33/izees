@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:izees/features/user/settings/services/seller.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../common/app_exception.dart';
 

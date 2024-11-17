@@ -4,7 +4,6 @@ import 'package:izees/features/user/cart/services/cart_cubit/cart_cubit.dart';
 import 'package:izees/resources/strings_res.dart';
 
 import '../../../../models/cart_model.dart';
-import '../services/cart_service_cubit/change_quantity_cubit.dart';
 class IncrementAndDecrementQuantity extends StatefulWidget {
   const IncrementAndDecrementQuantity({
     super.key,

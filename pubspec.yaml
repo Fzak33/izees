@@ -37,10 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_bloc:
   dio: 
-  image_picker: ^1.1.2
+  image_picker: ^0.8.7+3
   socket_io_client: ^2.0.3+1
   equatable: ^2.0.5
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.0.18
   fl_chart: ^0.69.0
   carousel_slider: ^5.0.0
   rxdart: ^0.28.0

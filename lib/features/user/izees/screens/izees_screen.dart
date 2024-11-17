@@ -1,17 +1,13 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:izees/features/user/cart/services/cart_service_cubit/cart_services_cubit.dart';
 import 'package:izees/features/user/izees/screens/product_detailed_screen.dart';
 import 'package:izees/features/user/izees/services/show_product_cubit/show_products_cubit.dart';
 import 'package:izees/features/user/izees/services/show_product_services.dart';
-import 'package:izees/models/cart_model.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/widgets/category_widget.dart';
-import '../../../auth/auth_cubit/auth_cubit.dart';
 import '../../cart/services/cart_cubit/cart_cubit.dart';
 import '../services/recommended/recommended_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

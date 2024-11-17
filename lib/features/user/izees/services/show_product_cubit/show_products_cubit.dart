@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../common/app_exception.dart';
 import '../../../../../models/product_model.dart';
