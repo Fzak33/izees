@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:izees/models/product_model.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../common/app_exception.dart';
 import '../admin_product_service.dart';

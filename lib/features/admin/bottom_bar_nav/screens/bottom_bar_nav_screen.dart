@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:izees/features/admin/admin_orders/screens/admin_order_screen.dart';
-import 'package:izees/features/user/cart/screens/cart_screen.dart';
 import 'package:izees/resources/strings_res.dart';
 
 import '../../../user/settings/screens/settings_screen.dart';

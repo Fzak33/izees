@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:izees/features/admin/detailed_charts/screens/All_%20detailed_charts.dart';
 import 'package:izees/features/admin/detailed_charts/screens/daily_%20detailed_charts.dart';
 import 'package:izees/features/admin/detailed_charts/screens/monthly_%20detailed_charts.dart';
-import 'package:izees/features/admin/detailed_charts/screens/weakly_%20detailed_charts.dart';
 import 'package:izees/resources/strings_res.dart';
 
 class TabBarDetailedCharts extends StatelessWidget {

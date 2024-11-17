@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/admin/bottom_bar_nav/screens/bottom_bar_nav_screen.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/models/admin_model.dart';
-import 'package:izees/models/auth_model.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:izees/common/widgets/text_field.dart';
 import 'package:izees/resources/strings_res.dart';

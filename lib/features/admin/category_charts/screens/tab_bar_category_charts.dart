@@ -4,7 +4,6 @@ import 'package:izees/resources/strings_res.dart';
 import 'category_all_charts.dart';
 import 'category_daily_charts.dart';
 import 'category_monthly_charts.dart';
-import 'category_weakly_charts.dart';
 
 
 class TabBarCategoryCharts extends StatelessWidget {

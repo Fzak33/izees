@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/models/order.dart';
 
 import '../../../common/app_exception.dart';
 import '../../../resources/strings_res.dart';
-import '../../auth/auth_cubit/auth_cubit.dart';
 class DriverOrderServices {
   final Dio _dio = Dio();
   Future< List<Order> > getDriverOrder()async{

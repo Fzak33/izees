@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../resources/strings_res.dart';
 import '../../cart/services/cart_cubit/cart_cubit.dart';
-import '../../cart/services/cart_service_cubit/cart_services_cubit.dart';
 import '../services/recommended/recommended_cubit.dart';
 import '../services/show_category_products_cubit/show_category_products_cubit.dart';
 import '../services/show_product_services.dart';

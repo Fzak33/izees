@@ -1,7 +1,6 @@
 import 'package:izees/models/auth_model.dart';
 import 'package:izees/models/product_model.dart';
 
-import 'cart_model.dart';
 
 class AdminModel extends AuthModel{
   String? storeName;
@@ -18,7 +17,7 @@ class AdminModel extends AuthModel{
     String? address,
     String? city,
     String? token,
-    List<dynamic?>? cart,
+    List<dynamic>? cart,
     String? role = 'admin',
     this.storeName,
     this.product,

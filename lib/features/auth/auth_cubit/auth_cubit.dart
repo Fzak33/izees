@@ -1,13 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/services/auth_service.dart';
-import 'package:izees/features/user/cart/services/cart_cubit/cart_cubit.dart';
 import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_exception.dart';

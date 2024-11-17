@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:izees/features/user/search/services/search_services.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:stream_transform/stream_transform.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../models/product_model.dart';
 

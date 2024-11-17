@@ -56,14 +56,14 @@ List<String> productCategory = [
   Future<void> _pickImages() async {
     final List<XFile> pickedFiles = await picker.pickMultiImage();  // Allows selecting multiple images
 
-    if (pickedFiles != null && pickedFiles.length <= 10) {
+    if (pickedFiles.length <= 10) {
       setState(() {
         _images = pickedFiles.map((pickedFile) => File(pickedFile.path)).toList();
       });
 
 
 
-    } else if (pickedFiles != null && pickedFiles.length > 10) {
+    } else if (pickedFiles.length > 10) {
       print('You can only select up to 10 images.');
       // Optionally show a user alert here
     } else {

@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../../common/app_exception.dart';
 import '../../../../../models/cart_model.dart';

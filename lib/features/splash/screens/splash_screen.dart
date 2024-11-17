@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:izees/common/widgets/category_widget.dart';
 import 'package:izees/features/admin/bottom_bar_nav/screens/bottom_bar_nav_screen.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/auth/services/auth_service.dart';
