@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SearchCubit(searchServices: SearchServices()),
           ),
           BlocProvider(
-            create: (context) => DriverOrderCubit()..getDriverOrder(),
+            create: (context) => DriverOrderCubit()..scheduleHourlyFetch(),
           ),
           BlocProvider(
             create: (context) => ChangeStatus(DriverOrderServices()),

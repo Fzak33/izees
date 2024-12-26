@@ -42,5 +42,14 @@ class DriverOrderCubit extends Cubit<DriverOrderState> {
     }
   }
 
+  void scheduleHourlyFetch() {
+    getDriverOrder(); // Initial fetch
+    // Scheduling the fetch to repeat every hour
+    Future.delayed(const Duration(hours: 1), () {
+      getDriverOrder();
+      scheduleHourlyFetch(); // Recursive call to repeat every hour
+    });
+  }
+
 
 }
