@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SearchCubit(searchServices: SearchServices()),
           ),
           BlocProvider(
-            create: (context) => DriverOrderCubit()..scheduleHourlyFetch(),
+            create: (context) => DriverOrderCubit(DriverOrderServices())..scheduleHourlyFetch(context: context),
           ),
           BlocProvider(
             create: (context) => ChangeStatus(DriverOrderServices()),
@@ -134,7 +134,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: L10n.all,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             locale: state.locale,
-            title: 'Flutter Demo',
+            title: 'izees',
             theme: ThemeData(
               // This is the theme of your application.
               //

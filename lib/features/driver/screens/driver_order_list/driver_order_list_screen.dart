@@ -4,6 +4,8 @@ import 'package:izees/features/driver/screens/detailed_order/detailed_order_scre
 import 'package:izees/features/driver/services/driver_order_cubit/driver_order_cubit.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:izees/features/user/settings/screens/settings_screen.dart';
+import 'package:izees/resources/strings_res.dart';
 
 class DriverOrderListScreen extends StatelessWidget {
   static const routeName = '/driver';
@@ -18,6 +20,14 @@ class DriverOrderListScreen extends StatelessWidget {
 
     return
       Scaffold(
+        appBar: AppBar(
+          backgroundColor: ColorManager.primaryColor  ,
+          actions: [
+            IconButton(onPressed: (){
+              Navigator.pushNamed(context, SettingsScreen.routeName);
+            }, icon: Icon(Icons.settings))
+          ],
+        ),
         body: BlocBuilder<DriverOrderCubit, DriverOrderState>(
           builder: (context, state) {
 

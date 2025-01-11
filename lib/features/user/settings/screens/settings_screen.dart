@@ -14,6 +14,7 @@ import '../../../../resources/language_cubit/locale_cubit.dart';
 
 class SettingsScreen extends StatefulWidget {
     SettingsScreen({super.key});
+    static const routeName = '/setting';
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();

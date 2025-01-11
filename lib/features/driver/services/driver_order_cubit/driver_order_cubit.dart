@@ -9,10 +9,10 @@ import '../../../../models/order.dart';
 part 'driver_order_state.dart';
 
 class DriverOrderCubit extends Cubit<DriverOrderState> {
-  DriverOrderCubit() : super(DriverOrderInitial());
-  final DriverOrderServices _driverOrderServices = DriverOrderServices();
+  DriverOrderCubit(this._driverOrderServices) : super(DriverOrderInitial());
+  final DriverOrderServices _driverOrderServices ;
  final List<Order> _order =[];
-  Future<void> getDriverOrder()async{
+  Future<void> getDriverOrder({required BuildContext context})async{
 
     emit(DriverOrderLoading());
 
@@ -28,26 +28,26 @@ class DriverOrderCubit extends Cubit<DriverOrderState> {
       }
     }
     catch (e) {
-      if (e is AppException) {
-
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(content: Text(e.message)),
-        // );
-      } else {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(content: Text('An unexpected error occurred')),
-        // );
-      }
+      // if (e is AppException) {
+      //
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(content: Text(e.message)),
+      //   );
+      // } else {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(content: Text('An unexpected error occurred')),
+      //   );
+      // }
       emit(DriverOrderSuccess(List.from(_order.reversed)));
     }
   }
 
-  void scheduleHourlyFetch() {
-    getDriverOrder(); // Initial fetch
+  void scheduleHourlyFetch({required BuildContext context}) {
+    getDriverOrder(context: context); // Initial fetch
     // Scheduling the fetch to repeat every hour
     Future.delayed(const Duration(hours: 1), () {
-      getDriverOrder();
-      scheduleHourlyFetch(); // Recursive call to repeat every hour
+      getDriverOrder(context:  context);
+      scheduleHourlyFetch(context: context); // Recursive call to repeat every hour
     });
   }
 

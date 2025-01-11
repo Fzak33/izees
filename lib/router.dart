@@ -19,6 +19,7 @@ import 'features/user/cart/screens/add_address_screen.dart';
 import 'features/user/cart/widgets/price_details_widget.dart';
 import 'features/user/izees/screens/category_product_screen.dart';
 import 'features/user/settings/screens/become_a_seller_screen.dart';
+import 'features/user/settings/screens/settings_screen.dart';
 
 
 Route<dynamic> generateRoute(RouteSettings routeSettings){
@@ -38,6 +39,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings){
       return MaterialPageRoute(
 
           builder: (_) => const AboutMeScreen()
+      );
+    case  SettingsScreen.routeName:
+    // var resetAppKey = routeSettings.arguments as VoidCallback? ?? () {};
+
+
+      return MaterialPageRoute(
+
+          builder: (_) =>  SettingsScreen()
       );
     case  AboutIzeesScreen.routeName:
     // var resetAppKey = routeSettings.arguments as VoidCallback? ?? () {};

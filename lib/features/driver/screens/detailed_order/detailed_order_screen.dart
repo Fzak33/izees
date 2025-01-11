@@ -34,10 +34,27 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
     final localization = AppLocalizations.of(context)!;
 
     return Scaffold(
+      appBar: AppBar(backgroundColor: ColorManager.primaryColor,),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text('the customer phone number ${widget.order.userPhoneNumber}'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('the customer phone number: ${widget.order.userPhoneNumber}'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('the customer address: ${widget.order.address}'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -46,27 +63,31 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
                 final ord = widget.order.products[index];
                 return Column(
                   children: [
-                    Card(
-                      child: ListTile(
-                      
-                        title: Text(
-                            '${ord.product?.name}- ${localization.store} ${ord.product
-                                ?.storeName}'),
-                        subtitle: Text('${ord.product?.location}'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        child: ListTile(
 
-                        trailing: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            image: DecorationImage(image: NetworkImage(
-                                "${StringsRes.uri}/${ord.product?.images[0].path}"),),
+                          title: Text(
+                              '${ord.product?.name}- ${localization.store} ${ord.product
+                                  ?.storeName}'),
+                          subtitle: Text('${ord.product?.location}'),
+
+                          trailing: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(image: NetworkImage(
+                                  "${StringsRes.uri}/${ord.product?.images[0].path}"),),
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    Text('the ${ord.product?.storeName} phone number: ${widget.order.storePhoneNumber[index]}'),
                     const Divider(thickness: 0.75, color: Colors.blue,),
-                    Text('the store phone number ${widget.order.storePhoneNumber[index]}'),
+
                   ],
                 );
               },),
