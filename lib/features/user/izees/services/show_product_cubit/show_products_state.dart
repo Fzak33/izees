@@ -1,22 +1,26 @@
 part of 'show_products_cubit.dart';
 
-@immutable
-sealed class ShowProductsState {}
+abstract class ProductState extends Equatable {
+  final List<Product> products;
+  final bool hasMore;
 
-final class ShowProductsInitial extends ShowProductsState {}
-final class ShowProductsLoading extends ShowProductsState {}
-final class ShowProductsSuccess extends ShowProductsState {
-  List<Product> product;
+  const ProductState({this.products = const [], this.hasMore = true});
 
-  ShowProductsSuccess({ required this.product});
+  @override
+  List<Object> get props => [products, hasMore];
 }
-final class ShowProductsEmpty extends ShowProductsState {
-  String empty;
 
-  ShowProductsEmpty(this.empty);
+class ProductInitial extends ProductState {}
+
+class ProductLoading extends ProductState {
+  final List<Product> existingProducts;
+  const ProductLoading(this.existingProducts);
+
+  @override
+  List<Object> get props => [existingProducts];
 }
-final class ShowProductsFailed extends ShowProductsState {
-  String err;
 
-  ShowProductsFailed(this.err);
+class ProductLoaded extends ProductState {
+  const ProductLoaded(List<Product> products, bool hasMore)
+      : super(products: products, hasMore: hasMore);
 }

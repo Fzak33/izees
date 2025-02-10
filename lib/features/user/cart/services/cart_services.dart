@@ -28,7 +28,8 @@ class CartServices{
               }
           )
    );
-
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Added to Cart")));
 return res;
 
 

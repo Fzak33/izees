@@ -69,7 +69,7 @@ class ShowProductScreen extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap:(){
-                                Navigator.pushNamed(context, UpdateProductScreen.routeName, arguments: prod.id);
+                                Navigator.pushNamed(context, UpdateProductScreen.routeName, arguments: prod);
                               },
                               child: Container(
                                 //color: Colors.green,
@@ -92,6 +92,8 @@ class ShowProductScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                               child: Text(product[index].name ?? 'name',
                                 textAlign: TextAlign.start,
+                                maxLines:1,
+                                overflow:TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black

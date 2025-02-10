@@ -124,6 +124,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => CartCubit(CartServices())..getCart(context: context),
           ),
           BlocProvider(
+
             create: (context) => ShowCategoryProductsCubit(ShowProductServices()),
           ),
         ],

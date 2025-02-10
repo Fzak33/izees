@@ -1,22 +1,31 @@
 part of 'show_category_products_cubit.dart';
 
-@immutable
-sealed class ShowCategoryProductsState {}
+abstract class ShowCategoryProductsState extends Equatable {
+  final List<Product> products;
+  final bool hasMore;
 
-final class ShowCategoryProductsInitial extends ShowCategoryProductsState {}
-final class ShowCategoryProductsLoading extends ShowCategoryProductsState {}
-final class ShowCategoryProductsSuccess extends ShowCategoryProductsState {
-  List<Product> product;
+  const ShowCategoryProductsState({this.products = const [], this.hasMore = true});
 
-  ShowCategoryProductsSuccess({ required this.product});
+  @override
+  List<Object> get props => [products, hasMore];
 }
-final class ShowCategoryProductsEmpty extends ShowCategoryProductsState {
-  String empty;
 
-  ShowCategoryProductsEmpty(this.empty);
+class ShowCategoryProductInitial extends ShowCategoryProductsState {}
+
+class ShowCategoryProductLoading extends ShowCategoryProductsState {
+  final List<Product> products;
+
+  ShowCategoryProductLoading(this.products);
+  @override
+  List<Object> get props => [products];
 }
-final class ShowCategoryProductsFailed extends ShowCategoryProductsState {
-  String err;
 
-  ShowCategoryProductsFailed(this.err);
+class ShowCategoryProductLoaded extends ShowCategoryProductsState {
+  final List<Product> products;
+  final bool hasMore;
+
+  ShowCategoryProductLoaded(this.products, this.hasMore);
+
+  List<Object> get props => [products,hasMore];
+
 }

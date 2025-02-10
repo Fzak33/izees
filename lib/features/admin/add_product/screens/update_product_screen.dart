@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/models/product_model.dart';
 import 'package:izees/resources/strings_res.dart';
 
 import '../../../../common/widgets/text_field.dart';
@@ -12,18 +13,25 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpdateProductScreen extends StatefulWidget {
   static const String routeName = '/update-product';
-   UpdateProductScreen({super.key, required this.productId});
-String productId;
+   UpdateProductScreen({super.key, required this.product});
+Product product;
   @override
   State<UpdateProductScreen> createState() => _UpdateProductScreenState();
 }
 
 class _UpdateProductScreenState extends State<UpdateProductScreen> {
-  final TextEditingController _nameEditingController = TextEditingController();
-  final TextEditingController _descriptionEditingController = TextEditingController();
-  final TextEditingController _quantityEditingController = TextEditingController();
-  final TextEditingController _priceEditingController = TextEditingController();
-
+  late TextEditingController _nameEditingController ;
+  late TextEditingController _descriptionEditingController ;
+  late TextEditingController _quantityEditingController ;
+  late TextEditingController _priceEditingController ;
+ @override
+  void initState() {
+    super.initState();
+      _nameEditingController = TextEditingController(text: widget.product.name );
+      _descriptionEditingController = TextEditingController(text: widget.product.description);
+      _quantityEditingController = TextEditingController(text: widget.product.quantity.toInt().toString());
+      _priceEditingController = TextEditingController(text: widget.product.price.toString());
+  }
 
   @override
   void dispose() {
@@ -115,7 +123,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                   ){
 
                     BlocProvider.of<AdminProductServiceCubit>(context).updateProduct(
-                        productId: widget.productId,
+                        productId: widget.product.id ?? '',
                         description: _descriptionEditingController.text,
                         name: _nameEditingController.text,
                         price: double.parse(_priceEditingController.text),

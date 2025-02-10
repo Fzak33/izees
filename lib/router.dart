@@ -123,11 +123,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings){
           builder: (_) =>   CategoryProductScreen(category: category,)
       );
     case  UpdateProductScreen.routeName:
-      var productId = routeSettings.arguments as String;
+      var product = routeSettings.arguments as Product;
 
       return MaterialPageRoute(
 
-          builder: (_) =>    UpdateProductScreen(productId: productId,)
+          builder: (_) =>    UpdateProductScreen(product: product,)
       );
   default:
       return MaterialPageRoute(

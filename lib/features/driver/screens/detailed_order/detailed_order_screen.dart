@@ -85,7 +85,14 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
                         ),
                       ),
                     ),
-                    Text('the ${ord.product?.storeName} phone number: ${widget.order.storePhoneNumber[index]}'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('the ${ord.product?.storeName} phone number: ${widget.order.storePhoneNumber[index]}'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('total price is ${widget.order.totalPrice}'),
+                    ),
                     const Divider(thickness: 0.75, color: Colors.blue,),
 
                   ],

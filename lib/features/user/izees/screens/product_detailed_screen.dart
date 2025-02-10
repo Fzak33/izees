@@ -73,24 +73,19 @@ crossAxisAlignment: CrossAxisAlignment.start,
               ),
               const SizedBox(height: 20,),
             Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text( style: const TextStyle(fontSize: 13), localization.productName,
+              padding: const EdgeInsets.all(8.0),
+              child: Text( style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: ColorManager.bottomButtonColor), "${widget.product.price} ${localization.jod}",
               textAlign: TextAlign.start,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text( style: const TextStyle(fontSize: 20), '${widget.product.name} - ${widget.product.price} ${localization.jod} '),
+              child: Text( style: const TextStyle(fontSize: 20), '${widget.product.name}  '),
             ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text( style: const TextStyle(fontSize: 13), localization.productName,
-                textAlign: TextAlign.start,
-              ),
-            ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text( style: const TextStyle(fontSize: 20), '${widget.product.description}'),
+                child: Text( style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16, color: ColorManager.choiceColor), '${widget.product.description}'),
               ),
             const SizedBox(height: 30,),
              Padding(
