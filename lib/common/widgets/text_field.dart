@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final int maxLines ;
   final TextInputType textInputType;
+  final bool obscureText;
   const CustomTextField(
 
       {super.key ,
@@ -12,6 +13,7 @@ class CustomTextField extends StatelessWidget {
         required this.hintText,
         this.maxLines = 1,
         this.textInputType = TextInputType.text,
+        this.obscureText = false
 
       });
 
@@ -20,6 +22,7 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        obscureText: obscureText,
        // inputFormatters: <TextInputFormatter>[],
         keyboardType: textInputType,
         controller: controller,

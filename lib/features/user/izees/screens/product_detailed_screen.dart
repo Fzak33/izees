@@ -60,12 +60,15 @@ crossAxisAlignment: CrossAxisAlignment.start,
 
 
 
-                  if(_user == '' || _user!.isEmpty || _user == null){
+                  if(_user != '' ){
+                    context.read<CartCubit>().addToCart(product: widget.product,id: widget.product.id ??'', context: context, );
+
+
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(localization.firstLogIn)));
                   }else{
-                    context.read<CartCubit>().addToCart(product: widget.product,id: widget.product.id ??'', context: context, );
-
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(localization.firstLogIn)));
                   }
 
 

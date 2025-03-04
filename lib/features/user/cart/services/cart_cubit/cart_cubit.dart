@@ -35,6 +35,7 @@ List<Cart> _cart=[];
 
     }
     catch (e) {
+      print("the problem of cart is ${e.toString()}");
       if (e is AppException) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message)),
@@ -55,19 +56,29 @@ List<Cart> _cart=[];
     required BuildContext context,
   }) async {
     try {
+
       final res = await _cartServices.addToCart(id: id, context: context, product: product);
+
       if (res.statusCode == 200) {
         int index = _cart.indexWhere((cart) => cart.product?.id == id);
         if (index != -1) {
           int? q = _cart[index].quantity;
           int? newQuantity = q! + 1;
           _cart[index] = _cart[index].copyWith(quantity: newQuantity);
+          print("added old to cart");
+
         } else {
           Cart cart = Cart(product: product, quantity: 1, id: res.data['cartId']);
           _cart.add(cart);
+          print("added new to cart");
+
         }
         emit(CartSuccess(cart: List.from(_cart)));
-      } else {
+      }
+      else
+      {
+        print("failed added to cart");
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to add to cart')),
         );
@@ -75,6 +86,8 @@ List<Cart> _cart=[];
         emit(CartSuccess(cart: List.from(_cart)));
       }
     } catch (e) {
+      print("the problem of cart is ${e.toString()}");
+
       if (e is AppException) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message)),

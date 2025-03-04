@@ -43,7 +43,7 @@ class AboutIzeesScreen extends StatelessWidget {
           const SizedBox(height: 20,),
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text('Email: izeesjo@jmail.com',style: TextStyle(fontSize: 15)),
+            child: Text('Email: izeesjo@gmail.com',style: TextStyle(fontSize: 15)),
           ),
 
         ],

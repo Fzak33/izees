@@ -66,5 +66,7 @@
   "street": "الشارع",
   "building": "رقم أو اسم المبنى",
   "delivery": "التوصيل",
-"successOrder": "تم الطلب بنجاح"
+"successOrder": "تم الطلب بنجاح",
+  "confirmPassword": "أرجوك أكد كلمة السر"
+
 }

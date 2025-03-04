@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailEditingController = TextEditingController();
   TextEditingController _passEditingController = TextEditingController();
+  bool _isObscured = true;
 
   @override
   void dispose() {
@@ -38,12 +39,28 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomTextField(controller: _emailEditingController, hintText: localization.email,),
-        
-          CustomTextField(controller: _passEditingController, hintText: localization.password,),
+
+        TextField(
+          obscureText: _isObscured,
+          decoration: InputDecoration(
+            labelText: localization.password,
+            border: OutlineInputBorder(),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isObscured ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isObscured = !_isObscured;
+                });
+              },
+            ),
+          ),
+        ),
           ElevatedButton(onPressed: (){
             BlocProvider.of<AuthCubit>(context).login(
-                email: _emailEditingController.text,
-                password: _passEditingController.text,
+                email: _emailEditingController.text.trim(),
+                password: _passEditingController.text.trim(),
               context: context
             );
 

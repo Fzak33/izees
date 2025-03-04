@@ -17,6 +17,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _emailEditingController = TextEditingController();
   TextEditingController _passEditingController = TextEditingController();
+  TextEditingController _confirmPassEditingController = TextEditingController();
   TextEditingController _firstNameEditingController = TextEditingController();
   TextEditingController _lastNameEditingController = TextEditingController();
   TextEditingController _phoneNumberEditingController = TextEditingController();
@@ -31,6 +32,7 @@ String? errorMessage;
     _firstNameEditingController.dispose();
     _lastNameEditingController.dispose();
     _phoneNumberEditingController.dispose();
+    _confirmPassEditingController.dispose();
   }
 
   bool isValidJordanianPhoneNumber(String value) {
@@ -43,81 +45,93 @@ String? errorMessage;
     final localization = AppLocalizations.of(context)!;
 
         return Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomTextField(controller: _firstNameEditingController, hintText: localization.firstName,),
-              CustomTextField(controller: _lastNameEditingController, hintText: localization.lastName,),
-              CustomTextField(controller: _emailEditingController, hintText: localization.email, textInputType: TextInputType.emailAddress,),
-              CustomTextField(controller: _passEditingController, hintText: localization.password,textInputType: TextInputType.visiblePassword,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _phoneNumberEditingController,
-                  keyboardType: TextInputType.phone,
-                  maxLength: 10,  // Limit the phone number length to 10 digits
-                  decoration: InputDecoration(
-                    hintText: localization.phoneNumber,
-                   // labelText: 'Phone Number',
-                    errorText: errorMessage,
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.black38
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomTextField(controller: _firstNameEditingController, hintText: localization.firstName,),
+                CustomTextField(controller: _lastNameEditingController, hintText: localization.lastName,),
+                CustomTextField(controller: _emailEditingController, hintText: localization.email, textInputType: TextInputType.emailAddress,),
+                CustomTextField(controller: _passEditingController, hintText: localization.password,textInputType: TextInputType.visiblePassword,),
+                CustomTextField(controller: _confirmPassEditingController, hintText: localization.password,textInputType: TextInputType.visiblePassword,),
+            
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _phoneNumberEditingController,
+                    keyboardType: TextInputType.phone,
+                    maxLength: 10,  // Limit the phone number length to 10 digits
+                    decoration: InputDecoration(
+                      hintText: localization.phoneNumber,
+                     // labelText: 'Phone Number',
+                      errorText: errorMessage,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.black38
+                        ),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.black38
+                        ),
+                      ),// Show error message
                     ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Colors.black38
-                      ),
-                    ),// Show error message
+                    onChanged: (value) {
+                      if (isValidJordanianPhoneNumber(value)) {
+                        setState(() {
+                          errorMessage = null; // Clear error when valid
+                        });
+                      } else {
+                        setState(() {
+                          errorMessage = localization.errPhone;
+                        });
+                      }
+                    },
                   ),
-                  onChanged: (value) {
-                    if (isValidJordanianPhoneNumber(value)) {
-                      setState(() {
-                        errorMessage = null; // Clear error when valid
-                      });
-                    } else {
-                      setState(() {
-                        errorMessage = localization.errPhone;
-                      });
+                ),
+            
+                ElevatedButton(onPressed: () {
+            
+                  if(_lastNameEditingController.text.isNotEmpty && _firstNameEditingController.text.isNotEmpty &&  _emailEditingController.text.isNotEmpty && _passEditingController.text.isNotEmpty && _phoneNumberEditingController.text.isNotEmpty){
+                    
+                    if(_passEditingController.text == _confirmPassEditingController.text) {
+                      BlocProvider.of<AuthCubit>(context).signin(
+                          name: '${_firstNameEditingController
+                              .text} ${_lastNameEditingController.text}',
+                          email: _emailEditingController.text.trim(),
+                          password: _passEditingController.text.trim(),
+                          phoneNumber: _phoneNumberEditingController.text.trim(),
+                          context: context
+                      );
                     }
-                  },
+                    else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(localization.confirmPassword))
+                      );
+                    }
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(localization.notCompleteData))
+                    );
+                  }
+            
+            
+                },
+                  child: Text(localization.signIn),
+            
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green
+            
+                  ),
                 ),
-              ),
-
-              ElevatedButton(onPressed: () {
-
-                if(_lastNameEditingController.text.isNotEmpty && _firstNameEditingController.text.isNotEmpty &&  _emailEditingController.text.isNotEmpty && _passEditingController.text.isNotEmpty && _phoneNumberEditingController.text.isNotEmpty){
-                  BlocProvider.of<AuthCubit>(context).signin(
-                      name: '${_firstNameEditingController.text} ${_lastNameEditingController.text}' ,
-                      email: _emailEditingController.text,
-                      password: _passEditingController.text,
-                      phoneNumber: _phoneNumberEditingController.text,
-                    context: context
-                  );
-
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(localization.notCompleteData))
-                  );
-                }
-
-
-              },
-                child: Text(localization.signIn),
-
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green
-
-                ),
-              ),
-              TextButton(onPressed: () {
-
-
-
-                Navigator.pushNamed(context, LoginScreen.routeName);
-              }, child:  Text(localization.account))
-            ],
+                TextButton(onPressed: () {
+            
+            
+            
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                }, child:  Text(localization.account))
+              ],
+            ),
           ),
         );
 

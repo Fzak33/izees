@@ -66,8 +66,8 @@
   "street": "street",
   "building": "Building number or name",
   "delivery": "Delivery",
-  "successOrder": "your order has been ordered successfully"
-
+  "successOrder": "your order has been ordered successfully",
+"confirmPassword": "Please confirm your Password"
 }
 
 

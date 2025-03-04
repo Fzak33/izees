@@ -193,12 +193,17 @@ class CategoryProductCard extends StatelessWidget {
           ),
           ElevatedButton(onPressed: ()async{
 
-            if(_user == '' || _user!.isEmpty || _user == null){
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(localization.firstLogIn)));
-            }else{
-              context.read<CartCubit>().addToCart( product: prod,id: prod.id ??'', context: context, );
+            if (_user != '') {
+              context.read<CartCubit>().addToCart(
+                product: prod,
+                id: prod.id ?? '',
+                context: context,);
 
+            } else {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(
+                  SnackBar(content: Text(
+                      localization.firstLogIn)));
             }
 
           }, style: ElevatedButton.styleFrom(
