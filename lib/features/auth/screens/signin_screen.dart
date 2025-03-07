@@ -53,7 +53,7 @@ String? errorMessage;
                 CustomTextField(controller: _lastNameEditingController, hintText: localization.lastName,),
                 CustomTextField(controller: _emailEditingController, hintText: localization.email, textInputType: TextInputType.emailAddress,),
                 CustomTextField(controller: _passEditingController, hintText: localization.password,textInputType: TextInputType.visiblePassword,),
-                CustomTextField(controller: _confirmPassEditingController, hintText: localization.password,textInputType: TextInputType.visiblePassword,),
+                CustomTextField(controller: _confirmPassEditingController, hintText: localization.confirmPassword,textInputType: TextInputType.visiblePassword,),
             
                 Padding(
                   padding: const EdgeInsets.all(8.0),

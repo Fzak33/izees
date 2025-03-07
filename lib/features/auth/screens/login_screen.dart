@@ -40,20 +40,24 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           CustomTextField(controller: _emailEditingController, hintText: localization.email,),
 
-        TextField(
-          obscureText: _isObscured,
-          decoration: InputDecoration(
-            labelText: localization.password,
-            border: OutlineInputBorder(),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _isObscured ? Icons.visibility_off : Icons.visibility,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            obscureText: _isObscured,
+            controller: _passEditingController,
+            decoration: InputDecoration(
+              hintText: "Enter your ${localization.password}",
+              border: OutlineInputBorder(),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isObscured ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
               ),
-              onPressed: () {
-                setState(() {
-                  _isObscured = !_isObscured;
-                });
-              },
             ),
           ),
         ),
