@@ -4,6 +4,7 @@ import 'package:izees/common/widgets/text_field.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/auth/screens/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:izees/resources/strings_res.dart';
 
 
 class SignInScreen extends StatefulWidget {
@@ -45,6 +46,7 @@ String? errorMessage;
     final localization = AppLocalizations.of(context)!;
 
         return Scaffold(
+          appBar: AppBar(backgroundColor: ColorManager.primaryColor,),
           body: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
