@@ -6,12 +6,12 @@ class StringsRes{
   //https://api.izeesjo.com
  static List<String> jordanCities(){
     List<String> cities = [
+      "Amman",
        "Irbid",
        "Ajloun",
        "Jerash",
        "Mafraq",
      "Salt",
-      "Amman",
        "Zarqa",
       "Madaba",
        "Al Karak",

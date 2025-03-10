@@ -4,7 +4,12 @@
   "lastName": "Last name",
   "email": "email",
   "password": "password",
-  "phoneNumber": "Phone Number",
+  "phoneNumber": "Phone Number ",
+  "optional": "(optional)",
+  "add": "Add",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "deleteAccount": "are you sure you want to delete your account ?",
   "errPhone": "Enter a valid Jordanian phone number",
   "notCompleteData": "please enter data",
   "signIn": "sign in",
@@ -67,7 +72,11 @@
   "building": "Building number or name",
   "delivery": "Delivery",
   "successOrder": "your order has been ordered successfully",
-"confirmPassword": "Please confirm your Password"
+"confirmPassword": "Please confirm your Password",
+  "enterPassword": "Please enter your Password",
+  "passwordDeleteAccount": "please enter your password to delete your account",
+  "privacyPolicyDeletion": "Privacy policy Deletion"
+
 }
 
 

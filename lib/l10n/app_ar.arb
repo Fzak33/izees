@@ -67,6 +67,13 @@
   "building": "رقم أو اسم المبنى",
   "delivery": "التوصيل",
 "successOrder": "تم الطلب بنجاح",
-  "confirmPassword": "أرجوك أكد كلمة السر"
-
+  "confirmPassword": "أرجوك أكد كلمة السر",
+  "enterPassword": "ارجوك ادخل كلمة السر",
+  "passwordDeleteAccount": "ارجوك ادخل كلمة السر لحذف حسابك",
+  "privacyPolicyDeletion": "سياسة الخصوصية للحذف",
+  "optional": "(اختياري)",
+  "add": "اضف",
+  "delete": "حذف",
+  "cancel": "الرجوع",
+  "deleteAccount": "هل انت متاكد من حذف حسابك"
 }

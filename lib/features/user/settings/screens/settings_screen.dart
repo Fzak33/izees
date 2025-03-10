@@ -50,13 +50,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Column(
         children: [
-          ListTile(
+
+          _user != ""
+              ? ListTile(
             title: Text(localization.cc),
             leading: const Icon(Icons.person_outline_outlined),
-            onTap: (){
+            onTap: () {
+              setState(() {
+
+              });
               Navigator.pushNamed(context, AboutMeScreen.routeName);
             },
-          ),
+          )
+              : SizedBox.shrink(),
+
           const Divider(),
           ListTile(
             title: Text(localization.language),
@@ -78,7 +85,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   // Optionally, check the auth token for debugging
                   final auth = BlocProvider.of<AuthCubit>(context);
-                  debugPrint('your auth token =========== ${auth.authModel.token}');
                 });
               }
             },

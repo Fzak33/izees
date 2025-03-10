@@ -69,6 +69,41 @@ on DioException catch (e) {
     
   }
 
+  Future<Response> deleteMyAccount(
+      { required String password, required BuildContext context})async{
+    try{
+      var auth = BlocProvider
+          .of<AuthCubit>(context)
+      ;
+      String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
+      String email = auth.authModel.email?.toString() ?? auth.adminModel.email?.toString() ?? '';
+print('your email is ======== $email');
+      var data = {
+        'email':email,
+        'password': password
+      };
+
+    Response res =  await dio.delete("${StringsRes.uri}/delete-account",
+      data: data,
+        options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'x-auth-token': token
+            }
+        )
+      );
+return res;
+
+    }
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
+    }
+  }
 
 
 

@@ -56,7 +56,7 @@ String? errorMessage;
                 CustomTextField(controller: _emailEditingController, hintText: localization.email, textInputType: TextInputType.emailAddress,),
                 CustomTextField(controller: _passEditingController, hintText: localization.password,textInputType: TextInputType.visiblePassword,),
                 CustomTextField(controller: _confirmPassEditingController, hintText: localization.confirmPassword,textInputType: TextInputType.visiblePassword,),
-            
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
@@ -77,6 +77,9 @@ String? errorMessage;
                             color: Colors.black38
                         ),
                       ),// Show error message
+                      focusedBorder: const OutlineInputBorder( // Keep normal border when focused
+                        borderSide: BorderSide(color: Colors.black38),
+                      ),
                     ),
                     onChanged: (value) {
                       if (isValidJordanianPhoneNumber(value)) {
@@ -91,11 +94,25 @@ String? errorMessage;
                     },
                   ),
                 ),
-            
+
                 ElevatedButton(onPressed: () {
-            
-                  if(_lastNameEditingController.text.isNotEmpty && _firstNameEditingController.text.isNotEmpty &&  _emailEditingController.text.isNotEmpty && _passEditingController.text.isNotEmpty && _phoneNumberEditingController.text.isNotEmpty){
-                    
+                  String phoneNumber = _phoneNumberEditingController.text.trim();
+
+                  // Only allow an empty phone number or a valid one
+                  if (phoneNumber.isNotEmpty && !isValidJordanianPhoneNumber(phoneNumber)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(localization.errPhone)),
+                    );
+                    return; // Stop further execution if the phone number is invalid
+                  }
+
+                  if(
+                  _lastNameEditingController.text.isNotEmpty &&
+                      _firstNameEditingController.text.isNotEmpty &&
+                      _emailEditingController.text.isNotEmpty &&
+                      _passEditingController.text.isNotEmpty
+                  ){
+
                     if(_passEditingController.text == _confirmPassEditingController.text) {
                       BlocProvider.of<AuthCubit>(context).signin(
                           name: '${_firstNameEditingController
@@ -116,8 +133,8 @@ String? errorMessage;
                         SnackBar(content: Text(localization.notCompleteData))
                     );
                   }
-            
-            
+
+
                 },
                   child: Text(localization.signIn),
             

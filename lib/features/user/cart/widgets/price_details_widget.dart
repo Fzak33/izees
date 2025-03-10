@@ -50,6 +50,7 @@ class PriceDetailsWidget extends StatelessWidget {
                       sum:sum,
                       context: context
                   );
+                  context.read<CartCubit>().setToZero();
                 }
               },
             style: ElevatedButton.styleFrom(

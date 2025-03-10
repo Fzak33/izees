@@ -100,6 +100,9 @@ if(state is CartLoading){
             'totalPrice':sum,
             'driverPrice':counter
           });
+          context.read<CartCubit>().totalPrice = sum!;
+          context.read<CartCubit>().driverPrice = counter;
+
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blueAccent

@@ -14,11 +14,13 @@ import 'package:izees/features/user/settings/screens/about_me_screen.dart';
 import 'package:izees/models/order.dart';
 import 'package:izees/models/product_model.dart';
 
+import 'common/widgets/add_phone_number_screen.dart';
 import 'features/auth/screens/signin_screen.dart';
 import 'features/user/cart/screens/add_address_screen.dart';
 import 'features/user/cart/widgets/price_details_widget.dart';
 import 'features/user/izees/screens/category_product_screen.dart';
 import 'features/user/settings/screens/become_a_seller_screen.dart';
+import 'features/user/settings/screens/delete_account_screen.dart';
 import 'features/user/settings/screens/settings_screen.dart';
 
 
@@ -80,6 +82,16 @@ Route<dynamic> generateRoute(RouteSettings routeSettings){
       return MaterialPageRoute(
 
           builder: (_) => const BecomeASellerScreen()
+      );
+    case  DeleteAccountScreen.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  DeleteAccountScreen()
+      );
+    case  AddPhoneNumberScreen.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  AddPhoneNumberScreen()
       );
     case  AddAddressScreen.routeName:
       return MaterialPageRoute(

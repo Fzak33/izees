@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/admin/add_product/screens/add_product_screen.dart';
 import 'package:izees/features/admin/add_product/screens/update_product_screen.dart';
 
+import '../../../../common/widgets/add_phone_number_screen.dart';
 import '../../../../resources/strings_res.dart';
+import '../../../auth/auth_cubit/auth_cubit.dart';
 import '../services/AdminProductServiceCubit/admin_product_service_cubit.dart';
 
 class ShowProductScreen extends StatelessWidget {
@@ -11,6 +13,9 @@ class ShowProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _auth = BlocProvider
+        .of<AuthCubit>(context)
+    ;
     return Scaffold(
       appBar: AppBar(
         title:  const Text('Your Products',
@@ -21,7 +26,13 @@ class ShowProductScreen extends StatelessWidget {
         backgroundColor: ColorManager.primaryColor,
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.pushNamed(context, AddProductScreen.routeName);
+        if(_auth.adminModel.phoneNumber == '' || _auth.adminModel.phoneNumber == null){
+          Navigator.pushNamed(context, AddPhoneNumberScreen.routeName);
+
+        }else{
+          Navigator.pushNamed(context, AddProductScreen.routeName);
+
+        }
       },
       child: const Icon(Icons.add),
         backgroundColor: ColorManager.primaryColor,

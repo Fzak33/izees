@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/common/services/common_cubit/common_cubit.dart';
+import 'package:izees/common/services/common_services.dart';
 import 'package:izees/features/splash/screens/splash_screen.dart';
+import 'package:izees/features/user/settings/services/seller.dart';
 
 
 import 'package:izees/l10n/l10n.dart';
@@ -73,10 +76,13 @@ class _MyAppState extends State<MyApp> {
             create: (context) => AuthCubit(AuthService(), resetAppContent),
           ),
           BlocProvider(
-            create: (context) => SellerCubit(),
+            create: (context) => SellerCubit(SellerServices(),resetAppContent),
           ),
           BlocProvider(
             create: (context) => AdminProductServiceCubit()..getAdminProduct(context: context),
+          ),
+          BlocProvider(
+            create: (context) => CommonCubit(CommonServices()),
           ),
           BlocProvider(
             create: (context) => ShowProductsCubit(ShowProductServices()),

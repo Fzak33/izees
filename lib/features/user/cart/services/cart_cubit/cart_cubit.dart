@@ -16,10 +16,17 @@ class CartCubit extends Cubit<CartState> {
   final CartServices _cartServices;
 List<Cart> _cart=[];
 
+  double totalPrice= 0;
+  int driverPrice= 0;
+
+  void setToZero(){
+     totalPrice= 0;
+     driverPrice= 0;
+     print("your order price is $totalPrice and your driver is $driverPrice");
+
+  }
+
   Future<void> getCart({required BuildContext context})async{
-
-
-
 
     try{
       emit(CartLoading());

@@ -5,6 +5,8 @@ import 'package:izees/common/widgets/text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../../../common/widgets/add_phone_number_screen.dart';
+import '../../../../common/widgets/add_phone_number_screen.dart';
 import '../../../auth/auth_cubit/auth_cubit.dart';
 import '../services/cart_cubit/cart_cubit.dart';
 
@@ -23,7 +25,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   final TextEditingController _building = TextEditingController();
   final TextEditingController _neighborhood = TextEditingController();
 
-  String city = "Irbid";
+  String city = "Amman";
 
 
   @override
@@ -36,9 +38,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var auth = BlocProvider
+        .of<AuthCubit>(context)
+    ;
     final localization = AppLocalizations.of(context)!;
 
-    var auth = BlocProvider.of<AuthCubit>(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +68,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             if(_neighborhood.text.isNotEmpty && _street.text.isNotEmpty && _building.text.isNotEmpty){
               context.read<CartCubit>().addAddress(city: city,
                   address: "$city-${_neighborhood.text}-${_street.text}-${_building.text}", context: context);
-              Navigator.pop(context);
+              if(auth.authModel.phoneNumber == '' || auth.authModel.phoneNumber == null){
+                Navigator.pushNamed(context, AddPhoneNumberScreen.routeName);
+
+              }else{
+                Navigator.pop(context);
+
+              }
 
             }else{
               ScaffoldMessenger.of(context).showSnackBar(

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:izees/features/user/home/screens/home_sceen.dart';
 import 'package:izees/models/auth_model.dart';
 import 'package:izees/models/cart_model.dart';
 import 'package:izees/models/product_model.dart';
@@ -175,7 +176,7 @@ data: data,
      auth.setUser(user);
    }
 
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
 return res;
 
 
