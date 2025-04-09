@@ -239,6 +239,7 @@ List<Product> products =[];
   //  crossAxisSpacing: 10,
     ),
     delegate: SliverChildBuilderDelegate(
+      childCount: products.length,
     (context, index) {
       final   prod = products[index];
       return Padding(

@@ -64,7 +64,7 @@ class _IzeesScreenState extends State<IzeesScreen> {
         } else if (state is ProductLoaded) {
           products = state.products;
         }
-return       CustomScrollView(
+return      CustomScrollView(
   controller: _scrollController,
   slivers: [
     SliverList(
@@ -96,13 +96,17 @@ return       CustomScrollView(
         )
     ),
     SliverGrid(
+
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+
         crossAxisCount: 2,
         mainAxisSpacing: 6.0, // Spacing between rows
         childAspectRatio: 0.65,
         crossAxisSpacing: 10,
       ), delegate: SliverChildBuilderDelegate(
+childCount: products.length,
           (context, index) {
+
 final prod = products[index];
         return ProductCard(prod: prod, user: _user, localization: localization);
       },
