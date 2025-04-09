@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/common/services/common_cubit/common_cubit.dart';
 import 'package:izees/common/services/common_services.dart';
+import 'package:izees/features/it_support/services/it_support_cubit/it_support_cubit.dart';
+import 'package:izees/features/it_support/services/it_support_services.dart';
 import 'package:izees/features/splash/screens/splash_screen.dart';
 import 'package:izees/features/user/settings/services/seller.dart';
+import 'package:izees/features/user/store_products/services/store_products_cubit/store_products_cubit.dart';
+import 'package:izees/features/user/store_products/services/store_products_services.dart';
 
 
 import 'package:izees/l10n/l10n.dart';
@@ -13,6 +17,7 @@ import 'package:izees/router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'features/admin/add_product/services/AdminProductServiceCubit/admin_product_service_cubit.dart';
+import 'features/admin/add_product/services/admin_product_service.dart';
 import 'features/admin/admin_orders/admin_order_cubit/admin_order_cubit.dart';
 import 'features/admin/admin_orders/services/admin_order_services.dart';
 import 'features/admin/category_charts/services/categories_profit.dart';
@@ -79,13 +84,16 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SellerCubit(SellerServices(),resetAppContent),
           ),
           BlocProvider(
-            create: (context) => AdminProductServiceCubit()..getAdminProduct(context: context),
+            create: (context) => AdminProductServiceCubit(AdminProductService())..getAdminProduct(context: context),
           ),
           BlocProvider(
             create: (context) => CommonCubit(CommonServices()),
           ),
           BlocProvider(
             create: (context) => ShowProductsCubit(ShowProductServices()),
+          ),
+          BlocProvider(
+            create: (context) => ItSupportCubit(ItSupportServices())..scheduleHourlyFetch(context: context),
           ),
           // BlocProvider(
           //   create: (context) => CartServicesCubit()..getCart(context: context),
@@ -125,6 +133,9 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (context) => RecommendedCubit(ShowProductServices()),
+          ),
+          BlocProvider(
+            create: (context) => StoreProductsCubit(StoreProductsServices()),
           ),
           BlocProvider(
             create: (context) => CartCubit(CartServices())..getCart(context: context),

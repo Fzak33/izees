@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:izees/features/admin/add_product/screens/add_product_screen.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/user/settings/services/seller.dart';
 
@@ -16,12 +15,15 @@ class SellerCubit extends Cubit<SellerState> {
   final VoidCallback resetApp;
 
 
-  Future<void> becomeASeller({required String storeName,required String address,required String cityStore ,required BuildContext context})async{
+  Future<void> becomeASeller({required String phoneNumber,required String storeName,required String address,required String cityStore ,required BuildContext context})async{
   try {
-    await sellerServices.seller(context: context,
+    await sellerServices.seller(
+        context: context,
         storeName: storeName,
         address: address,
-        cityStore: cityStore);
+        cityStore: cityStore,
+      phoneNumber: phoneNumber
+    );
   }
   catch (e) {
     if (e is AppException) {

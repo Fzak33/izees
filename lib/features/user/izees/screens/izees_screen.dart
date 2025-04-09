@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/user/izees/screens/product_detailed_screen.dart';
 import 'package:izees/features/user/izees/services/show_product_cubit/show_products_cubit.dart';
-import 'package:izees/features/user/izees/services/show_product_services.dart';
+import 'package:izees/features/user/store_products/screens/store_products_screen.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,18 +40,12 @@ class _IzeesScreenState extends State<IzeesScreen> {
     });
   }
 
-  // void _onScroll() {
-  //   if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.7) {
-  //     context.read<ShowProductsCubit>().loadMore();
-  //   }
-  // }
 
 
 
   void getUser()async{
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.clear();
     _user =   prefs.getString('x-auth-token')?? '';
 
   }
@@ -59,79 +53,73 @@ class _IzeesScreenState extends State<IzeesScreen> {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
-    // final auth = context.read<AuthCubit>();
-    return   SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                child: Text(localization.categories,
-                  style: const TextStyle(
-                      fontSize: 24
-                  ),
-                ),
-              ),
-              CategoryWidget(),
-              Padding(padding: const EdgeInsets.symmetric(horizontal: 10, ),
-                child: Text(localization.getStarted,
-                  style: const TextStyle(
-                      fontSize: 24
-                  ),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BlocBuilder<ShowProductsCubit, ProductState>(
-                  builder: (context, state) {
-                    List<Product> products = [];
-                    bool isLoading = false;
+    return BlocBuilder<ShowProductsCubit, ProductState>(
+      builder: (context, state) {
+        List<Product> products = [];
+        bool isLoading = false;
 
-                    if (state is ProductLoading ) {
-                      products = state.existingProducts;
-                      isLoading = true;
-                    } else if (state is ProductLoaded) {
-                      products = state.products;
-                    }
-                    return  Container(
-                      height: 600,
-                      width: double.infinity,
-                      child: GridView.builder(
-                          controller: _scrollController,
-                        //  shrinkWrap: true,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-
-                              crossAxisSpacing: 10.0, // Spacing between columns
-                              mainAxisSpacing: 6.0, // Spacing between rows
-                              childAspectRatio: 0.55
-                          ),
-                             //physics: BouncingScrollPhysics(),
-                          clipBehavior: Clip.hardEdge,
-                        //  physics: const NeverScrollableScrollPhysics(),
-                          //  padding: const EdgeInsets.only(bottom: 110, top: 20),
-                          scrollDirection: Axis.vertical,
-                          itemCount: products.length ,
-                          itemBuilder: (context, index) {
-                            // if (index == state.products.length) {
-                            //  // return const Center(child: CircularProgressIndicator()); // Loading indicator at bottom
-                            // }
-
-                            final prod = products[index];
-                            return ProductCard(prod: prod, user: _user, localization: localization);
-                          }
-
+        if (state is ProductLoading ) {
+          products = state.existingProducts;
+          isLoading = true;
+        } else if (state is ProductLoaded) {
+          products = state.products;
+        }
+return       CustomScrollView(
+  controller: _scrollController,
+  slivers: [
+    SliverList(
+        delegate:
+        SliverChildListDelegate(
+            [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    child: Text(localization.categories,
+                      style: const TextStyle(
+                          fontSize: 24
                       ),
-                    );
-                  },
-)
+                    ),
+                  ),
+                  CategoryWidget(),
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 10, ),
+                    child: Text(localization.getStarted,
+                      style: const TextStyle(
+                          fontSize: 24
+                      ),
+                    ),
+                  ),
 
-              )
-            ],
-          ),
+                ],
+              ),
+            ]
+        )
+    ),
+    SliverGrid(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 6.0, // Spacing between rows
+        childAspectRatio: 0.65,
+        crossAxisSpacing: 10,
+      ), delegate: SliverChildBuilderDelegate(
+          (context, index) {
+final prod = products[index];
+        return ProductCard(prod: prod, user: _user, localization: localization);
+      },
+    ),
+    )
+  ],
+);
 
-        ),
-      );
+      },
+
+
+    );
+
+
+
+
+
     }
 
   @override
@@ -189,6 +177,7 @@ class ProductCard extends StatelessWidget {
                 image: DecorationImage(
                   image: NetworkImage(
                       "${StringsRes.uri}/${prod.images[0].path}"),
+
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -211,43 +200,49 @@ class ProductCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-                vertical: 2, horizontal: 10),
-            child: Text("${prod.price}",
+                horizontal: 10),
+            child: Text("${prod.price} ${localization.jod}",
               style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black
               ),),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: 2, horizontal: 10),
-            child: Text("${prod.storeName}",
-              style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black
-              ),),
-          ),
-          ElevatedButton(onPressed: () async {
-            if (_user != '') {
-              context.read<CartCubit>().addToCart(
-                product: prod,
-                id: prod.id ?? '',
-                context: context,);
-
-            } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(
-                  SnackBar(content: Text(
-                      localization.firstLogIn)));
-            }
-          },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: ColorManager
-                    .primaryColor
+          InkWell(
+            onTap: (){
+              Navigator.pushNamed(context, StoreProductScreen.routeName , arguments: {
+                'storeName':prod.storeName,
+                'storeImage':prod.storeImage
+              });
+            },
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  child: SizedBox(
+                    height: 33,
+                    width: 33,
+                    child: CircleAvatar(
+                      backgroundColor: ColorManager.bottomButtonColor,
+                      backgroundImage:
+                      prod.storeImage != null
+                          ? NetworkImage("${StringsRes.uri}/${prod.storeImage}") // Load network image if storeImage is not null
+                          : AssetImage('assets/images/perfume-icon.jpg') as ImageProvider
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 2, horizontal: 10),
+                  child: Text("${prod.storeName}",
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black
+                    ),),
+                ),
+              ],
             ),
-            child: Text(localization.addToCart,
-              style: const TextStyle(
-                  color: Colors.black),),),
+          ),
+
         ],
       ),
     );

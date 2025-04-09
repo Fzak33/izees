@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../resources/strings_res.dart';
 import '../../cart/services/cart_cubit/cart_cubit.dart';
+import '../../store_products/screens/store_products_screen.dart';
 import '../services/recommended/recommended_cubit.dart';
 import '../services/show_category_products_cubit/show_category_products_cubit.dart';
 import '../services/show_product_services.dart';
@@ -177,38 +178,47 @@ class CategoryProductCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-            child: Text("${prod.price}",
+            child: Text("${prod.price} ${localization.jod} ",
               style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black
               ),),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2,  horizontal: 10),
-            child: Text("${prod.quantity}",
-              style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black
-              ),),
+          InkWell(
+            onTap: (){
+              Navigator.pushNamed(context, StoreProductScreen.routeName , arguments: {
+                'storeName':prod.storeName,
+                'storeImage':prod.storeImage
+              });
+
+            },
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  child: SizedBox(
+                    height: 33,
+                    width: 33,
+                    child: CircleAvatar(
+                      backgroundColor: ColorManager.bottomButtonColor,
+                      backgroundImage:prod.storeImage != null
+                          ? NetworkImage("${StringsRes.uri}/${prod.storeImage}") // Load network image if storeImage is not null
+                          : AssetImage('assets/images/perfume-icon.jpg') as ImageProvider
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 2, horizontal: 10),
+                  child: Text("${prod.storeName}",
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black
+                    ),),
+                ),
+              ],
+            ),
           ),
-          ElevatedButton(onPressed: ()async{
-
-            if (_user != '') {
-              context.read<CartCubit>().addToCart(
-                product: prod,
-                id: prod.id ?? '',
-                context: context,);
-
-            } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(
-                  SnackBar(content: Text(
-                      localization.firstLogIn)));
-            }
-
-          }, style: ElevatedButton.styleFrom(
-            backgroundColor: ColorManager.primaryColor,
-          ), child: Text(localization.addToCart, style: const TextStyle(color: Colors.black),),),
         ],
       ),
     );

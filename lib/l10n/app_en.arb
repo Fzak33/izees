@@ -12,7 +12,7 @@
   "deleteAccount": "are you sure you want to delete your account ?",
   "errPhone": "Enter a valid Jordanian phone number",
   "notCompleteData": "please enter data",
-  "signIn": "sign in",
+  "signUp": "sign Up",
   "account": "already have account",
   "login": "login",
   "address": "Address",
@@ -75,7 +75,8 @@
 "confirmPassword": "Please confirm your Password",
   "enterPassword": "Please enter your Password",
   "passwordDeleteAccount": "please enter your password to delete your account",
-  "privacyPolicyDeletion": "Privacy policy Deletion"
+  "privacyPolicyDeletion": "Privacy policy Deletion",
+  "izeesPolicy": "Profit Distribution:\nThe first month is free for selling your products.\n\nAfter this month, the profits are distributed as follows:\n1. If the product price is above 20 dinars, 1 dinar is automatically added to the product and transferred to izees, plus 7.5% of the product value.\n\n2. If the product price is 20 dinars or less, izees takes 5% of the product value.\n\nProfits are distributed in full every Monday."
 
 }
 

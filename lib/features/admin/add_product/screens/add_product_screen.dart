@@ -38,7 +38,9 @@ List<String> productCategory = [
   'Uni perfume',
   'Beauty',
   'Health and Care',
-  'Hair Care'
+  'Hair Care',
+  'Bag',
+  'Watch'
 ];
  String category = 'Women perfume';
 

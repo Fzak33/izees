@@ -31,6 +31,14 @@ class CategoryWidget extends StatelessWidget {
       'image':'assets/images/hair-care.jpg',
       'name':'Hair Care'
     },
+    {
+      'image':'assets/images/bag.png',
+      'name':'Bag'
+    },
+    {
+      'image':'assets/images/watch.png',
+      'name':'Watch'
+    },
   ];
   @override
   Widget build(BuildContext context) {

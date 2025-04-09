@@ -61,21 +61,22 @@ List<Cart> _cart=[];
     required Product product,
     required String id,
     required BuildContext context,
+    required int quantity
   }) async {
     try {
 
-      final res = await _cartServices.addToCart(id: id, context: context, product: product);
+      final res = await _cartServices.addToCart(id: id, context: context, product: product, quantity: quantity);
 
       if (res.statusCode == 200) {
         int index = _cart.indexWhere((cart) => cart.product?.id == id);
         if (index != -1) {
           int? q = _cart[index].quantity;
-          int? newQuantity = q! + 1;
+          int? newQuantity = q! + quantity;
           _cart[index] = _cart[index].copyWith(quantity: newQuantity);
           print("added old to cart");
 
         } else {
-          Cart cart = Cart(product: product, quantity: 1, id: res.data['cartId']);
+          Cart cart = Cart(product: product, quantity: quantity, id: res.data['cartId']);
           _cart.add(cart);
           print("added new to cart");
 

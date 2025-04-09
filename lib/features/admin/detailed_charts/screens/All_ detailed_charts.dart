@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/common/services/common_services.dart';
 import 'package:izees/features/admin/detailed_charts/services/product_profit/product_profit_cubit.dart';
 import 'package:izees/resources/strings_res.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../models/sales.dart';
 
 class AllDetailedCharts extends StatelessWidget {
   const AllDetailedCharts({super.key});
@@ -24,11 +27,13 @@ class AllDetailedCharts extends StatelessWidget {
     }
     else if(state is ProductProfitSuccess){
       final productProfit = state.productProfit;
-
+    num total = CommonServices.totalProfit(productProfit);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
+          Padding(padding: EdgeInsets.all(10),
+            child: Text('your total profit is $total', style: TextStyle(fontSize: 20),),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height ,
             child: GridView.builder(
@@ -115,3 +120,4 @@ class AllDetailedCharts extends StatelessWidget {
     );
   }
 }
+

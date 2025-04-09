@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/features/admin/models/sales.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../../../common/services/common_services.dart';
 import '../services/monthly_product_profit/monthly_product_profit_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,10 +28,13 @@ class MonthlyDetailedCharts extends StatelessWidget {
             else if(state is MonthlyProductProfitSuccess){
               final productProfit = state.productProfit;
 
+              num total = CommonServices.totalProfit(productProfit);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
+                      Padding(padding: EdgeInsets.all(10),
+                      child: Text('your total profit is $total', style: TextStyle(fontSize: 20),),
+                      ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height ,
                     child: GridView.builder(
@@ -115,4 +120,13 @@ class MonthlyDetailedCharts extends StatelessWidget {
       ),
     );
   }
+}
+
+
+num totalProfit (List<ProductProfit> productProfit){
+  num total = 0;
+  productProfit.map((p){
+    total = total + p.totalPrice!;
+  });
+  return total;
 }

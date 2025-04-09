@@ -7,6 +7,7 @@ import 'package:izees/resources/strings_res.dart';
 class TabBarDetailedCharts extends StatelessWidget {
   const TabBarDetailedCharts({super.key});
 
+  static const String routeName = '/charts';
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(length: 3, child: Scaffold(

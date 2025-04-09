@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:izees/models/auth_model.dart';
 import 'package:izees/models/product_model.dart';
 
 
 class AdminModel extends AuthModel{
   String? storeName;
+  bool? isSell;
   List<Product?>? product;
   List<Branch?>? branches;
-
+  String? storeImage;
   AdminModel({
 
     String? id,
@@ -19,12 +22,16 @@ class AdminModel extends AuthModel{
     String? token,
     List<dynamic>? cart,
     String? role = 'admin',
+    this.isSell = false,
     this.storeName,
     this.product,
-    this.branches
+    this.branches,
+    this.storeImage
   }):super(id:id,name: name, email: email,password: password,address: address,city:city,token: token,role: role,cart: cart, phoneNumber: phoneNumber);
 
  factory AdminModel.fromJson(Map<String, dynamic> json) {
+   final imageUrl = json['storeImage'];
+
    return AdminModel(
     id : json['_id'],
     name : json['name'],
@@ -33,6 +40,8 @@ class AdminModel extends AuthModel{
      phoneNumber: json['phoneNumber'],
      address : json['address'],
      city : json['city'],
+     isSell : json['isSell'],
+    storeImage: json['storeImage'],
 
      cart: List<Map<String, dynamic>>.from(
       json['cart']?.map(
@@ -54,12 +63,13 @@ class AdminModel extends AuthModel{
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = id;
+   data['storeImage']= storeImage;
     data['name'] = name;
     data['email'] = email;
     data['password'] = password;
     data['address'] = address;
     data['city'] = city;
-
+    data['isSell']=isSell;
     data['cart'] = cart;
     data['role'] = role;
     data['phoneNumber'] = phoneNumber;
@@ -88,7 +98,7 @@ class AdminModel extends AuthModel{
     String? email,
     String? address,
     String? city,
-
+    bool? isSell,
     String? phoneNumber,
     String? password,
     String? token,
@@ -96,6 +106,7 @@ class AdminModel extends AuthModel{
     String? role = 'admin',
     List<Product?>? product,
     List<Branch?>? branches,
+    String? storeImage,
 
   }){
     return AdminModel(
@@ -106,13 +117,14 @@ class AdminModel extends AuthModel{
       password: this.password,
         address: address ?? this.address,
         city: city ?? this.city,
-
+        isSell: isSell,
         token: token ?? this.token,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       cart: cart ?? this.cart,
       role: this.role,
       product: product ?? this.product,
-      branches: branches ?? this.branches
+      branches: branches ?? this.branches,
+     storeImage: storeImage ?? this.storeImage
     );
 }
 

@@ -92,7 +92,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
                         final product = state.products[index];
-                        return _buildProductItem(product);
+                        return _buildProductItem(product , context);
                       },
                     );
                   } else if (state is SearchFailure) {
@@ -113,7 +113,9 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
     );
   }
 
-  Widget _buildProductItem(Product product) {
+  Widget _buildProductItem(Product product, BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -122,9 +124,14 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
           Navigator.pushNamed(context, ProductDetailedScreen.routeName, arguments: product);
           context.read<RecommendedCubit>().recommended(category: product.category);
         },
-        title: Text(product.name),
+        title: Text(product.name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         subtitle: Text(
-          '\$${product.price.toStringAsFixed(2)}\n${product.description}',
+          '${product.price.toStringAsFixed(2)} ${localization.jod} \n${product.description}',
+       maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
         isThreeLine: true,
         trailing:Container(

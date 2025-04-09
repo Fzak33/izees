@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/product_model.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +86,7 @@ Future< List<Product> > getAdminProducts({required BuildContext context})async{
         product.add(Product.fromJson(i));
       }
     }
-   // print('ypur dat is ------------------------------------ ${res.data}');
-    //print('your list is --------------------- $product');
+
     return product;
   }
   on DioException catch (e) {
@@ -104,6 +104,7 @@ Future<Response> updateProduct({
   required String productId,
   required String description,
   required String name,
+  required String category,
   required double price,
   required int quantity,
   required BuildContext context
@@ -116,7 +117,8 @@ Future<Response> updateProduct({
       'description':description,
       'name':name,
       'price':price,
-      'quantity':quantity
+      'quantity':quantity,
+      'category':category
     };
   Response res =  await dio.put('${StringsRes.uri}/update-product/$productId',
         data: data,
@@ -172,9 +174,117 @@ return res;
 }
 
 
+// Future<List<Product>> getProducts({required int page, required BuildContext context}) async {
+//   var auth = BlocProvider
+//       .of<AuthCubit>(context)
+//   ;
+//
+//   final response = await dio.get('${StringsRes.uri}/get-products', queryParameters: {
+//     'page': page,
+//   },
+//       options: Options(
+//           headers: {
+//             'Content-Type': 'application/json; charset=UTF-8',
+//             //'Content-Type': 'application/x-www-form-urlencoded',
+//             'x-auth-token': auth.adminModel.token
+//           }
+//       )
+//   );
+//
+//   if (response.statusCode == 200) {
+//     final data = response.data['products'] as List;
+//     return data.map((e) => Product.fromJson(e)).toList();
+//   } else {
+//     throw Exception('Failed to load products');
+//   }
+// }
+//
+// Future<bool> hasMoreProducts({required int page,required BuildContext context}) async {
+//   var auth = BlocProvider
+//       .of<AuthCubit>(context)
+//   ;
+//   final response = await dio.get('${StringsRes.uri}/get-products', queryParameters: {
+//     'page': page,
+//   },
+//       options: Options(
+//           headers: {
+//             'Content-Type': 'application/json; charset=UTF-8',
+//             //'Content-Type': 'application/x-www-form-urlencoded',
+//             'x-auth-token': auth.adminModel.token
+//           }
+//       )
+//
+//   );
+//
+//   return response.data['hasMore'] ?? false;
+// }
+
+Future<void> startSelling({required bool isSell, required BuildContext context})async{
+  try {
+    var auth = BlocProvider
+        .of<AuthCubit>(context)
+    ;
+    var data = {
+      'isSell':isSell
+    };
+
+  final res= await dio.post('${StringsRes.uri}/start-sell',
+        data: data,
+        options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'x-auth-token': auth.adminModel.token
+            }
+        )
+    );
+
+  AdminModel _adminModel=  auth.adminModel.copyWith(isSell: res.data);
+  auth.setAdmin(_adminModel);
+  }
+  on DioException catch (e) {
+    if (e.response != null && e.response?.data is Map<String, dynamic>) {
+      final message = e.response?.data['message'] ?? 'Something went wrong';
+      throw AppException(message);
+    } else {
+      throw AppException('Network error. Please try again.');
+    }
+  }
+}
 
 
+Future<String> addStoreImage({required File storeImage, required BuildContext context})async{
+try{
+  var auth = BlocProvider
+      .of<AuthCubit>(context)
+  ;
+  String fileName = storeImage.path.split('/').last;
 
+  FormData formData = FormData.fromMap({
+    'store': await MultipartFile.fromFile(storeImage.path, filename: fileName),
+  });
+ final res = await dio.post('${StringsRes.uri}/add-store-image',
+  data: formData,
+  options: Options(
+    headers: {
+      'Content-Type':'multipart/form-data',
+      'x-auth-token': auth.adminModel.token
+    }
+  )
+  );
 
+ String image = res.data;
+ return image;
+}
+
+on DioException catch (e) {
+  if (e.response != null && e.response?.data is Map<String, dynamic>) {
+    final message = e.response?.data['message'] ?? 'Something went wrong';
+    throw AppException(message);
+  } else {
+    throw AppException('Network error. Please try again.');
+  }
+}
+
+}
 
 }

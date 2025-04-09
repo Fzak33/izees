@@ -24,10 +24,24 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   late TextEditingController _descriptionEditingController ;
   late TextEditingController _quantityEditingController ;
   late TextEditingController _priceEditingController ;
+late String category;
+  List<String> productCategory = [
+    'Women perfume',
+    'Men perfume',
+    'Uni perfume',
+    'Beauty',
+    'Health and Care',
+    'Hair Care',
+    'Bag',
+    'Watch'
+  ];
+
  @override
   void initState() {
     super.initState();
-      _nameEditingController = TextEditingController(text: widget.product.name );
+     category = widget.product.category;
+
+    _nameEditingController = TextEditingController(text: widget.product.name );
       _descriptionEditingController = TextEditingController(text: widget.product.description);
       _quantityEditingController = TextEditingController(text: widget.product.quantity.toInt().toString());
       _priceEditingController = TextEditingController(text: widget.product.price.toString());
@@ -110,6 +124,19 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
 
                 ),
               ),
+              DropdownButton(
+
+                hint:  Text(localization.categoryChosen),
+                items: productCategory.map((item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(item),
+                )
+                ).toList(),
+                value: category,  onChanged: (String? newVal) {
+                setState(() {
+                  category = newVal!;
+                });
+              },),
 
 
               Padding(
@@ -123,6 +150,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                   ){
 
                     BlocProvider.of<AdminProductServiceCubit>(context).updateProduct(
+                      category: category,
                         productId: widget.product.id ?? '',
                         description: _descriptionEditingController.text,
                         name: _nameEditingController.text,

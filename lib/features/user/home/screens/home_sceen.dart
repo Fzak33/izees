@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _page = 0;
+  
   List<Widget> pages =[
     const IzeesScreen(),
     const ProductSearchPage(),

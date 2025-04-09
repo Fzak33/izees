@@ -64,7 +64,7 @@ String? errorMessage;
                     keyboardType: TextInputType.phone,
                     maxLength: 10,  // Limit the phone number length to 10 digits
                     decoration: InputDecoration(
-                      hintText: localization.phoneNumber,
+                      hintText: "${localization.phoneNumber} ${localization.optional}",
                      // labelText: 'Phone Number',
                       errorText: errorMessage,
                       border: const OutlineInputBorder(
@@ -136,7 +136,7 @@ String? errorMessage;
 
 
                 },
-                  child: Text(localization.signIn),
+                  child: Text(localization.signUp),
             
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green

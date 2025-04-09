@@ -7,6 +7,7 @@ import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../cart/services/cart_cubit/cart_cubit.dart';
+import '../../cart/widgets/product_bottom_sheet.dart';
 import '../widgets/carousel_product_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -54,26 +55,21 @@ crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             ProductCarousel(imageUrls: widget.product.images,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomButton(text: localization.addToCart, onTap: ()async{
+              Builder(
+                   builder: (context) => Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: ElevatedButton(
+                          onPressed: () => showProductBottomSheet(context, widget.product),
+                                       child:  Text(localization.addToCart, style: TextStyle(color: Colors.black),),
+                       style: ElevatedButton.styleFrom(
 
+                         minimumSize: const Size(double.infinity, 50),
+                         backgroundColor: ColorManager.primaryColor,
 
-
-                  if(_user != '' ){
-                    context.read<CartCubit>().addToCart(product: widget.product,id: widget.product.id ??'', context: context, );
-
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(localization.firstLogIn)));
-                  }else{
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(localization.firstLogIn)));
-                  }
-
-
-                }, color: ColorManager.primaryColor,),
-              ),
+                       ),
+                                       ),
+                   ),
+                  ),
               const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -156,3 +152,19 @@ crossAxisAlignment: CrossAxisAlignment.start,
     );
   }
 }
+
+
+
+
+
+void showProductBottomSheet(BuildContext context, Product product) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => ProductBottomSheet(product: product),
+  );
+}
+

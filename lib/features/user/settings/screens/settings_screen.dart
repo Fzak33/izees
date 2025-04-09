@@ -11,6 +11,7 @@ import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../resources/language_cubit/locale_cubit.dart';
+import '../../../admin/detailed_charts/screens/tab_bar_detailed_charts.dart';
 
 class SettingsScreen extends StatefulWidget {
     SettingsScreen({super.key});
@@ -121,6 +122,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           )
               : Container(),
+          _role == "admin"
+              ? ListTile(
+            title: Text('Profits'),
+            leading: const Icon(Icons.bar_chart),
+            onTap: () async {
+              // Navigate to the BecomeASellerScreen
+              final result = await Navigator.pushNamed(context, TabBarDetailedCharts.routeName);
+
+              // If the user successfully becomes a seller, update the role
+              if (result == true) {
+                setState(() {
+                  _role = "user";
+                });
+              }
+            },
+          )
+              : Container()
 
         ],
       ),

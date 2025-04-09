@@ -15,13 +15,18 @@ import 'package:izees/models/order.dart';
 import 'package:izees/models/product_model.dart';
 
 import 'common/widgets/add_phone_number_screen.dart';
+import 'features/admin/add_product/screens/start_sell_screen.dart';
+import 'features/admin/admin_orders/screens/admin_order_screen.dart';
+import 'features/admin/detailed_charts/screens/tab_bar_detailed_charts.dart';
 import 'features/auth/screens/signin_screen.dart';
+import 'features/it_support/screens/it_support_screen.dart';
 import 'features/user/cart/screens/add_address_screen.dart';
 import 'features/user/cart/widgets/price_details_widget.dart';
 import 'features/user/izees/screens/category_product_screen.dart';
 import 'features/user/settings/screens/become_a_seller_screen.dart';
 import 'features/user/settings/screens/delete_account_screen.dart';
 import 'features/user/settings/screens/settings_screen.dart';
+import 'features/user/store_products/screens/store_products_screen.dart';
 
 
 Route<dynamic> generateRoute(RouteSettings routeSettings){
@@ -88,10 +93,40 @@ Route<dynamic> generateRoute(RouteSettings routeSettings){
 
           builder: (_) =>  DeleteAccountScreen()
       );
+    case  TabBarDetailedCharts.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  TabBarDetailedCharts()
+      );
+    case  AdminOrderScreen.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  AdminOrderScreen()
+      );
+    case  StoreProductScreen.routeName:
+      final args = routeSettings.arguments as Map<String, dynamic>;
+
+      final storeName = args['storeName'] as String;
+      final storeImage = args['storeImage'] as String?;
+
+      return MaterialPageRoute(
+
+          builder: (_) =>  StoreProductScreen(storeName: storeName,storeImage:storeImage ,)
+      );
     case  AddPhoneNumberScreen.routeName:
       return MaterialPageRoute(
 
           builder: (_) =>  AddPhoneNumberScreen()
+      );
+    case  StartSellScreen.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  StartSellScreen()
+      );
+    case  ItSupportScreen.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  ItSupportScreen()
       );
     case  AddAddressScreen.routeName:
       return MaterialPageRoute(

@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: TextButton(onPressed: (){
               Navigator.pushNamed(context, SignInScreen.routeName);
 
-            },child:  Text(localization.signIn),),
+            },child:  Text(localization.signUp),),
           ),
         ],
       ),

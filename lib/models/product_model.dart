@@ -10,6 +10,7 @@ class Product {
   final String category;
   final num price;
   String? storeName;
+    String? storeImage;
   final String? id;
   final String? userId;
   final String? location;
@@ -22,6 +23,7 @@ class Product {
     required this.price,
     required this.location,
     required this.storeName,
+     this.storeImage,
     this.id,
     this.userId
   });
@@ -31,6 +33,7 @@ class Product {
       "name": name,
       "description": description,
       "images": images.map((x) => x).toList(),
+      "storeImage": storeImage,
       "quantity": quantity,
       "price": price,
       "category": category,
@@ -42,7 +45,10 @@ class Product {
   }
 
   factory Product.fromJson(Map<String, dynamic> map) {
+   // final imageUrl = map['storeImage'];
+
     return Product(
+      storeImage: map['storeImage'] ?? '',
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       quantity: map['quantity']?.toDouble() ?? 0.0,
@@ -65,10 +71,12 @@ class Product {
     List<File>? images,
     num? quantity,
     num? price,
+    String? storeImage,
     String? category,
     String? userId,
     String? storeName,
-    String? location
+    String? location,
+
   }) {
     return Product(
       id: id ?? this.id,
@@ -81,6 +89,7 @@ class Product {
       userId: userId ?? this.userId,
       storeName: storeName ?? this.storeName,
       location: location ?? this.location,
+     storeImage: storeImage ?? this.storeImage
     );
   }
 

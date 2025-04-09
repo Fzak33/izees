@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/admin/bottom_bar_nav/screens/bottom_bar_nav_screen.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/auth/services/auth_service.dart';
+import 'package:izees/features/it_support/screens/it_support_screen.dart';
 import 'package:izees/features/user/home/screens/home_sceen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -72,7 +73,9 @@ class _SplashScreenState extends State<SplashScreen> {
         case 'admin':
 
           return  const BottomBarNavScreen();
+        case 'it-support':
 
+          return   const ItSupportScreen();
         case 'driver':
 
           return   const DriverOrderListScreen();

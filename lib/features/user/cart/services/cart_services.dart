@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:izees/features/user/home/screens/home_sceen.dart';
+import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
 import 'package:izees/models/cart_model.dart';
 import 'package:izees/models/product_model.dart';
@@ -15,17 +16,21 @@ class CartServices{
 
   final Dio _dio = Dio();
 
-  Future<Response> addToCart({required Product product,required String id, required BuildContext context})async {
+  Future<Response> addToCart({required Product product,required String id, required BuildContext context, required int quantity})async {
     final auth = BlocProvider.of<AuthCubit>(context);
-
+    String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
     try {
-      var data = {'_id': id};
+      var data = {
+        '_id': id,
+        'quantity':quantity
+
+      };
   Response res = await _dio.post('${StringsRes.uri}/add-to-cart',
           data: data ,
           options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': auth.authModel.token
+                'x-auth-token': token
               }
           )
    );
@@ -48,6 +53,7 @@ return res;
 
   Future<int> incrementOrDecrementQuantity({required String productId, required int quantity, required String id, required BuildContext context})async {
     final auth = BlocProvider.of<AuthCubit>(context);
+    String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
 
     try {
 var data = {
@@ -59,7 +65,7 @@ data: data,
           options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': auth.authModel.token
+                'x-auth-token': token
               }
           )
       );
@@ -83,6 +89,7 @@ data: data,
 
   Future<void> deleteProductFromCart({required String productId, required BuildContext context})async {
     final auth = BlocProvider.of<AuthCubit>(context);
+    String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
 
     try {
 
@@ -91,7 +98,7 @@ data: data,
           options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': auth.authModel.token
+                'x-auth-token': token
               }
           )
       );
@@ -118,12 +125,13 @@ data: data,
       var auth = BlocProvider
           .of<AuthCubit>(context)
       ;
+      String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
 
       Response res = await _dio.get('${StringsRes.uri}/get-cart',
           options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': auth.authModel.token
+                'x-auth-token': token
               }
 
           )
@@ -155,6 +163,7 @@ data: data,
 
     try {
       var auth = BlocProvider.of<AuthCubit>(context);
+      String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
 
         
       Map<String,dynamic> data = {
@@ -167,7 +176,7 @@ data: data,
           options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': auth.authModel.token
+                'x-auth-token': token
               }
 
           ));
@@ -200,6 +209,8 @@ return res;
 
   Future<void> addAddress({required String address,required String city, required BuildContext context})async {
     final auth = BlocProvider.of<AuthCubit>(context);
+    String token = auth.authModel.token?.toString() ?? auth.adminModel.token?.toString() ?? '';
+    String role = auth.authModel.role?.toString() ?? auth.adminModel.role?.toString() ?? '';
 
     try {
       AuthModel authModel = AuthModel(address: address, city: city);
@@ -208,13 +219,19 @@ return res;
           options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': auth.authModel.token
+                'x-auth-token': token
               }
           )
       );
+if(role == 'admin'){
+  AdminModel  admin =  auth.adminModel.copyWith(address: address);
+  auth.setAdmin(admin);
+}
+else{
+  AuthModel  user =  auth.authModel.copyWith(address: address);
+  auth.setUser(user);
+}
 
-      AuthModel user =  auth.authModel.copyWith(address: address);
-      auth.setUser(user);
 
     }
     on DioException catch (e) {

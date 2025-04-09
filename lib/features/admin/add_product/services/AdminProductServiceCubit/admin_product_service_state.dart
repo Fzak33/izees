@@ -6,14 +6,15 @@ sealed class AdminProductServiceState {}
 final class AdminProductServiceInitial extends AdminProductServiceState {}
 final class AdminProductServiceSuccess extends AdminProductServiceState {
   List<Product> product;
-  AdminProductServiceSuccess({required this.product});
+
+  AdminProductServiceSuccess( this.product, );
 }
 final class AdminProductServiceFailed extends AdminProductServiceState {
   String err;
 
   AdminProductServiceFailed(this.err);
 }
-final class AdminProductServiceLoding extends AdminProductServiceState {}
+final class AdminProductServiceLoading extends AdminProductServiceState {}
 final class AdminProductServiceEmpty extends AdminProductServiceState {
   String empty;
 

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:izees/features/admin/admin_orders/screens/admin_order_screen.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../../user/cart/screens/cart_screen.dart';
+import '../../../user/izees/screens/izees_screen.dart';
+import '../../../user/search/screens/search_screen.dart';
 import '../../../user/settings/screens/settings_screen.dart';
 import '../../add_product/screens/show_product_screen.dart';
 import '../../category_charts/screens/tab_bar_category_charts.dart';
@@ -19,11 +22,11 @@ class BottomBarNavScreen extends StatefulWidget {
 class _BottomBarNavScreenState extends State<BottomBarNavScreen> {
   int _page = 0;
   List<Widget> pages =[
+    const IzeesScreen(),
+    const ProductSearchPage(),
+    CartScreen(),
     const ShowProductScreen(),
-    const AdminOrderScreen(),
-    const TabBarCategoryCharts(),
-   const TabBarDetailedCharts(),
-     SettingsScreen()
+
   ];
 
   void updatePage(int page){
@@ -45,12 +48,10 @@ class _BottomBarNavScreenState extends State<BottomBarNavScreen> {
         iconSize: 28,
         onTap: updatePage,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.add_box_outlined), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book_outlined,),label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.add_chart_outlined), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.person_outline_outlined), label: '')
-
         ],),
     );
   }

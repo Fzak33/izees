@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../../../common/services/common_services.dart';
 import '../services/daily_product_profit/daily_product_profit_cubit.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,11 +27,14 @@ class DailyDetailedCharts extends StatelessWidget {
             }
             else if(state is DailyProductProfitSuccess){
               final productProfit = state.productProfit;
+              num total = CommonServices.totalProfit(productProfit);
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
+                  Padding(padding: EdgeInsets.all(10),
+                    child: Text('your total profit is $total', style: TextStyle(fontSize: 20),),
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height ,
                     child: GridView.builder(

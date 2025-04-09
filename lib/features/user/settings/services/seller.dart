@@ -15,26 +15,18 @@ class SellerServices{
   Dio dio = Dio();
 
 
-  Future<void> seller({required String storeName,required String address,required String cityStore ,required BuildContext context})async {
+  Future<void> seller({required String phoneNumber,required String storeName,required String address,required String cityStore ,required BuildContext context})async {
 
 try {
   var auth = BlocProvider
       .of<AuthCubit>(context)
       ;
-  Branch branch = Branch(address: address, cityStore: cityStore);
-  AdminModel adminModel =  AdminModel(
-      id: auth.authModel.id,
-    name: auth.authModel.name,
-    email: auth.authModel.email,
-    password: auth.authModel.password,
-    token: auth.authModel.token,
-    storeName: storeName,
-    branches: [branch], cart: []
-  );
+
   var data = {
     'storeName': storeName,
     'address': address,
-    'cityStore':cityStore
+    'cityStore':cityStore,
+    'phoneNumber':phoneNumber
   };
  Response res = await dio.put('${StringsRes.uri}/seller',
       data: data,
@@ -46,11 +38,9 @@ try {
 
       ));
  if(res.statusCode == 200){
-   Navigator.pushReplacementNamed(context, BottomBarNavScreen.routeName);
-   final SharedPreferences prefs = await SharedPreferences.getInstance();
-   prefs.setString('role', res.data['role']);
-   auth.setAdmin(adminModel);
-   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('success and your role is ${auth.adminModel.role}')));
+   Navigator.pop(context);
+
+   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('wait until approval')));
  }
  else{
    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('failed')));

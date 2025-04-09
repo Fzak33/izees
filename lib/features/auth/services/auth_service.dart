@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/driver/screens/driver_order_list/driver_order_list_screen.dart';
+import 'package:izees/features/it_support/screens/it_support_screen.dart';
 import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
 import 'package:izees/resources/strings_res.dart';
@@ -82,6 +83,10 @@ try {
 
       Navigator.pushReplacementNamed(context, BottomBarNavScreen.routeName);
       break;
+    case 'it-support':
+      auth.setUser(AuthModel.fromJson(res.data));
+
+      Navigator.pushReplacementNamed(context, ItSupportScreen.routeName);
     case 'driver':
       auth.setUser(AuthModel.fromJson(res.data));
 

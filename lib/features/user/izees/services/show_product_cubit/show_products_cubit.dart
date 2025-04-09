@@ -22,7 +22,6 @@ class ShowProductsCubit extends Cubit<ProductState> {
    if (state is ProductLoading || !_hasMore) return;
     //
      emit(ProductLoading(_products)); // Keep existing products while loading
-    print("Fetching products... Excluded IDs: $_excludedIds"); // 🔍 Debug log
 
     try {
       List<Product> newProducts = await _showProductServices.fetchProducts(_excludedIds);

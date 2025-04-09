@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/resources/strings_res.dart';
 
+import '../../features/admin/models/sales.dart';
 import '../../features/auth/auth_cubit/auth_cubit.dart';
 import '../../features/user/cart/widgets/price_details_widget.dart';
 import '../app_exception.dart';
@@ -46,5 +47,13 @@ class CommonServices {
 }
 }
 
+
+ static num  totalProfit (List<ProductProfit> productProfit){
+    num total = 0;
+    for(var i in productProfit){
+      total = total + i.totalPrice!;
+    }
+    return total;
+  }
 
 }
