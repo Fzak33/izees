@@ -21,33 +21,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final AuthService _authService =AuthService();
-   String? user;
-   String? role ;
+  final AuthService _authService = AuthService();
+  String? user;
+  String? role;
   bool isLoading = true;
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     checkLoginStatus();
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();  // Call checkLoginStatus when the widget is initialized
+    checkLoginStatus(); // Call checkLoginStatus when the widget is initialized
   }
 
-
- void checkLoginStatus()async{
-
+  Future<void> checkLoginStatus() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-   // await prefs.clear();
-    role =   prefs.getString('role')?? '';
-    user =   prefs.getString('x-auth-token')?? '';
+    role = prefs.getString('role') ?? '';
+    user = prefs.getString('x-auth-token') ?? '';
 
     debugPrint(' and your role is $role ');
     debugPrint(' and your token is $user ');
@@ -56,62 +44,71 @@ class _SplashScreenState extends State<SplashScreen> {
       final auth = BlocProvider.of<AuthCubit>(context);
       await _authService.getuser(auth);
     }
-    setState(() {
-      isLoading = false;  // Set loading to false once the check is complete
-    });
-    //return user;
 
+    setState(() {
+      isLoading = false; // Set loading to false once the check is complete
+    });
   }
 
-
-  Widget goToWidget(){
-    if( user == ''){
-      return  const HomeScreen();
-    }else{
-      switch(role){
+  void initializeSocketConnection() {
+    if (user != null && user!.isNotEmpty) {
+      switch (role) {
         case 'user':
           SocketUserClient.instance.connect(user!);
-
-          return const HomeScreen();
-
+          break;
         case 'admin':
-          SocketAdminClient.instance.connect(user!);  // This accesses the singleton instance and calls connect.
-          return  const BottomBarNavScreen();
+          SocketAdminClient.instance.connect(user!); // This accesses the singleton instance and calls connect.
+          break;
         case 'it-support':
-
-          return   const ItSupportScreen();
+          break; // No socket needed for IT support
         case 'driver':
           SocketDriverClient.instance.connect();
-          return   const DriverOrderListScreen();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  Widget goToWidget() {
+    // Initialize the socket connection based on the role
+    initializeSocketConnection();
+
+    if (user == '') {
+      return const HomeScreen();
+    } else {
+      switch (role) {
+        case 'user':
+          return const HomeScreen();
+        case 'admin':
+          return const BottomBarNavScreen();
+        case 'it-support':
+          return const ItSupportScreen();
+        case 'driver':
+          return const DriverOrderListScreen();
         default:
           return const LoginScreen();
       }
-
     }
   }
+
   @override
   Widget build(BuildContext context) {
     // While data is loading, show a progress indicator
     if (isLoading) {
       return Scaffold(
         body: Center(
-        child: Container(
-        
-          //color: Colors.green,
-          height: MediaQuery.of(context).size.height * 0.4,
-          width: MediaQuery.of(context).size.width * 0.4,
-          decoration:    BoxDecoration(
-
-            // shape: BoxShape.circle,
-          //  border: Border.all(color: Colors.blueGrey),
-            borderRadius: BorderRadius.circular(15),
-            image:  const DecorationImage(image: AssetImage("assets/images/izeesjo.jpg") ,
-          //    fit: BoxFit.contain,
-            )  ,
-          ),
-        
-        ),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              image: const DecorationImage(
+                image: AssetImage("assets/images/izeesjo.jpg"),
+              ),
             ),
+          ),
+        ),
       );
     } else {
       return goToWidget();

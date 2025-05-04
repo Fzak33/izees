@@ -162,7 +162,7 @@ on DioException catch (e) {
     try{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('x-auth-token');
-    if (token != null || token != '') {
+    if (token != null && token != '') {
       Response userRes = await dio.get('${StringsRes.uri}/get-user-data',
         options: Options(
           headers: {
@@ -197,7 +197,7 @@ on DioException catch (e) {
         final message = e.response?.data['message'] ?? 'Something went wrong';
         throw AppException(message);
       } else {
-        throw AppException('Network error. Please try again.');
+        throw AppException('the socket error is  ${e.toString()}' );
       }
     }
   }
