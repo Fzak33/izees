@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/features/admin/admin_orders/services/admin_order_socket.dart';
 import 'package:izees/features/auth/services/auth_service.dart';
 import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_exception.dart';
+import '../../driver/services/driver_socket.dart';
+import '../../user/cart/services/cart_socket.dart';
 import '../screens/login_screen.dart';
 part 'auth_state.dart';
 
@@ -62,10 +65,13 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-Future  <void> logOut({ required BuildContext context})async {
+  Future  <void> logOut({ required BuildContext context})async {
     try {
       resetApp();
       authService.logOut(context);
+      SocketAdminClient.instance.dispose();
+      SocketUserClient.instance.dispose();
+      SocketDriverClient.instance.dispose();
       clearModels();
     }
     catch (e) {
@@ -81,7 +87,7 @@ Future  <void> logOut({ required BuildContext context})async {
       // Keep the state as CartSuccess
 
     }
-}
+  }
 Future<void> getUser({ required BuildContext context}) async{
    try {
     // await authService.getuser(context);

@@ -11,7 +11,10 @@ import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/app_exception.dart';
+import '../../admin/admin_orders/services/admin_order_socket.dart';
 import '../../admin/bottom_bar_nav/screens/bottom_bar_nav_screen.dart';
+import '../../driver/services/driver_socket.dart';
+import '../../user/cart/services/cart_socket.dart';
 import '../../user/home/screens/home_sceen.dart';
 
 class AuthService{
@@ -53,60 +56,63 @@ on DioException catch (e) {
 }
 
   Future<void> login({ required String email, required String password, required BuildContext context})async {
-try {
-  AuthModel authModel = AuthModel(
-      email: email,
-      password: password
-  );
+    try {
+      AuthModel authModel = AuthModel(
+          email: email,
+          password: password
+      );
 
-  Response res = await dio.post('${StringsRes.uri}/user/login',
-      data: authModel.toJson(),
-      options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          }
+      Response res = await dio.post('${StringsRes.uri}/user/login',
+          data: authModel.toJson(),
+          options: Options(
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+              }
 
-      ));
-  var auth = BlocProvider.of<AuthCubit>(context);
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString('x-auth-token', res.data['token']);
-  prefs.setString('role', res.data['role']);
+          ));
+      var auth = BlocProvider.of<AuthCubit>(context);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('x-auth-token', res.data['token']);
+      prefs.setString('role', res.data['role']);
 
-  switch(res.data['role']){
-    case 'user':
-       auth.setUser(AuthModel.fromJson(res.data));
+      switch(res.data['role']){
+        case 'user':
+          auth.setUser(AuthModel.fromJson(res.data));
+          SocketUserClient.instance.connect(auth.authModel.token!);
 
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      break;
-    case 'admin':
-        auth.setAdmin(AdminModel.fromJson(res.data));
 
-      Navigator.pushReplacementNamed(context, BottomBarNavScreen.routeName);
-      break;
-    case 'it-support':
-      auth.setUser(AuthModel.fromJson(res.data));
+          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          break;
+        case 'admin':
+          auth.setAdmin(AdminModel.fromJson(res.data));
+          SocketAdminClient.instance.connect(auth.adminModel.token!);  // This accesses the singleton instance and calls connect.
 
-      Navigator.pushReplacementNamed(context, ItSupportScreen.routeName);
-    case 'driver':
-      auth.setUser(AuthModel.fromJson(res.data));
+          Navigator.pushReplacementNamed(context, BottomBarNavScreen.routeName);
+          break;
+        case 'it-support':
+          auth.setUser(AuthModel.fromJson(res.data));
 
-      Navigator.pushReplacementNamed(context, DriverOrderListScreen.routeName);
-      break;
+          Navigator.pushReplacementNamed(context, ItSupportScreen.routeName);
+        case 'driver':
+          auth.setUser(AuthModel.fromJson(res.data));
+          SocketDriverClient.instance.connect();
+          Navigator.pushReplacementNamed(context, DriverOrderListScreen.routeName);
+          break;
+      }
+
+
+
+
+    }
+    on DioException catch (e) {
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
+      } else {
+        throw AppException('Network error. Please try again.');
+      }
+    }
   }
-
-
-
-
-}
-on DioException catch (e) {
-  if (e.response != null && e.response?.data is Map<String, dynamic>) {
-    final message = e.response?.data['message'] ?? 'Something went wrong';
-    throw AppException(message);
-  } else {
-    throw AppException('Network error. Please try again.');
-  }
-}
-}
 
   void getUserData(
       BuildContext context,

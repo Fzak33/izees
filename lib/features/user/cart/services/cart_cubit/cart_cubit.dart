@@ -8,21 +8,24 @@ import '../../../../../models/product_model.dart';
 import '../cart_services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../cart_socket.dart';
+
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  CartCubit(this._cartServices) : super(CartInitial());
+  CartCubit(this._socketUserClient,this._cartServices) : super(CartInitial());
 
   final CartServices _cartServices;
-List<Cart> _cart=[];
+  final SocketUserClient _socketUserClient;
+  List<Cart> _cart=[];
 
   double totalPrice= 0;
   int driverPrice= 0;
 
   void setToZero(){
-     totalPrice= 0;
-     driverPrice= 0;
-     print("your order price is $totalPrice and your driver is $driverPrice");
+    totalPrice= 0;
+    driverPrice= 0;
+    print("your order price is $totalPrice and your driver is $driverPrice");
 
   }
 
@@ -120,27 +123,27 @@ List<Cart> _cart=[];
 
   Future<void> incrementQuantity({required String id,required BuildContext context,required String productId}) async {
     try {
-    int index = _cart.indexWhere((cart) => cart.id == productId);
-    if(index != -1){
+      int index = _cart.indexWhere((cart) => cart.id == productId);
+      if(index != -1){
 
 
-      final currentQuantity = _cart[index].quantity;
-      final newQuantity = currentQuantity! + 1;
+        final currentQuantity = _cart[index].quantity;
+        final newQuantity = currentQuantity! + 1;
 
-    final res =  await _cartServices.incrementOrDecrementQuantity(
-          productId: productId,
-          quantity: newQuantity,
-          id: id,
-          context: context
-      );
+        final res =  await _cartServices.incrementOrDecrementQuantity(
+            productId: productId,
+            quantity: newQuantity,
+            id: id,
+            context: context
+        );
 
-      if(res == newQuantity){
-        _cart[index] = _cart[index].copyWith(quantity: newQuantity);
-        emit(CartSuccess(cart: List.from(_cart)));
+        if(res == newQuantity){
+          _cart[index] = _cart[index].copyWith(quantity: newQuantity);
+          emit(CartSuccess(cart: List.from(_cart)));
+
+        }
 
       }
-
-    }
 
     }  catch (e) {
       if (e is AppException) {
@@ -163,7 +166,7 @@ List<Cart> _cart=[];
       if(index != -1){
         final currentQuantity = _cart[index].quantity;
         final newQuantity = currentQuantity! - 1;
-     final  res= await _cartServices.incrementOrDecrementQuantity(
+        final  res= await _cartServices.incrementOrDecrementQuantity(
             productId: productId,
             quantity: newQuantity,
             id: id,
@@ -195,7 +198,7 @@ List<Cart> _cart=[];
   Future<void> deleteProductFromCart({required String productId,required BuildContext context}) async {
     try {
       await _cartServices.deleteProductFromCart(productId: productId, context: context);
-     _cart.removeWhere((cart) => cart.id == productId);
+      _cart.removeWhere((cart) => cart.id == productId);
       emit(CartSuccess(cart: List.from(_cart)));
     } catch (e) {
       if (e is AppException) {
@@ -213,33 +216,64 @@ List<Cart> _cart=[];
   }
 
 
-  Future<void> order({required double sum, required BuildContext context})async{
-   try {
-     final localization = AppLocalizations.of(context)!;
+  // Future<void> order({required double sum, required BuildContext context})async{
+  //  try {
+  //    final localization = AppLocalizations.of(context)!;
+  //
+  //
+  //   final res = await _cartServices.order(sum: sum, context: context);
+  //   if(res.statusCode == 200){
+  //     _cart = [];
+  //     emit(CartSuccess(cart: List.from(_cart)));
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text(localization.successOrder),));
+  //   }
+  //
+  //  }
+  //  catch (e) {
+  //    if (e is AppException) {
+  //      ScaffoldMessenger.of(context).showSnackBar(
+  //        SnackBar(content: Text(e.message)),
+  //      );
+  //    } else {
+  //      ScaffoldMessenger.of(context).showSnackBar(
+  //        const SnackBar(content: Text('An unexpected error occurred')),
+  //      );
+  //    }
+  //    // Keep the state as CartSuccess
+  //    emit(CartSuccess(cart: List.from(_cart)));
+  //  }
+  // }
 
 
-    final res = await _cartServices.order(sum: sum, context: context);
-    if(res.statusCode == 200){
-      _cart = [];
-      emit(CartSuccess(cart: List.from(_cart)));
+  Future<void> order({required double sum, required BuildContext context}) async {
+    try {
+      final localization = AppLocalizations.of(context)!;
+
+      _socketUserClient.placeOrder(
+        totalPrice: sum,
+        context: context,
+        onSuccess: (orderId) {
+          _cart = [];
+          emit(CartSuccess(cart: List.from(_cart)));
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(localization.successOrder)),
+          );
+        },
+        onError: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error)),
+          );
+          emit(CartSuccess(cart: List.from(_cart)));
+        },
+      );
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(localization.successOrder),));
+        const SnackBar(content: Text('An unexpected error occurred')),
+      );
+      emit(CartSuccess(cart: List.from(_cart)));
     }
-
-   }
-   catch (e) {
-     if (e is AppException) {
-       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text(e.message)),
-       );
-     } else {
-       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text('An unexpected error occurred')),
-       );
-     }
-     // Keep the state as CartSuccess
-     emit(CartSuccess(cart: List.from(_cart)));
-   }
   }
 
   void clearCart() {
@@ -248,23 +282,23 @@ List<Cart> _cart=[];
   }
 
   Future<void> addAddress({required String address,required String city, required BuildContext context, })async{
-   try {
-     await _cartServices.addAddress(
-         city: city, address: address, context: context);
-   }
-   catch (e) {
-     if (e is AppException) {
-       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text(e.message)),
-       );
-     } else {
-       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(content: Text('An unexpected error occurred')),
-       );
-     }
-     // Keep the state as CartSuccess
+    try {
+      await _cartServices.addAddress(
+          city: city, address: address, context: context);
+    }
+    catch (e) {
+      if (e is AppException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message)),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An unexpected error occurred')),
+        );
+      }
+      // Keep the state as CartSuccess
 
-   }
+    }
   }
 
 }

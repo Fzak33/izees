@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/common/services/common_cubit/common_cubit.dart';
 import 'package:izees/common/services/common_services.dart';
+import 'package:izees/features/admin/admin_orders/services/admin_order_socket.dart';
 import 'package:izees/features/it_support/services/it_support_cubit/it_support_cubit.dart';
 import 'package:izees/features/it_support/services/it_support_services.dart';
 import 'package:izees/features/splash/screens/splash_screen.dart';
+import 'package:izees/features/user/cart/services/cart_socket.dart';
 import 'package:izees/features/user/settings/services/seller.dart';
 import 'package:izees/features/user/store_products/services/store_products_cubit/store_products_cubit.dart';
 import 'package:izees/features/user/store_products/services/store_products_services.dart';
@@ -99,7 +101,7 @@ class _MyAppState extends State<MyApp> {
           //   create: (context) => CartServicesCubit()..getCart(context: context),
           // ),
           BlocProvider(
-            create: (context) => AdminOrderCubit(AdminOrderServices())..scheduleHourlyFetchOrder(context: context),
+            create: (context) => AdminOrderCubit(SocketAdminClient.instance,AdminOrderServices())..getAdminOrder(context),
           ),
           BlocProvider(
             create: (context) => SearchCubit(searchServices: SearchServices()),
@@ -138,7 +140,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => StoreProductsCubit(StoreProductsServices()),
           ),
           BlocProvider(
-            create: (context) => CartCubit(CartServices())..getCart(context: context),
+            create: (context) => CartCubit(SocketUserClient.instance,CartServices())..getCart(context: context),
           ),
           BlocProvider(
 
