@@ -151,20 +151,21 @@ crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
+  void showProductBottomSheet(BuildContext context, Product product) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => ProductBottomSheet(product: product, user:_user! ),
+    );
+  }
+
 }
 
 
 
 
 
-void showProductBottomSheet(BuildContext context, Product product) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    ),
-    builder: (context) => ProductBottomSheet(product: product),
-  );
-}
 

@@ -9,8 +9,8 @@ import '../services/cart_cubit/cart_cubit.dart';
 
 class ProductBottomSheet extends StatefulWidget {
   final Product product;
-
-  const ProductBottomSheet({Key? key, required this.product}) : super(key: key);
+final String user;
+  const ProductBottomSheet({Key? key, required this.product, required this.user}) : super(key: key);
 
   @override
   State<ProductBottomSheet> createState() => _ProductBottomSheetState();
@@ -105,16 +105,24 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(onPressed: () async {
-            await context.read<CartCubit>().addToCart(
-              product: widget.product,
-              id: widget.product.id ?? '',
-              quantity: quantity,
-              context: context, // you're using this inside the Cubit
-            );
+              if(widget.user != ''){
+                await context.read<CartCubit>().addToCart(
+                  product: widget.product,
+                  id: widget.product.id ?? '',
+                  quantity: quantity,
+                  context: context, // you're using this inside the Cubit
+                );
 
-            if (context.mounted) {
-              Navigator.pop(context); // only after we're done using context
-            }
+              }
+          else{
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please login first')),
+                );
+              }
+
+              if (context.mounted) {
+                Navigator.pop(context); // only after we're done using context
+              }
           },
 
     child: Text("${localization.addToCart} $totalPrice ${localization.jod}",
