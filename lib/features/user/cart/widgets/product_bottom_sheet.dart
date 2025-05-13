@@ -105,7 +105,6 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(onPressed: () async {
-              if(widget.user != ''){
                 await context.read<CartCubit>().addToCart(
                   product: widget.product,
                   id: widget.product.id ?? '',
@@ -113,12 +112,6 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
                   context: context, // you're using this inside the Cubit
                 );
 
-              }
-          else{
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please login first')),
-                );
-              }
 
               if (context.mounted) {
                 Navigator.pop(context); // only after we're done using context

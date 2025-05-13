@@ -257,12 +257,11 @@ class CartServices {
       return res;
     }
     on DioException catch (e) {
-      if (e.response != null) {
-        // Server responded with an error
-        throw Exception(e.response?.data['message'] ?? 'Something went wrong');
+      if (e.response != null && e.response?.data is Map<String, dynamic>) {
+        final message = e.response?.data['message'] ?? 'Something went wrong';
+        throw AppException(message);
       } else {
-        // Network error or other unexpected error
-        throw Exception('Network error. Please try again.');
+        throw AppException('Network error. Please try again.');
       }
     }
   }
