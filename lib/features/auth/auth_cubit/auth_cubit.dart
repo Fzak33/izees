@@ -10,6 +10,8 @@ import 'package:izees/models/auth_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_exception.dart';
+import '../../driver/services/driver_socket.dart';
+import '../../user/cart/services/cart_socket.dart';
 import '../screens/login_screen.dart';
 part 'auth_state.dart';
 
@@ -65,7 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-Future  <void> logOut({ required BuildContext context})async {
+  Future  <void> logOut({ required BuildContext context})async {
     try {
       resetApp();
       authService.logOut(context);
@@ -87,7 +89,7 @@ Future  <void> logOut({ required BuildContext context})async {
       // Keep the state as CartSuccess
 
     }
-}
+  }
 Future<void> getUser({ required BuildContext context}) async{
    try {
     // await authService.getuser(context);
