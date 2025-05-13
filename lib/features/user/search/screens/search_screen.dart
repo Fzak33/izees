@@ -139,7 +139,7 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
           width:  75,
           decoration:    BoxDecoration(
             shape: BoxShape.rectangle,
-            image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${product.images[0].path}") ,)  ,
+            image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${product.images[0]}") ,)  ,
           ),
         )
       ),

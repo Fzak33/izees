@@ -126,7 +126,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
                       width:  100,
                       decoration:    BoxDecoration(
                         shape: BoxShape.rectangle,
-                        image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.images[0].path}")  ,)  ,
+                        image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.images[0]}")  ,)  ,
                       ),
                     ),
                     const SizedBox(height: 2,),

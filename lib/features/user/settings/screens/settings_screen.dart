@@ -43,6 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
+    final auth = BlocProvider.of<AuthCubit>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,14 +75,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Divider(),
           ListTile(
             onTap: () {
-              if (_user == '') {
+              String email = auth.adminModel.email ?? auth.authModel.email ?? '';
+              if (email == '') {
                 // Navigate to the LoginScreen
                 Navigator.pushNamed(context, LoginScreen.routeName);
               } else {
                 // Log out the user and then update the state
                 context.read<AuthCubit>().logOut(context: context).then((_) {
                   setState(() {
-                    _user = ''; // Reset the _user variable after logout
+                    _user = '';
+                    email = '';// Reset the _user variable after logout
                   });
 
                   // Optionally, check the auth token for debugging

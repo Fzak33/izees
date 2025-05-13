@@ -66,7 +66,7 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
 
               image: DecorationImage(
                 image: NetworkImage(
-                    "${StringsRes.uri}/${widget.product.images[0].path}"),
+                    "${StringsRes.uri}/${widget.product.images[0]}"),
                 fit: BoxFit.fitHeight,
               ),
             ),

@@ -6,7 +6,7 @@ class Product {
   final String name;
   final String description;
   final num quantity;
-  final List<File> images;
+  final List<String> images;
   final String category;
   final num price;
   String? storeName;
@@ -52,8 +52,10 @@ class Product {
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       quantity: map['quantity']?.toDouble() ?? 0.0,
-     images: map['images'].map<File>((path) => File(path)).toList(),
- //     images: map["images"] == null ? [] : List<File>.from(map["images"]!.map((x) => x)),
+        images: map["images"] == null ? [] : List<String>.from(map["images"]!.map((x) => x)),
+
+        //images: map['images'].map<File>((path) => File(path)).toList(),
+ //   images: map["images"] == null ? [] : List<File>.from(map["images"]!.map((x) => x)),
       category: map['category'] ?? '',
       price: map['price']?.toDouble() ?? 0.0,
         storeName:map['storeName'],
@@ -68,7 +70,7 @@ class Product {
     String? id,
     String? name,
     String? description,
-    List<File>? images,
+    List<String>? images,
     num? quantity,
     num? price,
     String? storeImage,

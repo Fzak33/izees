@@ -46,7 +46,7 @@ class AdminOrderScreen extends StatelessWidget {
                         width:  100,
                         decoration:    BoxDecoration(
                           shape: BoxShape.rectangle,
-                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prof.product?.images[0].path}") ,)  ,
+                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prof.product?.images[0]}") ,)  ,
                         ),
                       )
                   ),

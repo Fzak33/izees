@@ -15,9 +15,7 @@ final auth = BlocProvider.of<AuthCubit>(context);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(top: 50.0),
-        child: auth.authModel.id == null?const Center(
-         child:  Text('Cart is Empty !')
-        ):
+        child:
         SingleChildScrollView(
           child: Column(
             children: [

@@ -21,6 +21,7 @@ import 'features/admin/detailed_charts/screens/tab_bar_detailed_charts.dart';
 import 'features/auth/screens/signin_screen.dart';
 import 'features/it_support/screens/it_support_screen.dart';
 import 'features/user/cart/screens/add_address_screen.dart';
+import 'features/user/cart/screens/add_temp_user.dart';
 import 'features/user/cart/widgets/price_details_widget.dart';
 import 'features/user/izees/screens/category_product_screen.dart';
 import 'features/user/settings/screens/become_a_seller_screen.dart';
@@ -127,6 +128,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings){
       return MaterialPageRoute(
 
           builder: (_) =>  ItSupportScreen()
+      );
+    case  AddTempUser.routeName:
+      return MaterialPageRoute(
+
+          builder: (_) =>  AddTempUser()
       );
     case  AddAddressScreen.routeName:
       return MaterialPageRoute(

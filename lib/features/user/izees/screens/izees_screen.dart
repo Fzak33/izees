@@ -180,7 +180,7 @@ class ProductCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "${StringsRes.uri}/${prod.images[0].path}"),
+                      "${StringsRes.uri}/${prod.images[0]}"),
 
                   fit: BoxFit.fitHeight,
                 ),

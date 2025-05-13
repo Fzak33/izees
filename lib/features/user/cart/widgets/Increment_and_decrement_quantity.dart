@@ -57,12 +57,14 @@ class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQua
                 children: [
                   InkWell(onTap: () {
                     widget.prod.quantity == 1 ?
-                    context.read<CartCubit>().deleteProductFromCart(productId: widget.prod.id ?? '', context: context)
+                    context.read<CartCubit>().deleteProductFromCart(
+
+                        cartId: widget.prod.id ?? '',productId: widget.prod.product?.id ?? '', context: context)
                         :
                     context.read<CartCubit>().decrementQuantity(
                         id: widget.prod.product?.id ?? '',
                         context: context,
-                        productId: widget.prod.id ?? ''
+                        cartId: widget.prod.id ?? ''
                     );
 
                   }, child:
@@ -76,7 +78,7 @@ class _IncrementAndDecrementQuantityState extends State<IncrementAndDecrementQua
                     context.read<CartCubit>().incrementQuantity(
                         id: widget.prod.product?.id ?? '',
                         context: context,
-                        productId: widget.prod.id ?? ''
+                        cartId: widget.prod.id ?? ''
                     );
                   }, child: const Icon(Icons.add, size: 15,),),
                 ],

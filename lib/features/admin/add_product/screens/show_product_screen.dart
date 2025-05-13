@@ -285,7 +285,7 @@ List<Product> products =[];
                 // shape: BoxShape.circle,
                 border: Border.all(color: Colors.blueGrey),
                 borderRadius: BorderRadius.circular(15),
-                image:  DecorationImage(image:NetworkImage('${StringsRes.uri}/${prod.images[0].path}'),
+                image:  DecorationImage(image:NetworkImage('${StringsRes.uri}/${prod.images[0]}'),
                   fit: BoxFit.fitHeight,
                 )  ,
               ),

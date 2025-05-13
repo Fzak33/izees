@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/user/cart/screens/add_address_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:izees/features/user/cart/screens/add_temp_user.dart';
 
 import '../services/cart_cubit/cart_cubit.dart';
+import '../services/cart_socket.dart';
 
 class PriceDetailsWidget extends StatelessWidget {
   static const  routeName= '/price-details-widget';
@@ -40,17 +42,21 @@ class PriceDetailsWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
               width: double.infinity,child: ElevatedButton(
               onPressed: (){
-                if(auth.authModel.address == ''||  auth.authModel.address == null){
-                  Navigator.pushNamed(context, AddAddressScreen.routeName);
-                }else{
 
-                  double sum = totalPrice!;
-                  BlocProvider.of<CartCubit>(context).order
-                    (
-                      sum:sum,
-                      context: context
-                  );
-                  context.read<CartCubit>().setToZero();
+                if(auth.authModel.token != null) {
+                  if (auth.authModel.address == '' ||
+                      auth.authModel.address == null) {
+                    Navigator.pushNamed(context, AddAddressScreen.routeName);
+                  }
+                  else {
+                    double sum = totalPrice!;
+
+                    context.read<CartCubit>().order(sum: sum, context: context);
+
+                    context.read<CartCubit>().setToZero();
+                  }
+                }else{
+                Navigator.pushNamed(context, AddTempUser.routeName);
                 }
               },
             style: ElevatedButton.styleFrom(

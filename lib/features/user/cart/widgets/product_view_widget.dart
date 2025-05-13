@@ -23,6 +23,7 @@ class _ProductViewWidgetState extends State<ProductViewWidget> {
       BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
            if(state is CartSuccess){
+
           }
         },
 
@@ -31,10 +32,10 @@ if(state is CartLoading){
   return const Center(child: CircularProgressIndicator(),);
 }
     else if(state is CartEmpty){
-    return  Center(child: Text(state.empty),);
-    }
-
-
+      return Center(
+        child: Text('${state.empty}'),
+      );
+}
     else if(state is CartSuccess){
     final  product = state.cart;
     double? sum = 0;
@@ -78,7 +79,7 @@ if(state is CartLoading){
                         width:  100,
                         decoration:    BoxDecoration(
                           shape: BoxShape.rectangle,
-                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.product?.images[0].path}") ,)  ,
+                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.product?.images[0]}") ,)  ,
                         ),
                       )
                   ),

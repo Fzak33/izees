@@ -79,7 +79,7 @@ class _DetailedOrderScreenState extends State<DetailedOrderScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               image: DecorationImage(image: NetworkImage(
-                                  "${StringsRes.uri}/${ord.product?.images[0].path}"),),
+                                  "${StringsRes.uri}/${ord.product?.images[0]}"),),
                             ),
                           ),
                         ),

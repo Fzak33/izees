@@ -33,7 +33,7 @@ class Cart {
 
   Map<String, dynamic> toJson() => {
     "quantity": quantity,
-    "product": product,
+    "product": product?.toJson(),
     "_id": id,
   };
 

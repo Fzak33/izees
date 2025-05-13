@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:izees/features/admin/admin_orders/services/admin_order_socket.dart';
 import 'package:izees/features/auth/services/auth_service.dart';
+import 'package:izees/features/driver/services/driver_socket.dart';
+import 'package:izees/features/user/cart/services/cart_socket.dart';
 import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +69,9 @@ Future  <void> logOut({ required BuildContext context})async {
     try {
       resetApp();
       authService.logOut(context);
+      SocketAdminClient.instance.dispose();
+      SocketUserClient.instance.dispose();
+      SocketDriverClient.instance.dispose();
       clearModels();
     }
     catch (e) {

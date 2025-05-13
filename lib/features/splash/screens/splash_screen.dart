@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/admin/bottom_bar_nav/screens/bottom_bar_nav_screen.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/auth/services/auth_service.dart';
+import 'package:izees/features/driver/services/driver_socket.dart';
 import 'package:izees/features/it_support/screens/it_support_screen.dart';
 import 'package:izees/features/user/home/screens/home_sceen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../admin/admin_orders/services/admin_order_socket.dart';
 import '../../auth/screens/login_screen.dart';
 import '../../driver/screens/driver_order_list/driver_order_list_screen.dart';
+import '../../user/cart/services/cart_socket.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -67,17 +70,18 @@ class _SplashScreenState extends State<SplashScreen> {
     }else{
       switch(role){
         case 'user':
+          SocketUserClient.instance.connect(user!);
 
           return const HomeScreen();
 
         case 'admin':
-
+          SocketAdminClient.instance.connect(user!);  // This accesses the singleton instance and calls connect.
           return  const BottomBarNavScreen();
         case 'it-support':
 
           return   const ItSupportScreen();
         case 'driver':
-
+          SocketDriverClient.instance.connect();
           return   const DriverOrderListScreen();
         default:
           return const LoginScreen();

@@ -172,7 +172,7 @@ List<String> productCategory = [
                       name: _nameEditingController.text,
                       description: _descriptionEditingController.text,
                       quantity: int.parse(_quantityEditingController.text),
-                      images: _images,
+                      images: [],
                       storeName: '',
                       location:"",
                       category: category,

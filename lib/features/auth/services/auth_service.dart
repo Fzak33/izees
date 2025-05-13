@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/driver/screens/driver_order_list/driver_order_list_screen.dart';
+import 'package:izees/features/driver/services/driver_socket.dart';
 import 'package:izees/features/it_support/screens/it_support_screen.dart';
 import 'package:izees/models/admin_model.dart';
 import 'package:izees/models/auth_model.dart';
@@ -11,7 +12,9 @@ import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/app_exception.dart';
+import '../../admin/admin_orders/services/admin_order_socket.dart';
 import '../../admin/bottom_bar_nav/screens/bottom_bar_nav_screen.dart';
+import '../../user/cart/services/cart_socket.dart';
 import '../../user/home/screens/home_sceen.dart';
 
 class AuthService{
@@ -75,11 +78,14 @@ try {
   switch(res.data['role']){
     case 'user':
        auth.setUser(AuthModel.fromJson(res.data));
+       SocketUserClient.instance.connect(auth.authModel.token!);
+
 
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       break;
     case 'admin':
         auth.setAdmin(AdminModel.fromJson(res.data));
+        SocketAdminClient.instance.connect(auth.adminModel.token!);  // This accesses the singleton instance and calls connect.
 
       Navigator.pushReplacementNamed(context, BottomBarNavScreen.routeName);
       break;
@@ -89,7 +95,7 @@ try {
       Navigator.pushReplacementNamed(context, ItSupportScreen.routeName);
     case 'driver':
       auth.setUser(AuthModel.fromJson(res.data));
-
+      SocketDriverClient.instance.connect();
       Navigator.pushReplacementNamed(context, DriverOrderListScreen.routeName);
       break;
   }
