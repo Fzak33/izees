@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'color_model.dart';
+
 class Product {
   final String name;
   final String description;
@@ -14,6 +16,7 @@ class Product {
   final String? id;
   final String? userId;
   final String? location;
+  final List<ColorModel> colors;
   Product({
     required this.name,
     required this.description,
@@ -25,7 +28,8 @@ class Product {
     required this.storeName,
      this.storeImage,
     this.id,
-    this.userId
+    this.userId,
+    required this.colors
   });
 
   Map<String, dynamic> toJson() {
@@ -41,6 +45,7 @@ class Product {
       "userId": userId,
       "location":location,
       "_id": id,
+      'colors': colors.map((x) => x.toJson()).toList(),
     };
   }
 
@@ -61,7 +66,10 @@ class Product {
         storeName:map['storeName'],
       id: map['_id'],
         location:map['location'],
-     userId: map['userId']
+     userId: map['userId'],
+      colors: map['colors'] != null
+          ? List<ColorModel>.from(map['colors'].map((x) => ColorModel.fromJson(x)))
+          : [],
     );
   }
 
@@ -78,6 +86,7 @@ class Product {
     String? userId,
     String? storeName,
     String? location,
+    List<ColorModel>? colors,
 
   }) {
     return Product(
@@ -91,7 +100,8 @@ class Product {
       userId: userId ?? this.userId,
       storeName: storeName ?? this.storeName,
       location: location ?? this.location,
-     storeImage: storeImage ?? this.storeImage
+     storeImage: storeImage ?? this.storeImage,
+        colors: colors ?? this.colors,
     );
   }
 

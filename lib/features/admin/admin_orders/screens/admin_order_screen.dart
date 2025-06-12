@@ -36,17 +36,21 @@ class AdminOrderScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: profit.length,
               itemBuilder: (context, index) {
+
                final prof = profit[index];
-                return Card(
+               final colorName = prof.colorName == "Default" || prof.colorName == null ? " " : prof.colorName ;
+               String? image = prof.image != null ? prof.image : prof.product?.colors[0].image;
+
+               return Card(
                   child: ListTile(
                     title: Text("${prof.product?.name} - ${localization.price} ${prof.totalPrice }"),
-                    subtitle: Text("${localization.quantity} ${prof.totalQuantity}"),
+                    subtitle: Text("${localization.quantity} ${prof.totalQuantity} $colorName"),
                      trailing:  Container(
                         height: 100,
                         width:  100,
                         decoration:    BoxDecoration(
                           shape: BoxShape.rectangle,
-                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prof.product?.images[0]}") ,)  ,
+                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/$image") ,)  ,
                         ),
                       )
                   ),

@@ -21,6 +21,8 @@ class ProductDetailedScreen extends StatefulWidget {
 }
 
 class _ProductDetailedScreenState extends State<ProductDetailedScreen> {
+  late List<String> displayedImages;
+  int? selectedColorIndex = 0 ;
   String? _user;
 
 
@@ -28,7 +30,7 @@ class _ProductDetailedScreenState extends State<ProductDetailedScreen> {
   void initState() {
     super.initState();
     getUser();
-
+    displayedImages = widget.product.images;
   }
 
   void getUser()async{
@@ -39,9 +41,19 @@ class _ProductDetailedScreenState extends State<ProductDetailedScreen> {
 
   }
 
+  void _onColorSelected(int index ) {
+    final selectedColorImage = widget.product.colors[index].image;
+    setState(() {
+      selectedColorIndex = index;
+      displayedImages =   selectedColorImage.isNotEmpty && selectedColorImage != null
+          ? [selectedColorImage]
+          : widget.product.images;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final colors = widget.product.colors;
     final localization = AppLocalizations.of(context)!;
 
     return  Scaffold(
@@ -54,12 +66,48 @@ class _ProductDetailedScreenState extends State<ProductDetailedScreen> {
 crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            ProductCarousel(imageUrls: widget.product.images,),
+            ProductCarousel(imageUrls: displayedImages,),
+            const SizedBox(height: 12),
+
+            if (colors.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: List.generate(colors.length, (index) {
+                    final color = colors[index];
+                    final colorValue = color.colorValue;
+                    final isSelected = selectedColorIndex == index;
+
+                    return GestureDetector(
+                      onTap: () => _onColorSelected(index),
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: isSelected ? Colors.black : Colors.grey,
+                            width: isSelected ? 2 : 1,
+                          ),
+                        ),
+                        child: colorValue != null
+                            ? CircleAvatar(
+                          radius: 14,
+                          backgroundColor: Color(colorValue),
+                        )
+                            :  Container(), // empty circle space
+                      ),
+                    );
+                  }),
+                ),
+              ),
+
+            const SizedBox(height: 20),
               Builder(
                    builder: (context) => Padding(
                      padding: const EdgeInsets.all(8.0),
                      child: ElevatedButton(
-                          onPressed: () => showProductBottomSheet(context, widget.product),
+                          onPressed: () => showProductBottomSheet(context, widget.product, selectedColorIndex),
                                        child:  Text(localization.addToCart, style: TextStyle(color: Colors.black),),
                        style: ElevatedButton.styleFrom(
 
@@ -151,14 +199,14 @@ crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
-  void showProductBottomSheet(BuildContext context, Product product) {
+  void showProductBottomSheet(BuildContext context, Product product, int? colorIndex) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ProductBottomSheet(product: product, user:_user! ),
+      builder: (context) => ProductBottomSheet(product: product, user:_user!, colorIndex:colorIndex ),
     );
   }
 

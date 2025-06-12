@@ -10,7 +10,8 @@ import '../services/cart_cubit/cart_cubit.dart';
 class ProductBottomSheet extends StatefulWidget {
   final Product product;
 final String user;
-  const ProductBottomSheet({Key? key, required this.product, required this.user}) : super(key: key);
+int? colorIndex;
+   ProductBottomSheet({Key? key, required this.product, required this.user , required this.colorIndex}) : super(key: key);
 
   @override
   State<ProductBottomSheet> createState() => _ProductBottomSheetState();
@@ -66,7 +67,7 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
 
               image: DecorationImage(
                 image: NetworkImage(
-                    "${StringsRes.uri}/${widget.product.images[0]}"),
+                    "${StringsRes.uri}/${widget.product.images[widget.colorIndex!]}"),
                 fit: BoxFit.fitHeight,
               ),
             ),
@@ -105,13 +106,27 @@ class _ProductBottomSheetState extends State<ProductBottomSheet> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(onPressed: () async {
+              if(widget.user != ''){
+                final selectedColorName = widget.colorIndex != null
+                    ? widget.product.colors[widget.colorIndex!].name
+                    : 'Default';
+
                 await context.read<CartCubit>().addToCart(
                   product: widget.product,
                   id: widget.product.id ?? '',
                   quantity: quantity,
+                  colorIndex: widget.colorIndex!,
+                  colorName: selectedColorName,
+                  image:  widget.product.colors[widget.colorIndex!].image,
                   context: context, // you're using this inside the Cubit
                 );
 
+              }
+          else{
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please login first')),
+                );
+              }
 
               if (context.mounted) {
                 Navigator.pop(context); // only after we're done using context

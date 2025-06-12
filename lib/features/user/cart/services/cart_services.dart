@@ -18,30 +18,40 @@ class CartServices {
 
   final Dio _dio = Dio();
 
-  Future<Response> addToCart(
-      {required Product product, required String id, required BuildContext context, required int quantity}) async {
+  Future<Response> addToCart({
+    required Product product,
+    required String id,
+    required BuildContext context,
+    required int quantity,
+    required String colorName, // <-- NEW
+  }) async {
     final auth = BlocProvider.of<AuthCubit>(context);
     String token = auth.authModel.token?.toString() ??
         auth.adminModel.token?.toString() ?? '';
+
     try {
       var data = {
         '_id': id,
-        'quantity': quantity
+        'quantity': quantity,
+        'colorName': colorName, // <-- SEND TO BACKEND
       };
-      Response res = await _dio.post('${StringsRes.uri}/add-to-cart',
-          data: data,
-          options: Options(
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'x-auth-token': token
-              }
-          )
+
+      Response res = await _dio.post(
+        '${StringsRes.uri}/add-to-cart',
+        data: data,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token,
+          },
+        ),
       );
+
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Added to Cart")));
+        SnackBar(content: Text("Added to Cart")),
+      );
       return res;
-    }
-    on DioException catch (e) {
+    } on DioException catch (e) {
       if (e.response != null && e.response?.data is Map<String, dynamic>) {
         final message = e.response?.data['message'] ?? 'Something went wrong';
         throw AppException(message);
@@ -50,7 +60,6 @@ class CartServices {
       }
     }
   }
-
 
   Future<int> incrementOrDecrementQuantity(
       {required String cartId, required int quantity, required String id, required BuildContext context}) async {

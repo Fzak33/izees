@@ -61,12 +61,13 @@ if(state is CartLoading){
         itemCount: product.length,
         itemBuilder: (context, index) {
         final  prod = product[index];
-
-      //  sum = (sum! + (prod.quantity! * prod.product!.price));
+        int colorIndex = product.indexWhere((color) => color.colorName == prod.product?.colors[0].name);
+        int colorC = colorIndex != -1 ? colorIndex : 0;
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
@@ -79,7 +80,7 @@ if(state is CartLoading){
                         width:  100,
                         decoration:    BoxDecoration(
                           shape: BoxShape.rectangle,
-                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.product?.images[0]}") ,)  ,
+                          image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.image}") ,)  ,
                         ),
                       )
                   ),

@@ -9,6 +9,8 @@ class Profit {
     required this.orderId,
     required this.category,
     required this.createdAt,
+    required this.colorName,
+    required this.image,
   });
 
   final String? productId;
@@ -20,6 +22,8 @@ class Profit {
   final String? orderId;
   final String? category;
   final DateTime? createdAt;
+  final String? colorName;
+  final String? image;
 
   Profit copyWith({
     String? productId,
@@ -31,6 +35,9 @@ class Profit {
     String? orderId,
     String? category,
     DateTime? createdAt,
+    String? colorName,
+    String? image,
+
   }) {
     return Profit(
       productId: productId ?? this.productId,
@@ -41,7 +48,9 @@ class Profit {
       status: status ?? this.status,
       orderId: orderId ?? this.orderId,
       category: category ?? this.category,
-      createdAt: createdAt ?? this.createdAt
+      createdAt: createdAt ?? this.createdAt,
+      colorName: category ?? this.colorName,
+      image:  image ?? this.image
     );
   }
 
@@ -55,7 +64,9 @@ class Profit {
       status: json["status"],
       orderId: json["orderId"],
       category: json["category"],
-      createdAt: DateTime.parse(json['createdAt'])
+      createdAt: DateTime.parse(json['createdAt']),
+      colorName: json["colorName"],
+      image: json['image']
     );
   }
 
@@ -69,6 +80,8 @@ class Profit {
     "orderId": orderId,
     "category": category,
     'createdAt': createdAt?.toIso8601String(),
+    "colorName": colorName,
+    "image":image
   };
 
 }
