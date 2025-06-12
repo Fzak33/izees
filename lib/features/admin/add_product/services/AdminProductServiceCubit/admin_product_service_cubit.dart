@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:izees/models/product_model.dart';
 
 import '../../../../../common/app_exception.dart';
+import '../../../../../models/color_model.dart';
 import '../admin_product_service.dart';
 
 part 'admin_product_service_state.dart';
@@ -101,10 +102,10 @@ Future<void> getAdminProduct({required BuildContext context})async{
     return _products.length % limit == 0;
   }
 
-  Future<void> addProduct({required Product product,required List<File> images, required BuildContext context})async {
+  Future<void> addProduct({required Product product,   List<ColorModel>? colors,required List<File> images, required BuildContext context})async {
   try {
     final res = await _adminProductService.addProduct(
-        product: product, context: context, images: images);
+        product: product, context: context, images: images, colors: colors);
 
     _products.add(res);
 
@@ -125,53 +126,101 @@ Future<void> getAdminProduct({required BuildContext context})async{
   }
   }
 
-  Future<void> updateProduct({  required String productId,
+  Future<void> updateProduct({
+    required List<ColorModel> colors,
+    required String productId,
     required String description,
     required String name,
     required String category,
     required double price,
     required int quantity,
-    required BuildContext context})
-  async {
-  try {
-    final res = await _adminProductService.updateProduct(productId: productId,
+    required BuildContext context,
+  }) async {
+    try {
+      final res = await _adminProductService.updateProduct(
+        productId: productId,
         description: description,
         name: name,
-        category:category,
+        category: category,
         price: price,
-        quantity: quantity,
-        context: context);
-    if (res.statusCode == 200) {
-      int index = _products.indexWhere((product) => product.id == productId);
+        context: context,
+        colors: colors,
+      );
 
-      if (index != -1) {
-        _products[index] = _products[index].copyWith(name: name,
-            description: description,
-            price: price,
-            quantity: quantity);
-      }else{
+      if (res.statusCode == 200) {
+        int index = _products.indexWhere((product) => product.id == productId);
+
+        if (index != -1) {
+          final product = _products[index];
+
+          if (product.colors.isNotEmpty && product.colors[0].name != 'Default') {
+            // Product has color variants
+            List<ColorModel> updatedColors = [];
+
+            for (var newColor in colors) {
+              final existingColorIndex = product.colors.indexWhere(
+                    (c) => c.name == newColor.name,
+              );
+
+              if (existingColorIndex != -1) {
+                // Update existing color
+                final updatedColor = product.colors[existingColorIndex].copyWith(
+                  quantity: newColor.quantity,
+
+                );
+                updatedColors.add(updatedColor);
+              } else {
+                // Add new color
+                updatedColors.add(newColor);
+              }
+            }
+
+            // Sum total quantity from color variants
+            final totalQuantity = updatedColors.fold<int>(
+              0,
+                  (sum, color) => sum + color.quantity,
+            );
+
+            // Update product with new color list and total quantity
+            _products[index] = product.copyWith(
+              name: name,
+              description: description,
+              price: price,
+              colors: updatedColors,
+              quantity: totalQuantity,
+            );
+          } else {
+            // No color variants — just update directly
+            _products[index] = product.copyWith(
+              name: name,
+              description: description,
+              price: price,
+              quantity: quantity,
+            );
+          }
+
+          emit(AdminProductServiceSuccess(List.from(_products)));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update: Product not found')),
+          );
+          emit(AdminProductServiceSuccess(List.from(_products)));
+        }
+      }
+    } catch (e) {
+      if (e is AppException) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update')),
+          SnackBar(content: Text(e.message)),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An unexpected error occurred')),
         );
       }
-      emit(AdminProductServiceSuccess( List.from(_products), ));
+      emit(AdminProductServiceSuccess(List.from(_products)));
     }
   }
-  catch (e) {
-    if (e is AppException) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message)),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('An unexpected error occurred')),
-      );
-    }
-    emit(AdminProductServiceSuccess(  List.from(_products), ));
-  }
 
-
-  }
 
 
   Future<void> deleteProduct({  required String productId,

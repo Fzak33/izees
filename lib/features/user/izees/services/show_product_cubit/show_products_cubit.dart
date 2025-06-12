@@ -41,7 +41,7 @@ class ShowProductsCubit extends Cubit<ProductState> {
     } catch (e) {
       print("Error fetching products: $e"); // 🔍 Debug log
 
-      // emit(ProductError(e.toString()));
+
     }
   }
 }

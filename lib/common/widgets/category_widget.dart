@@ -16,10 +16,6 @@ class CategoryWidget extends StatelessWidget {
       'name':'Men perfume'
     },
     {
-      'image':'assets/images/perfume logo.jpg',
-      'name':'Uni perfume'
-    },
-    {
       'image':'assets/images/lip.jpg',
       'name':'Beauty'
     },
@@ -27,13 +23,18 @@ class CategoryWidget extends StatelessWidget {
       'image':'assets/images/health-and-care.jpg',
       'name':'Health and Care'
     },
-    {
-      'image':'assets/images/hair-care.jpg',
-      'name':'Hair Care'
-    },
+
     {
       'image':'assets/images/bag.png',
       'name':'Bag'
+    },
+    {
+      'image':'assets/images/glasses.png',
+      'name':'Glasses'
+    },
+    {
+      'image':'assets/images/hat.png',
+      'name':'Hat'
     },
     {
       'image':'assets/images/watch.png',

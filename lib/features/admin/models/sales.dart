@@ -14,24 +14,33 @@ class ProductProfit {
     required this.product,
     required this.totalQuantity,
     required this.totalPrice,
+    required this.colorName,
+    required this.image
   });
 
   final String? id;
   final Product? product;
   final num? totalQuantity;
   final num? totalPrice;
+  final String? colorName;
+  final String? image;
+
 
   ProductProfit copyWith({
     String? id,
     Product? product,
     num? totalQuantity,
     num? totalPrice,
+    String? colorName,
+    String? image
   }) {
     return ProductProfit(
       id: id ?? this.id,
       product: product ?? this.product,
       totalQuantity: totalQuantity ?? this.totalQuantity,
       totalPrice: totalPrice ?? this.totalPrice,
+      colorName: colorName ?? this.colorName,
+      image: image ?? this.image
     );
   }
 
@@ -41,6 +50,8 @@ class ProductProfit {
       product: json["product"] == null ? null : Product.fromJson(json["product"]),
       totalQuantity: json["totalQuantity"],
       totalPrice: json["totalPrice"],
+        colorName: json['colorName'],
+      image: json['image']
     );
   }
 
@@ -49,6 +60,8 @@ class ProductProfit {
     "product": product?.toJson(),
     "totalQuantity": totalQuantity,
     "totalPrice": totalPrice,
+    "colorName": colorName,
+    'image':image
   };
 
 }

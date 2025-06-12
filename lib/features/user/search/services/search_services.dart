@@ -20,22 +20,20 @@ class SearchServices {
         '${StringsRes.uri}/search',
         queryParameters: {
           'name': name,
-          'page': page.toString(),
-          'limit': limit.toString(),
+          'page': page,
+          'limit': limit,
         },
       );
-      List<Product> products =[];
+
       if (response.statusCode == 200) {
         final data = response.data;
-        for(var i in data['prod']){
-          products.add(Product.fromJson(i));
-        }
+        final List<dynamic> rawProducts = data['prod'] ?? [];
 
-        return products;
+        return rawProducts.map((item) => Product.fromJson(item)).toList();
       } else {
-        throw Exception('Failed to search products: ${response.statusMessage}');
+        throw AppException('Failed to search products: ${response.statusMessage}');
       }
-    }  on DioException catch (e) {
+    } on DioException catch (e) {
       if (e.response != null && e.response?.data is Map<String, dynamic>) {
         final message = e.response?.data['message'] ?? 'Something went wrong';
         throw AppException(message);

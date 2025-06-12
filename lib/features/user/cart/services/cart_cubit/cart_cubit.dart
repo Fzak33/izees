@@ -128,18 +128,21 @@ List<Cart> _cart=[];
   Future<void> addToCart({
     required Product product,
     required String id,
+    required String colorName,
     required BuildContext context,
-    required int quantity
+    required int quantity,
+    required String image,
+    int colorIndex = 0
   }) async {
     try {
 
         var auth = context.read<AuthCubit>();
         var token = auth.authModel.token ?? auth.adminModel.token ?? '';
         if(token != ''){
-          final res = await _cartServices.addToCart(id: id, context: context, product: product, quantity: quantity);
+          final res = await _cartServices.addToCart(id: id, context: context, product: product, quantity: quantity, colorName: colorName);
 
           if (res.statusCode == 200) {
-            int index = _cart.indexWhere((cart) => cart.product?.id == id);
+            int index = _cart.indexWhere((cart) => cart.product?.id == id && cart.colorName == colorName);
             if (index != -1) {
               int? q = _cart[index].quantity;
               int? newQuantity = q! + quantity;
@@ -149,7 +152,11 @@ List<Cart> _cart=[];
                 const SnackBar(content: Text('added to cart')),
               );
             } else {
-              Cart cart = Cart(product: product, quantity: quantity, id: res.data['cartId']);
+              Cart cart = Cart(product: product,
+                quantity: quantity,
+                id: res.data['cartId'], colorName: colorName,
+                image: image
+              );
               _cart.add(cart);
               print("added new to cart");
               ScaffoldMessenger.of(context).showSnackBar(
@@ -183,7 +190,7 @@ List<Cart> _cart=[];
                 const SnackBar(content: Text('added to cart')),
               );
             } else {
-              Cart cart = Cart(product: product, quantity: quantity, id: '');
+              Cart cart = Cart(product: product, quantity: quantity, id: '', colorName:colorName,image: image );
               _cart.add(cart);
               print("added new to cart");
               ScaffoldMessenger.of(context).showSnackBar(
