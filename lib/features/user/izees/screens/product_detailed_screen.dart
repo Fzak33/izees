@@ -71,7 +71,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
 
             if (colors.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Row(
                   children: List.generate(colors.length, (index) {
                     final color = colors[index];
@@ -80,7 +80,9 @@ crossAxisAlignment: CrossAxisAlignment.start,
 
                     return GestureDetector(
                       onTap: () => _onColorSelected(index),
-                      child: Container(
+                      child:
+                      colorValue != null ?
+                      Container(
                         margin: const EdgeInsets.only(right: 8),
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
@@ -90,19 +92,18 @@ crossAxisAlignment: CrossAxisAlignment.start,
                             width: isSelected ? 2 : 1,
                           ),
                         ),
-                        child: colorValue != null
-                            ? CircleAvatar(
+                        child: CircleAvatar(
                           radius: 14,
                           backgroundColor: Color(colorValue),
                         )
-                            :  Container(), // empty circle space
-                      ),
+                              , // empty circle space
+                      ) : Container(),
                     );
                   }),
                 ),
               ),
 
-            const SizedBox(height: 20),
+          //  const SizedBox(height: 10),
               Builder(
                    builder: (context) => Padding(
                      padding: const EdgeInsets.all(8.0),
