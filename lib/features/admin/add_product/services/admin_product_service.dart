@@ -48,10 +48,20 @@ Future<Product> addProduct({
     } else {
       // Fallback to default quantity + first image
       formData.fields.add(MapEntry('quantity', product.quantity.toString()));
+    final imagess =   await Future.wait(images.map((image) async {
+      return await MultipartFile.fromFile(
+        image.path,
+        filename: image.path.split('/').last,
+      );
+      }));
+    for(var i in imagess){
       formData.files.add(MapEntry(
         'images',
-        await MultipartFile.fromFile(images[0].path, filename: images[0].path.split('/').last),
+        i,
       ));
+    }
+
+
     }
 
     final res = await dio.post(
