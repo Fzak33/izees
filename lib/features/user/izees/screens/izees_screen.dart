@@ -64,56 +64,74 @@ class _IzeesScreenState extends State<IzeesScreen> {
         } else if (state is ProductLoaded) {
           products = state.products;
         }
-return      CustomScrollView(
-  controller: _scrollController,
-  slivers: [
-    SliverList(
-        delegate:
-        SliverChildListDelegate(
-            [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                    child: Text(localization.categories,
-                      style: const TextStyle(
-                          fontSize: 24
+return CustomScrollView(
+    controller: _scrollController,
+
+    slivers: [
+      SliverList(
+          delegate:
+          SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Container(
+
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                    decoration: BoxDecoration(
+                      color: ColorManager.primaryColor, // Deep purple color
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50),
                       ),
                     ),
-                  ),
-                  CategoryWidget(),
-                  Padding(padding: const EdgeInsets.symmetric(horizontal: 10, ),
-                    child: Text(localization.getStarted,
-                      style: const TextStyle(
-                          fontSize: 24
-                      ),
+                    child: Column(
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    CategoryWidget(),
+                      ],
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8,),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'All Items',
+                        style: FontStyles.allItems
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.filter_alt_outlined, color: ColorManager.primaryColor), onPressed: () {  },
 
-                ],
-              ),
-            ]
-        )
-    ),
-    SliverGrid(
+                      ),
+                    ],
+                  ),
+                ),
 
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              ]
+          )
+      ),
+      SliverGrid(
 
-        crossAxisCount: 2,
-        mainAxisSpacing: 6.0, // Spacing between rows
-        childAspectRatio: 0.65,
-        crossAxisSpacing: 10,
-      ), delegate: SliverChildBuilderDelegate(
-childCount: products.length,
-          (context, index) {
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
 
-final prod = products[index];
-        return ProductCard(prod: prod, user: _user, localization: localization);
-      },
-    ),
-    )
-  ],
-);
+          crossAxisCount: 2,
+          mainAxisSpacing: 6.0, // Spacing between rows
+          childAspectRatio: 0.65,
+          crossAxisSpacing: 10,
+        ), delegate: SliverChildBuilderDelegate(
+  childCount: products.length,
+            (context, index) {
+
+  final prod = products[index];
+          return ProductCard(prod: prod, user: _user, localization: localization);
+        },
+      ),
+      )
+    ],
+  );
 
       },
 
@@ -163,30 +181,32 @@ class ProductCard extends StatelessWidget {
                   .recommended(category: prod.category);
             },
             child: Container(
-
-              //color: Colors.green,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.2,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.45,
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.width * 0.45,
               decoration: BoxDecoration(
-                // shape: BoxShape.circle,
-                border: Border.all(
-                    color: Colors.blueGrey),
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  image: NetworkImage(
-                      "${StringsRes.uri}/${prod.images[0]}"),
-
-                  fit: BoxFit.fitHeight,
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Center( // center image inside the box
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12), // less than outer radius
+                  child: Image.network(
+                    "${StringsRes.uri}/${prod.images[0]}",
+                    height: MediaQuery.of(context).size.height * 0.18,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    fit: BoxFit.contain, // <- don't use cover
+                  ),
                 ),
               ),
-
             ),
+
           ),
 
 
@@ -195,21 +215,15 @@ class ProductCard extends StatelessWidget {
                 vertical: 2, horizontal: 10),
             child: Text(prod.name,
               textAlign: TextAlign.start,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.black
-              ),),
+              style: FontStyles.stuffName,),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: 10),
             child: Text("${prod.price} ${localization.jod}",
-              style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black
-              ),),
+              style: FontStyles.homeName,),
           ),
           InkWell(
             onTap: (){
@@ -223,8 +237,8 @@ class ProductCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
                   child: SizedBox(
-                    height: 33,
-                    width: 33,
+                    height: 25,
+                    width: 25,
                     child: CircleAvatar(
                       backgroundColor: ColorManager.bottomButtonColor,
                       backgroundImage:
@@ -234,15 +248,8 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 2, horizontal: 10),
-                  child: Text("${prod.storeName}",
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black
-                    ),),
-                ),
+                Text("${prod.storeName}",
+                  style:FontStyles.storeName,),
               ],
             ),
           ),

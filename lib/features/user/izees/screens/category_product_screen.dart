@@ -5,13 +5,11 @@ import 'package:izees/features/user/izees/screens/product_detailed_screen.dart';
 import 'package:izees/models/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../resources/strings_res.dart';
-import '../../cart/services/cart_cubit/cart_cubit.dart';
 import '../../store_products/screens/store_products_screen.dart';
 import '../services/recommended/recommended_cubit.dart';
 import '../services/show_category_products_cubit/show_category_products_cubit.dart';
-import '../services/show_product_services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CategoryProductScreen extends StatefulWidget {

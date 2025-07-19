@@ -109,7 +109,7 @@ if(state is CartLoading){
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blueAccent
         ),
-        child: Text(localization.pay, style: const TextStyle(
+        child: Text(localization.checkout, style: const TextStyle(
             color: Colors.black,
             fontSize: 15
         ),),

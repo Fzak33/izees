@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:izees/features/user/cart/screens/cart_screen.dart';
 import 'package:izees/features/user/cart/services/cart_socket.dart';
 import 'package:izees/features/user/home/screens/home_sceen.dart';
 import 'package:izees/models/admin_model.dart';
@@ -48,8 +49,18 @@ class CartServices {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Added to Cart")),
+        SnackBar(
+          content: Text("Continue shopping or"),
+          duration: Duration(milliseconds: 3000), // Show for 1.5 seconds
+          action: SnackBarAction(
+            label: 'See Cart',
+            onPressed: () {
+              Navigator.pushNamed(context, CartScreen.routeName);
+            },
+          ),
+        ),
       );
+
       return res;
     } on DioException catch (e) {
       if (e.response != null && e.response?.data is Map<String, dynamic>) {

@@ -8,12 +8,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:izees/models/product_model.dart';
 import 'package:izees/resources/colors_names.dart';
 import 'package:izees/resources/strings_res.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../common/widgets/text_field.dart';
+
 import '../../../../models/color_model.dart';
 import '../services/AdminProductServiceCubit/admin_product_service_cubit.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class AddProductScreen extends StatefulWidget {

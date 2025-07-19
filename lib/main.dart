@@ -10,14 +10,14 @@ import 'package:izees/features/user/cart/services/cart_socket.dart';
 import 'package:izees/features/user/settings/services/seller.dart';
 import 'package:izees/features/user/store_products/services/store_products_cubit/store_products_cubit.dart';
 import 'package:izees/features/user/store_products/services/store_products_services.dart';
-import 'package:izees/features/admin/admin_orders/services/admin_order_socket.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
-import 'package:izees/l10n/l10n.dart';
+
 import 'package:izees/resources/language_cubit/locale_cubit.dart';
 import 'package:izees/router.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'features/admin/add_product/services/AdminProductServiceCubit/admin_product_service_cubit.dart';
 import 'features/admin/add_product/services/admin_product_service.dart';
@@ -45,14 +45,19 @@ import 'features/user/izees/services/show_product_services.dart';
 import 'features/user/search/services/search_services.dart';
 import 'features/user/search/services/search_services_cubit/search_cubit.dart';
 import 'features/user/settings/services/seller_cubit/seller_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'l10n/l10n.dart';
 
 
-void main() {
-  runApp(
-      const MyApp()
 
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  LocaleCubit.currentLanguage = prefs.getString('language_code') ?? 'en';
+
+  runApp(const MyApp());
 }
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

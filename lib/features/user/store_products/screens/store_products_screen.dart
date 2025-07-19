@@ -43,11 +43,7 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
       appBar: AppBar(
 
         title:   Text(widget.storeName,
-          style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontWeight: FontWeight.w500
-          ),
+          style: FontStyles.appBarName,
         ),
         backgroundColor: ColorManager.primaryColor,
       ),
@@ -118,19 +114,31 @@ SliverChildListDelegate(
               context.read<RecommendedCubit>().recommended(category: prod.category);
               },
               child: Container(
-              //color: Colors.green,
-              height: MediaQuery.of(context).size.height * 0.25,
-              width: MediaQuery.of(context).size.width * 0.45,
-              decoration:    BoxDecoration(
-              // shape: BoxShape.circle,
-              border: Border.all(color: Colors.blueGrey),
-              borderRadius: BorderRadius.circular(15),
-              image:  DecorationImage(image:NetworkImage('${StringsRes.uri}/${prod.images[0]}'),
-              fit: BoxFit.fitHeight,
-              )  ,
-              ),
-
-              ),
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.45,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Center( // center image inside the box
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12), // less than outer radius
+                    child: Image.network(
+                      "${StringsRes.uri}/${prod.images[0]}",
+                      height: MediaQuery.of(context).size.height * 0.18,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              )
               ),
 
 
@@ -138,22 +146,16 @@ SliverChildListDelegate(
               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
               child: Text(products[index].name ?? 'name',
               textAlign: TextAlign.start,
-              maxLines:1,
+              maxLines:2,
               overflow:TextOverflow.ellipsis,
-              style: const TextStyle(
-              fontSize: 18,
-              color: Colors.black
-              ),),
+              style: FontStyles.stuffName,),
               ),
 
               Padding(
               padding: const EdgeInsets.symmetric(vertical: 2,  horizontal: 10),
               child: Text('${products[index].price} ${localization.jod}',
 
-              style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black
-              ),),
+              style: FontStyles.homeName,),
               ),
               ],
               ),

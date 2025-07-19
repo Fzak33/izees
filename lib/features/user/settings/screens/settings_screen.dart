@@ -47,12 +47,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localization.welcome),
+        title: Text(localization.welcome , style: FontStyles.appBarName,),
         backgroundColor: ColorManager.primaryColor,
       ),
       body: Column(
         children: [
-
           _user != ""
               ? ListTile(
             title: Text(localization.cc),

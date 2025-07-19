@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/features/user/cart/screens/add_address_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:izees/features/user/cart/screens/add_temp_user.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/cart_cubit/cart_cubit.dart';
 import '../services/cart_socket.dart';
 
