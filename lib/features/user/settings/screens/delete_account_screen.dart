@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:izees/features/user/settings/services/seller_cubit/seller_cubit.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

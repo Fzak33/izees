@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/user/cart/widgets/price_details_widget.dart';
 import 'package:izees/resources/strings_res.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/cart_cubit/cart_cubit.dart';
 import 'Increment_and_decrement_quantity.dart';
 

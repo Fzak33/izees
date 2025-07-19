@@ -4,7 +4,6 @@ import 'package:izees/common/widgets/text_field.dart';
 
 import '../../../../resources/strings_res.dart';
 import '../services/seller_cubit/seller_cubit.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BecomeASellerScreen extends StatefulWidget {
   static const String routeName = '/open-your-store';

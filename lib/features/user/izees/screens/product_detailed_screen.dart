@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../cart/services/cart_cubit/cart_cubit.dart';
 import '../../cart/widgets/product_bottom_sheet.dart';
 import '../widgets/carousel_product_image.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductDetailedScreen extends StatefulWidget {
   static const routeName = '/product-detailed';

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/features/driver/screens/detailed_order/detailed_order_screen.dart';
 import 'package:izees/features/driver/services/driver_order_cubit/driver_order_cubit.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:izees/features/user/settings/screens/settings_screen.dart';
 import 'package:izees/resources/strings_res.dart';
 

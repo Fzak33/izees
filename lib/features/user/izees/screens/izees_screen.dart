@@ -145,7 +145,6 @@ class ProductCard extends StatelessWidget {
   final Product prod;
   final String? _user;
   final AppLocalizations localization;
-
   @override
   Widget build(BuildContext context) {
     return Padding(

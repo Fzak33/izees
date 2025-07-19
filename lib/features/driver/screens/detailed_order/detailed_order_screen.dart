@@ -6,7 +6,6 @@ import '../../../../common/widgets/custom_button.dart';
 import '../../../../models/order.dart';
 import '../../services/driver_order_cubit/change_order_status_cubit.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DetailedOrderScreen extends StatefulWidget {
   Order order;

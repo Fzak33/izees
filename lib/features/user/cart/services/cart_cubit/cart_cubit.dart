@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../models/product_model.dart';
 import '../cart_services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../cart_socket.dart';
 

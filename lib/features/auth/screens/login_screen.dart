@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/common/widgets/text_field.dart';
 import 'package:izees/features/auth/screens/signin_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../auth_cubit/auth_cubit.dart';
 

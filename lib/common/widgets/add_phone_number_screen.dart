@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/common/services/common_cubit/common_cubit.dart';
 import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:izees/resources/strings_res.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../features/user/cart/services/cart_cubit/cart_cubit.dart';
 import '../../features/user/cart/widgets/price_details_widget.dart';

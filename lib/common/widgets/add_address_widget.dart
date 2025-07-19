@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:izees/common/widgets/text_field.dart';
 import 'package:izees/resources/strings_res.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddAddressWidget extends StatefulWidget {
   const AddAddressWidget({super.key});

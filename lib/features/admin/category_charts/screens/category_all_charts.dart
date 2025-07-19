@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../services/profit/profit_cubit.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryAllCharts extends StatelessWidget {
   const CategoryAllCharts({

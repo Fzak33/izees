@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:izees/features/user/store_products/services/store_products_cubit/store_products_cubit.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../models/product_model.dart';
 import '../../../../resources/strings_res.dart';

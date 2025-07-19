@@ -6,7 +6,6 @@ import 'package:izees/features/user/settings/screens/about_izees_screen.dart';
 import 'package:izees/features/user/settings/screens/about_me_screen.dart';
 import 'package:izees/features/user/settings/screens/become_a_seller_screen.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

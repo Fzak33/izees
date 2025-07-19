@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:izees/common/widgets/text_field.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:izees/resources/strings_res.dart';
 
 import '../../../../common/widgets/add_phone_number_screen.dart';

@@ -4,7 +4,6 @@ import 'package:izees/common/services/common_services.dart';
 import 'package:izees/features/admin/detailed_charts/services/product_profit/product_profit_cubit.dart';
 import 'package:izees/resources/strings_res.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/sales.dart';
 
