@@ -5,6 +5,7 @@ import 'package:izees/common/widgets/text_field.dart';
 import 'package:izees/resources/strings_res.dart';
 
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../auth/auth_cubit/auth_cubit.dart';
 import '../services/cart_cubit/cart_cubit.dart';
 

@@ -5,6 +5,7 @@ import 'package:izees/features/driver/services/driver_order_cubit/driver_order_c
 
 import 'package:izees/features/user/settings/screens/settings_screen.dart';
 import 'package:izees/resources/strings_res.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DriverOrderListScreen extends StatelessWidget {
   static const routeName = '/driver';

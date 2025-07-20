@@ -5,6 +5,7 @@ import 'package:izees/features/user/izees/services/recommended/recommended_cubit
 import 'package:izees/models/product_model.dart';
 import 'package:izees/resources/strings_res.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../cart/services/cart_cubit/cart_cubit.dart';
 import '../../cart/widgets/product_bottom_sheet.dart';
@@ -57,8 +58,11 @@ class _ProductDetailedScreenState extends State<ProductDetailedScreen> {
 
     return  Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: ColorManager.secondaryColor,
+        ),
         backgroundColor:ColorManager.primaryColor,
-        title: Text('${widget.product.name}'),
+        title: Text('${widget.product.name}' , style: FontStyles.appBarText,),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -108,7 +112,8 @@ crossAxisAlignment: CrossAxisAlignment.start,
                      padding: const EdgeInsets.all(8.0),
                      child: ElevatedButton(
                           onPressed: () => showProductBottomSheet(context, widget.product, selectedColorIndex),
-                                       child:  Text(localization.addToCart, style: TextStyle(color: Colors.black),),
+                                       child:  Text("${localization.addToCart}", style: FontStyles.addToCart
+                                       ),
                        style: ElevatedButton.styleFrom(
 
                          minimumSize: const Size(double.infinity, 50),
@@ -119,25 +124,26 @@ crossAxisAlignment: CrossAxisAlignment.start,
                    ),
                   ),
               const SizedBox(height: 20,),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text( style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: ColorManager.bottomButtonColor), "${widget.product.price} ${localization.jod}",
+              child: Text( style: FontStyles.priceText, "${widget.product.price} ${localization.jod}",
               textAlign: TextAlign.start,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text( style: const TextStyle(fontSize: 20), '${widget.product.name}  '),
+              child: Text( style: FontStyles.stuffName, '${widget.product.name}  '),
             ),
 
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text( style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16, color: ColorManager.choiceColor), '${widget.product.description}'),
+                child: Text( style: FontStyles.homeName, '${widget.product.description}'),
               ),
             const SizedBox(height: 30,),
              Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(localization.recommendedForYou ,style: const TextStyle(fontSize: 18),),
+              child: Text(localization.recommendedForYou ,style:FontStyles.nameText ,),
             ),
             SizedBox(
               height: 200,
@@ -167,21 +173,36 @@ crossAxisAlignment: CrossAxisAlignment.start,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 100,
-                      width:  100,
-                      decoration:    BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image:  DecorationImage(image: NetworkImage("${StringsRes.uri}/${prod.images[0]}")  ,)  ,
-                      ),
-                    ),
-                    const SizedBox(height: 2,),
-                    Text('${prod.name}', style: const TextStyle(fontSize: 15),)
-                  ],
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16), // Rounded corners for the card
                 ),
-              ),
+                elevation: 4, // Adds shadow for a better visual effect
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50), // Make the image circular or adjust for rounded rectangle
+                        child: Image.network(
+                          "${StringsRes.uri}/${prod.images[0]}",
+                          height: 80,
+                          width: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '${prod.name}',
+                        style: FontStyles.homeName,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+              ,
             ),
           );
         },

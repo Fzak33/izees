@@ -6,6 +6,7 @@ import 'package:izees/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../common/app_exception.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../models/cart_model.dart';
 import 'package:flutter/material.dart';
 

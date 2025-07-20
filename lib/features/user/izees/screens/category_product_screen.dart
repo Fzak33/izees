@@ -11,6 +11,7 @@ import '../../store_products/screens/store_products_screen.dart';
 import '../services/recommended/recommended_cubit.dart';
 import '../services/show_category_products_cubit/show_category_products_cubit.dart';
 import '../services/show_product_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CategoryProductScreen extends StatefulWidget {

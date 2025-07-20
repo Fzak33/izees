@@ -4,6 +4,7 @@ import 'package:izees/features/user/cart/widgets/price_details_widget.dart';
 import 'package:izees/resources/strings_res.dart';
 import '../services/cart_cubit/cart_cubit.dart';
 import 'Increment_and_decrement_quantity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class ProductViewWidget extends StatefulWidget {
@@ -108,7 +109,7 @@ if(state is CartLoading){
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blueAccent
         ),
-        child: Text(localization.pay, style: const TextStyle(
+        child: Text(localization.checkout, style: const TextStyle(
             color: Colors.black,
             fontSize: 15
         ),),

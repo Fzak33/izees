@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../services/month_profit/month_profit_cubit.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryMonthlyCharts extends StatelessWidget {
   const CategoryMonthlyCharts({

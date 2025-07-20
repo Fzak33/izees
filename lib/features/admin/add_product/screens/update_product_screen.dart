@@ -9,6 +9,7 @@ import '../../../../common/widgets/text_field.dart';
 import '../../../../models/color_model.dart';
 import '../services/AdminProductServiceCubit/admin_product_service_cubit.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class UpdateProductScreen extends StatefulWidget {

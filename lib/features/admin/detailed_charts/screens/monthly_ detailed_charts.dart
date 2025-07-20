@@ -6,6 +6,7 @@ import 'package:izees/resources/strings_res.dart';
 import '../../../../common/services/common_services.dart';
 import '../services/monthly_product_profit/monthly_product_profit_cubit.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MonthlyDetailedCharts extends StatelessWidget {
   const MonthlyDetailedCharts({super.key});

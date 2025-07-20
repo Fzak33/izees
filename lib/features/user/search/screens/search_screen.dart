@@ -6,6 +6,7 @@ import '../../../../resources/strings_res.dart';
 import '../../izees/screens/product_detailed_screen.dart';
 import '../../izees/services/recommended/recommended_cubit.dart';
 import '../services/search_services_cubit/search_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductSearchPage extends StatefulWidget {
   const ProductSearchPage({Key? key}) : super(key: key);
